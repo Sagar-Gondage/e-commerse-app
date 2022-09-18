@@ -12,7 +12,6 @@ const HomePage = () => {
     };
     fetchProudcts();
   }, []);
-  // eslint-disable-next-line
   return (
     <>
       <h1>Latest Products</h1>

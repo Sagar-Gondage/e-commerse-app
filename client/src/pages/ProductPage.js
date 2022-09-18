@@ -16,8 +16,7 @@ const ProductPage = () => {
       setProduct(data);
     };
     fetchProudct();
-    // eslint-disable-next-line
-  }, []);
+  }, [ProductId]);
 
   return (
     <>
