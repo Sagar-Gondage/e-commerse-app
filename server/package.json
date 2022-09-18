@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "supervisor server.js"
+    "start": "supervisor server.js",
+    "data:import": "node seeder",
+    "data:destroy": "node seeder -d"
   },
   "keywords": [],
   "author": "",
