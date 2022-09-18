@@ -3,6 +3,7 @@ const products = require("./data/products");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const colrs = require("colors");
 
 dotenv.config();
 
@@ -29,5 +30,5 @@ app.get("/api/products/:id", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`);
+  console.log(`server running on port ${PORT}`.yellow.bold);
 });
