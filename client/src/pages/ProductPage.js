@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleProductAPI } from "../actions/product.action";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import PlacementExample from "../components/Message";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
@@ -41,8 +42,9 @@ const ProductPage = () => {
   }, [dispatch]);
 
   const addToCartHandler = () => {
-    navigate(`/cart`);
-    // navigate(`/cart/${ProductId}?qty=${qty}`);
+    // navigate(`/cart`);
+    // console.log("cart");
+    navigate(`/cart/${ProductId}?qty=${qty}`);
   };
 
   return (

@@ -5,6 +5,7 @@ import Product from "../components/Product";
 import { listProductsAPI } from "../actions/product.action";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import PlacementExample from "../components/Message";
 
 const HomePage = () => {
   const dispatch = useDispatch();
