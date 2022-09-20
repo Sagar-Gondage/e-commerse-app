@@ -3,7 +3,7 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
-} from "../src/constants/product.constants";
+} from "../constants/product.constants";
 
 export const listProductsAPI = () => async (dispatch) => {
   try {
