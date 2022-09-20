@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { addToCartAPI } from "../actions/cart.actions";
+import { addToCartAPI, removeFromCart } from "../actions/cart.actions";
 import Message from "../components/Message";
 
 const CartPage = () => {
@@ -35,7 +35,9 @@ const CartPage = () => {
 
   console.log("cI", cartItems);
 
-  const removeFromCartHandler = () => {};
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id));
+  };
 
   const checkoutHanlder = () => {
     navigate(`/login?redirect=shipping`);
