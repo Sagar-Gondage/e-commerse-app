@@ -44,7 +44,8 @@ const ProductPage = () => {
   const addToCartHandler = () => {
     // navigate(`/cart`);
     // console.log("cart");
-    navigate(`/cart/${ProductId}?qty=${qty}`);
+    // navigate(`/cart/${ProductId}?qty=${qty}`);
+    navigate(`/cart/${ProductId}-${qty}`);
   };
 
   return (
