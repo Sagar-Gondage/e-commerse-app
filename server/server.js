@@ -7,6 +7,7 @@ const colrs = require("colors");
 
 const allProducts = require("./routes/allProducts.route");
 const singleProduct = require("./routes/singleProduct.route");
+const { notFound, errorHandler } = require("./middleware/error.middleware");
 
 dotenv.config();
 
@@ -22,6 +23,10 @@ app.use(cors());
 
 app.use("/api/products", allProducts);
 app.use("/api/products", singleProduct);
+
+app.use(notFound);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
