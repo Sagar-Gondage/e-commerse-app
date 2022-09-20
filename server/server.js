@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const colrs = require("colors");
 
 const allProducts = require("./routes/allProducts.route");
+const userRoutes = require("./routes/user.route");
 const singleProduct = require("./routes/singleProduct.route");
 const { notFound, errorHandler } = require("./middleware/error.middleware");
 
@@ -15,6 +16,8 @@ connectDB();
 
 const app = express();
 
+app.use(express.json());
+
 app.use(cors());
 
 // app.get("/", (req, res) => {
@@ -22,7 +25,8 @@ app.use(cors());
 // });
 
 app.use("/api/products", allProducts);
-app.use("/api/products", singleProduct);
+// app.use("/api/products", singleProduct);
+app.use("/api/users", userRoutes);
 
 app.use(notFound);
 
