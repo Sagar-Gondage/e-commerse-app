@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/product.model");
 const User = require("../models/user.model");
+const generateToken = require("../utils/generateToken");
 
 // user authentication
 // public
@@ -9,13 +10,14 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
+  // matchpassword function is in user.model file
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: null,
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
