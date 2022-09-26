@@ -59,10 +59,10 @@ const registerUser = asyncHandler(async (req, res) => {
 // private route
 // http://localhost:5000/api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
-  // console.log("in get uer Progile");
+  console.log("in get uer Progile");
   const user = await User.findById(req.user._id);
   if (user) {
-    console.log("user", user);
+    // console.log("user", user);
     return res.status(200).json({
       _id: user._id,
       name: user.name,
@@ -75,4 +75,34 @@ const getUserProfile = asyncHandler(async (req, res) => {
   // return res.json("error occured in get user profile");
 });
 
-module.exports = { authUser, getUserProfile, registerUser };
+// update user profile
+// private route
+// http://localhost:5000/api/users/profile
+// we are calling decrypt in the model so password will automatically get decrypted
+const updateUserProfile = asyncHandler(async (req, res) => {
+  console.log("in update user Profile");
+  const user = await User.findById(req.user._id);
+  console.log(user);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    return res.status(401).json({ message: "User Not Fouund" });
+  }
+  return res.json("error occured in put user profile");
+});
+
+module.exports = { authUser, getUserProfile, registerUser, updateUserProfile };

@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model");
 
 const protect = asyncHandler(async (req, res, next) => {
+  console.log("in middleware");
   if (req.headers.authorization) {
     try {
       let token = req.headers.authorization.split(" ")[1];
@@ -15,6 +16,8 @@ const protect = asyncHandler(async (req, res, next) => {
       res.status(401);
       throw new Error("Not Authorized, token failed");
     }
+  } else {
+    return res.status(404).json({ message: "User Token Missing" });
   }
 });
 
