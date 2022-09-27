@@ -10,6 +10,9 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
 } from "../constants/user.constants";
 
 export const loginAPI = (email, password) => async (dispatch) => {
@@ -107,6 +110,43 @@ export const getUserDetailsAPI = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// update user profile
+export const updateUserProfileAPI = (user) => async (dispatch, getState) => {
+  // console.log("in get user route");
+  try {
+    dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // console.log(userInfo.data);
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.data.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:5000/api/users/profile`,
+      user,
+      config
+    );
+
+    dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
