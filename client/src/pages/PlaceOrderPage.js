@@ -1,12 +1,17 @@
 import React from "react";
+import { useEffect } from "react";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { createOrderAPI } from "../actions/order.actions";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
 
 const PlaceOrderPage = () => {
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   // here we will calculate all the prices
 
@@ -25,7 +30,28 @@ const PlaceOrderPage = () => {
     Number(cart.itemsPrice) + Number(cart.taxPrice) + Number(cart.shippingPrice)
   ).toFixed(2);
 
-  const placeOrderHandler = () => {};
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order, success, error } = orderCreate;
+
+  const placeOrderHandler = () => {
+    dispatch(
+      createOrderAPI({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (success) {
+      navigate(`/order/${order._id}`);
+    }
+  }, [success, dispatch]);
 
   return (
     <>
@@ -110,6 +136,9 @@ const PlaceOrderPage = () => {
                   <Col>Total</Col>
                   <Col>₹ {cart.totalPrice}</Col>
                 </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {error && <Message variant="danger">{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item className="d-grid">
                 <Button

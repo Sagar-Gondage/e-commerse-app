@@ -12,7 +12,7 @@ import {
 import Rating from "../components/Rating";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleProductAPI } from "../actions/product.action";
+import { getSingleProductAPI } from "../actions/product.actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import PlacementExample from "../components/Message";

@@ -24,7 +24,7 @@ export const loginAPI = (email, password) => async (dispatch) => {
       },
     };
 
-    const data = await axios.post(
+    const { data } = await axios.post(
       "http://localhost:5000/api/users/login",
       {
         email,
