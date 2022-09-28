@@ -19,7 +19,7 @@ const OrderPage = () => {
     if (!order || order._id !== orderId) {
       dispatch(getOrderDetailsAPI(orderId));
     }
-  }, [order, orderId]);
+  }, [order, orderId, dispatch]);
 
   return loading ? (
     <Loader />
