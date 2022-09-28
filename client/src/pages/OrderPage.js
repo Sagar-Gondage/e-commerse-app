@@ -15,11 +15,11 @@ const OrderPage = () => {
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    dispatch(getOrderDetailsAPI(orderId));
-  }, [dispatch]);
+    if (!order || order._id !== orderId) {
+      dispatch(getOrderDetailsAPI(orderId));
+    }
+  }, [order, orderId]);
 
   return loading ? (
     <Loader />
