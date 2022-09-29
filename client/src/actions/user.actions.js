@@ -32,7 +32,7 @@ export const loginAPI = (email, password) => async (dispatch) => {
       },
       config
     );
-
+    console.log("data", data);
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
@@ -97,7 +97,7 @@ export const getUserDetailsAPI = (id) => async (dispatch, getState) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.data.token}`,
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
