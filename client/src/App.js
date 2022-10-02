@@ -12,6 +12,7 @@ import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
+import UserListPage from "./pages/UserListPage";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/placeorder" element={<PlaceOrderPage />} />
             <Route path="/order/:orderId" element={<OrderPage />} />
+            <Route path="/admin/userlist" element={<UserListPage />} />
           </Routes>
         </Container>
       </main>
