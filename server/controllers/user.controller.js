@@ -105,4 +105,19 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   return res.json("error occured in put user profile");
 });
 
-module.exports = { authUser, getUserProfile, registerUser, updateUserProfile };
+// to get all the users from admin side
+// private route and accesible by only admin
+// http://localhost:5000/api/users
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+
+  res.json(users);
+});
+
+module.exports = {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getUsers,
+};
