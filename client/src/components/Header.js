@@ -2,16 +2,20 @@ import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { USER_LOGOUT } from "../constants/user.constants";
+import { USER_LIST_RESET, USER_LOGOUT } from "../constants/user.constants";
 import { logout } from "../actions/user.actions";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const logoutHandler = () => {
     dispatch(logout());
+    dispatch({ type: USER_LIST_RESET });
+    navigate("/");
   };
 
   return (

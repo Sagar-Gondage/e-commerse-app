@@ -10,11 +10,20 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 const UserListPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
-    dispatch(listUsersAPI());
+    if (userInfo && userInfo.isAdmin === "true") {
+      dispatch(listUsersAPI());
+    } else {
+      navigate("/login");
+    }
   }, [dispatch]);
 
   const deleteHandler = (id) => {
