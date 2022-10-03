@@ -13,7 +13,12 @@ import {
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { deleteProductAPI, listProductsAPI } from "../actions/product.actions";
+import {
+  createProductAPI,
+  deleteProductAPI,
+  listProductsAPI,
+} from "../actions/product.actions";
+import { PRODUCT_CREATE_RESET } from "../constants/product.constants";
 
 const ProductListPage = () => {
   const navigate = useNavigate();
@@ -29,16 +34,35 @@ const ProductListPage = () => {
     success: successDelete,
   } = productDelete;
 
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin === "true") {
-      dispatch(listProductsAPI());
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (userInfo.isAdmin !== "true") {
       navigate("/login");
     }
-  }, [dispatch, successDelete]);
+    if (successCreate) {
+      navigate(`/admin/product/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProductsAPI());
+    }
+  }, [
+    dispatch,
+    successDelete,
+    successCreate,
+    createdProduct,
+    userInfo,
+    navigate,
+  ]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you Sure?")) {
@@ -46,8 +70,9 @@ const ProductListPage = () => {
     }
   };
 
-  const createProducthandler = (produt) => {
+  const createProducthandler = () => {
     // clear product lofix will be here
+    dispatch(createProductAPI());
   };
 
   return (
@@ -64,6 +89,9 @@ const ProductListPage = () => {
       </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
