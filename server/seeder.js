@@ -51,9 +51,9 @@ const destroyData = async () => {
 
 // check package json for args commands
 
-// run npm run data:import to push the custom products data to mongodb
+// run "npm run data:import" to push the custom products data to mongodb
 
-// run npm run data:destroy to destroy all current data
+// run "npm run data:destroy" to destroy all current data
 
 if (process.argv[2] === "-d") {
   destroyData();
