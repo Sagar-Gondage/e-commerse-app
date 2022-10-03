@@ -1,4 +1,8 @@
+import axios from "axios";
 import {
+  PRODUCT_DELETE_FAIL,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_SUCCESS,
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
@@ -37,6 +41,24 @@ export const productDetailsReducer = (
       return { ...state, loading: false, product: action.payload };
     }
     case PRODUCT_DETAILS_FAIL: {
+      return { ...state, loading: false, error: action.payload };
+    }
+    default:
+      return state;
+  }
+};
+
+// single product
+// delete product
+export const productDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_DELETE_REQUEST: {
+      return { ...state, loading: true };
+    }
+    case PRODUCT_DELETE_SUCCESS: {
+      return { ...state, loading: false, success: true };
+    }
+    case PRODUCT_DELETE_FAIL: {
       return { ...state, loading: false, error: action.payload };
     }
     default:

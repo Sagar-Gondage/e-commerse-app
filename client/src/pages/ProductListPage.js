@@ -13,7 +13,7 @@ import {
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { listProductsAPI } from "../actions/product.actions";
+import { deleteProductAPI, listProductsAPI } from "../actions/product.actions";
 
 const ProductListPage = () => {
   const navigate = useNavigate();
@@ -21,6 +21,13 @@ const ProductListPage = () => {
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
+
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -31,11 +38,11 @@ const ProductListPage = () => {
     } else {
       navigate("/login");
     }
-  }, [dispatch]);
+  }, [dispatch, successDelete]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you Sure?")) {
-      // delete product login will be here
+      dispatch(deleteProductAPI(id));
     }
   };
 
@@ -55,6 +62,8 @@ const ProductListPage = () => {
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
