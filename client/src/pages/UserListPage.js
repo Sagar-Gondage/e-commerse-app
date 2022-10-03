@@ -4,7 +4,12 @@ import { Button, Col, Form, Row, Table, Tab } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { listUsersAPI, loginAPI, registerAPI } from "../actions/user.actions";
+import {
+  deleteUserAPI,
+  listUsersAPI,
+  loginAPI,
+  registerAPI,
+} from "../actions/user.actions";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -18,16 +23,22 @@ const UserListPage = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  // we need only success to show user that user is deleted
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: successDelete } = userDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin === "true") {
       dispatch(listUsersAPI());
     } else {
       navigate("/login");
     }
-  }, [dispatch]);
+  }, [dispatch, successDelete]);
 
   const deleteHandler = (id) => {
-    console.log("delete");
+    if (window.confirm("Are you Sure?")) {
+      dispatch(deleteUserAPI(id));
+    }
   };
 
   return (

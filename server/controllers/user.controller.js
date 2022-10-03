@@ -105,6 +105,21 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   return res.json("error occured in put user profile");
 });
 
+// to delete a user
+// private route and accesible by only admin
+// http://localhost:5000/api/users/{id}
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    await user.remove();
+    res.json({ message: "User Deleted " });
+  } else {
+    res.status(404);
+    throw new Error("User not Found");
+  }
+});
+
 // to get all the users from admin side
 // private route and accesible by only admin
 // http://localhost:5000/api/users
@@ -120,4 +135,5 @@ module.exports = {
   registerUser,
   updateUserProfile,
   getUsers,
+  deleteUser,
 };
