@@ -105,6 +105,15 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   return res.json("error occured in put user profile");
 });
 
+// to get all the users from admin side
+// private route and accesible by only admin
+// http://localhost:5000/api/users
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+
+  res.json(users);
+});
+
 // to delete a user
 // private route and accesible by only admin
 // http://localhost:5000/api/users/{id}
@@ -120,13 +129,45 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-// to get all the users from admin side
+// to get user by id
 // private route and accesible by only admin
 // http://localhost:5000/api/users
-const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select("-password");
 
-  res.json(users);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("User not Found");
+  }
+});
+
+// update user by admin
+// private route only admin can update the user
+// http://localhost:5000/api/users/:id
+const updateUser = asyncHandler(async (req, res) => {
+  console.log("in update user");
+  console.log(req.params.id);
+  const user = await User.findById(req.params.id);
+  console.log(user);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.isAdmin = req.body.isAdmin || user.isAdmin;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    return res.status(401).json({ message: "User Not Fouund" });
+  }
+  return res.json("error occured in put user profile");
 });
 
 module.exports = {
@@ -136,4 +177,6 @@ module.exports = {
   updateUserProfile,
   getUsers,
   deleteUser,
+  getUserById,
+  updateUser,
 };
