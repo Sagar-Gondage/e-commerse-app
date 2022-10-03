@@ -5,10 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getUserDetailsAPI, registerAPI } from "../actions/user.actions";
+import {
+  getUserDetailsAPI,
+  registerAPI,
+  updateUserAPI,
+} from "../actions/user.actions";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { USER_UPDATE_RESET } from "../constants/user.constants";
 
 const UserEditPage = () => {
   const { id } = useParams();
@@ -16,6 +21,7 @@ const UserEditPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -23,18 +29,31 @@ const UserEditPage = () => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = userUpdate;
+
   useEffect(() => {
-    if (!user.name || user._id !== id) {
-      dispatch(getUserDetailsAPI(id));
+    if (successUpdate) {
+      dispatch({ type: USER_UPDATE_RESET });
+      navigate("/admin/userlist");
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setIsAdmin(user.isAdmin === "true");
+      if (!user.name || user._id !== id) {
+        dispatch(getUserDetailsAPI(id));
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+        setIsAdmin(user.isAdmin === "true");
+      }
     }
-  }, [dispatch, user, id]);
+  }, [dispatch, user, id, successUpdate, navigate]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    dispatch(updateUserAPI({ _id: id, name, email, isAdmin }));
   };
   return (
     <>
@@ -43,6 +62,8 @@ const UserEditPage = () => {
       </Link>
       <FormContainer>
         <h1>Edit User</h1>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
