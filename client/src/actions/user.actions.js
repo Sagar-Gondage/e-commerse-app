@@ -95,6 +95,7 @@ export const registerAPI = (name, email, password) => async (dispatch) => {
 
 export const getUserDetailsAPI = (id) => async (dispatch, getState) => {
   // console.log("in get user route");
+  console.log("in dispatch", id);
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
 
