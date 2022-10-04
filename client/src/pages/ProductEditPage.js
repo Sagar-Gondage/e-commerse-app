@@ -8,11 +8,13 @@ import { useNavigate } from "react-router-dom";
 import {
   getSingleProductAPI,
   listProductsAPI,
+  updateProductAPI,
 } from "../actions/product.actions";
 import { getUserDetailsAPI, updateUserAPI } from "../actions/user.actions";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { PRODUCT_UPDATE_RESET } from "../constants/product.constants";
 import { USER_UPDATE_RESET } from "../constants/user.constants";
 
 const ProductEditPage = () => {
@@ -33,23 +35,46 @@ const ProductEditPage = () => {
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate;
+
   useEffect(() => {
-    if (!product.name || product._id !== productId) {
-      dispatch(getSingleProductAPI(productId));
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      navigate("/admin/productlist");
     } else {
-      setName(product.name);
-      setPrice(product.price);
-      setImage(product.image);
-      setBrand(product.brand);
-      setCategory(product.category);
-      setCountInStock(product.countInStock);
-      setDescription(product.description);
+      if (!product.name || product._id !== productId) {
+        dispatch(getSingleProductAPI(productId));
+      } else {
+        setName(product.name);
+        setPrice(product.price);
+        setImage(product.image);
+        setBrand(product.brand);
+        setCategory(product.category);
+        setCountInStock(product.countInStock);
+        setDescription(product.description);
+      }
     }
-  }, [dispatch, product, productId, navigate]);
+  }, [dispatch, product, productId, navigate, successUpdate]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // update product wil be here
+    dispatch(
+      updateProductAPI({
+        _id: productId,
+        name,
+        price,
+        image,
+        brand,
+        category,
+        description,
+        countInStock,
+      })
+    );
   };
   return (
     <>
@@ -58,6 +83,8 @@ const ProductEditPage = () => {
       </Link>
       <FormContainer>
         <h1>Edit Product</h1>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (

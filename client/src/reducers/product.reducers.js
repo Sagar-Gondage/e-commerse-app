@@ -13,6 +13,10 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  PRODUCT_UPDATE_FAIL,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_RESET,
+  PRODUCT_UPDATE_SUCCESS,
 } from "../constants/product.constants";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -90,6 +94,32 @@ export const productCreateReducer = (state = {}, action) => {
     case PRODUCT_CREATE_RESET: {
       return {};
     }
+    default:
+      return state;
+  }
+};
+
+// update product, only admin can update the product
+export const productUpdateReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case PRODUCT_UPDATE_REQUEST: {
+      return { ...state, loading: true };
+    }
+    case PRODUCT_UPDATE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        product: action.payload,
+      };
+    }
+    case PRODUCT_UPDATE_FAIL: {
+      return { ...state, loading: false, error: action.payload };
+    }
+    case PRODUCT_UPDATE_RESET: {
+      return { product: {} };
+    }
+
     default:
       return state;
   }
