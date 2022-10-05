@@ -68,7 +68,7 @@ const OrderListPage = () => {
                   )}
                 </td>
                 <td>
-                  {order.isDelivered === "true" ? (
+                  {order.isDelivered ? (
                     order.deliveredAt.substring(0, 10)
                   ) : (
                     <i className="fas fa-times" style={{ color: "red" }}></i>

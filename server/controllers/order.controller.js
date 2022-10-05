@@ -82,6 +82,23 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
+// it will update order to our for delivery. Only Admin can Access
+// private & get
+// http://localhost:8080/api/orders/6333188b163c0b2001d503ee
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not Found");
+  }
+});
+
 // it will get logged in user orders
 // private & get
 // http://localhost:8080/api/orders/myorders
@@ -104,4 +121,5 @@ module.exports = {
   updateOrderToPaid,
   getMyOrders,
   getOrders,
+  updateOrderToDelivered,
 };

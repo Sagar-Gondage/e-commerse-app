@@ -2,18 +2,28 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { getOrderDetailsAPI, payOrderAPI } from "../actions/order.actions";
+import {
+  deliverOrderAPI,
+  getOrderDetailsAPI,
+  listOrdersAPI,
+  payOrderAPI,
+} from "../actions/order.actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { ORDER_PAY_RESET } from "../constants/order.constants";
+import {
+  ORDER_DELIVER_RESET,
+  ORDER_PAY_RESET,
+} from "../constants/order.constants";
 
 const OrderPage = () => {
   const [loadingRazorpay, setLoadingRazorPay] = useState(false);
   const [orderAmount, setOrderAmount] = useState(false);
   const { orderId } = useParams();
+  const navigate = useNavigate();
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
@@ -23,14 +33,21 @@ const OrderPage = () => {
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
 
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!order || successPay || order._id !== orderId) {
+    if (!userInfo) {
+      navigate("/login");
+    }
+    if (!order || successPay || order._id !== orderId || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetailsAPI(orderId));
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [dispatch, orderId, successPay, order, successDeliver]);
 
   const loadRazorpay = () => {
     const script = document.createElement("script");
@@ -121,6 +138,13 @@ const OrderPage = () => {
       }
     };
     document.body.appendChild(script);
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrderAPI(order));
+    // calling list order api here. i dont know why i am not able to get the updated list order when i get redirected to orderlist page. so i am calling orderlist here so when i redircted to orderlist i will have updated orderlist alredy.
+    dispatch(listOrdersAPI());
+    navigate("/admin/orderlist");
   };
 
   return loading ? (
@@ -245,6 +269,21 @@ const OrderPage = () => {
                   <Button onClick={loadRazorpay}>Pay</Button>
                 </ListGroup.Item>
               )}
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin === "true" &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

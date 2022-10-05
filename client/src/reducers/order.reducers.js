@@ -2,6 +2,10 @@ import {
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
+  ORDER_DELIVER_FAIL,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_RESET,
+  ORDER_DELIVER_SUCCESS,
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
@@ -68,6 +72,27 @@ export const orderPayReducer = (state = {}, action) => {
       return { ...state, loading: false, error: action.payload };
     }
     case ORDER_PAY_RESET: {
+      return {};
+    }
+    default:
+      return state;
+  }
+};
+
+// update order to delivered
+export const orderDeliveredReducer = (state = {}, action) => {
+  // here wo dont actualyy need to spread the state as there in nothing in the state but just to have good practice i am spreading it.
+  switch (action.type) {
+    case ORDER_DELIVER_REQUEST: {
+      return { ...state, loading: true };
+    }
+    case ORDER_DELIVER_SUCCESS: {
+      return { ...state, loading: false, success: true };
+    }
+    case ORDER_DELIVER_FAIL: {
+      return { ...state, loading: false, error: action.payload };
+    }
+    case ORDER_DELIVER_RESET: {
       return {};
     }
     default:
