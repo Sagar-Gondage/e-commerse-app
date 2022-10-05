@@ -142,7 +142,7 @@ const OrderPage = () => {
 
   const deliverHandler = () => {
     dispatch(deliverOrderAPI(order));
-    // calling list order api here. i dont know why i am not able to get the updated list order when i get redirected to orderlist page. so i am calling orderlist here so when i redircted to orderlist i will have updated orderlist alredy.
+    // calling list order api here. i dont know why i am not able to get the updated list order when i get redirected to orderlist page even when i have all the dependancies there. so i am calling orderlist here so when i redircted to orderlist i will have updated orderlist alredy.
     dispatch(listOrdersAPI());
     navigate("/admin/orderlist");
   };

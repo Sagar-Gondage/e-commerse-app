@@ -5,6 +5,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const colrs = require("colors");
+const morgan = require("morgan");
 
 const allProducts = require("./routes/allProducts.route");
 const userRoutes = require("./routes/user.route");
@@ -20,6 +21,10 @@ dotenv.config();
 connectDB();
 
 const app = express();
+// remove this morgan once app is in production mode
+// morgan is used to show req time once we visit any url
+// you can see the req time in terminal console.
+app.use(morgan("dev"));
 
 app.use(express.json());
 
