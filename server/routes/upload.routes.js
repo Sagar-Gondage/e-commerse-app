@@ -5,28 +5,25 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "../client/public/images");
   },
   filename(req, file, cb) {
-    const fileName = `${file.fieldname}-${Date.now()}${path.extname(
-      file.originalname
-    )}`;
-    // here we are using date.now to make sure we dont get any error if someone updated files with same name
-    cb(null, fileName);
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
   },
 });
 
 function checkFileType(file, cb) {
-  const fileTypes = /jpeg|jpg|png/;
-  const extNameCheck = fileTypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
-  const mimetype = fileTypes.test(file.mimetype);
+  const filetypes = /jpg|jpeg|png/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
 
-  if (extNameCheck && mimetype) {
+  if (extname && mimetype) {
     return cb(null, true);
   } else {
-    return cb("Only Images are Accepted!");
+    cb("Images only!");
   }
 }
 
@@ -38,7 +35,7 @@ const upload = multer({
 });
 
 router.post("/", upload.single("image"), (req, res) => {
-  res.send(`/${req.file.path}`);
+  res.send(req.file);
 });
 
 module.exports = router;

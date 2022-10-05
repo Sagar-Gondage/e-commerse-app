@@ -73,6 +73,7 @@ const ProductListPage = () => {
   const createProducthandler = () => {
     // clear product lofix will be here
     dispatch(createProductAPI());
+    // navigate(`/admin/product/${createdProduct._id}/edit`);
   };
 
   return (
