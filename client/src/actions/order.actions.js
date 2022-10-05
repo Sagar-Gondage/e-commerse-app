@@ -30,11 +30,16 @@ export const createOrderAPI = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      "http://localhost:5000/api/orders",
+      "http://localhost:8080/api/orders",
       order,
       config
     );
-
+    // const { data } = await axios.post(
+    //   "http://localhost:8080/api/create-order",
+    //   order,
+    //   config
+    // );
+    // console.log("order-details", data);
     dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -56,7 +61,7 @@ export const getOrderDetailsAPI = (id) => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    console.log(userInfo.token);
+    // console.log(userInfo.token);
 
     const config = {
       headers: {
@@ -65,7 +70,7 @@ export const getOrderDetailsAPI = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/orders/${id}`,
+      `http://localhost:8080/api/orders/${id}`,
       config
     );
 
@@ -84,6 +89,7 @@ export const getOrderDetailsAPI = (id) => async (dispatch, getState) => {
 // pay order api
 export const payOrderAPI =
   (orderId, paymentResult) => async (dispatch, getState) => {
+    // console.log("IN pay Order API", orderId, paymentResult);
     try {
       dispatch({ type: ORDER_PAY_REQUEST });
 
@@ -99,8 +105,8 @@ export const payOrderAPI =
       };
 
       const { data } = await axios.put(
-        `http://localhost:5000/api/orders/${orderId}/pay`,
-        paymentResult,
+        `http://localhost:8080/api/orders/${orderId}/pay`,
+        JSON.stringify(paymentResult),
         config
       );
 
@@ -132,7 +138,7 @@ export const listMyOrdersAPI = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/orders/myorders`,
+      `http://localhost:8080/api/orders/myorders`,
       config
     );
 

@@ -3,7 +3,7 @@ const Order = require("../models/order.model");
 
 // it will create new order
 // private & Post
-// http://localhost:5000/api/orders
+// http://localhost:8080/api/orders
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -42,13 +42,13 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
 // it will get order by id
 // private & get
-// http://localhost:5000/api/orders/6333188b163c0b2001d503ee
+// http://localhost:8080/api/orders/6333188b163c0b2001d503ee
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
   );
-
+  // console.log("get Order", order);
   if (order) {
     res.json(order);
   } else {
@@ -59,18 +59,20 @@ const getOrderById = asyncHandler(async (req, res) => {
 
 // it will update order to paid
 // private & get
-// http://localhost:5000/api/orders/6333188b163c0b2001d503ee
+// http://localhost:8080/api/orders/6333188b163c0b2001d503ee
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
-
   if (order) {
     order.isPaid = true;
     order.paidAt = Date.now();
     order.paymentResult = {
       id: req.body.id,
-      status: req.body.status,
-      update_time: req.body.update_time,
-      email_address: req.body.payer.email_address,
+      razorpayPaymentId: req.body.razorpayPaymentId,
+      razorpayOrderId: req.body.razorpayOrderId,
+      razorpaySignature: req.body.razorpaySignature,
+      // status: req.body.status,
+      // update_time: req.body.update_time,
+      // email_address: req.body.payer.email_address,
     };
     const updatedOrder = await order.save();
     res.json(updatedOrder);
@@ -82,7 +84,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 
 // it will get logged in user orders
 // private & get
-// http://localhost:5000/api/orders/myorders
+// http://localhost:8080/api/orders/myorders
 const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);

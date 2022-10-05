@@ -31,7 +31,7 @@ const RegisterPage = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(password != confirmPassword);
+    // console.log(password != confirmPassword);
     if (password === confirmPassword) {
       setMessage(null);
     }

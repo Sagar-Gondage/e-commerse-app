@@ -90,17 +90,17 @@ const ProductEditPage = () => {
           "Content-Type": "*/*",
         },
       };
-      console.log("oConfig", config);
       const { data } = await axios.post(
-        "http://localhost:5000/api/uploads",
+        "http://localhost:8080/api/uploads",
         formData,
         config
       );
       // console.log("image Data", data);
-      setImage(`images/${data.filename}`);
+      setImage(`uploads/${data.filename}`);
       setUploading(false);
     } catch (error) {
-      console.log(error);
+      alert("Make sure you have selected .jpeg, .jpg or .png format");
+      // console.log(error);
       setUploading(false);
     }
   };

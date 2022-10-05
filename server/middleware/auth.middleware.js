@@ -10,6 +10,8 @@ const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       //   console.log("decoded", decoded);
       req.user = await User.findById(decoded.id).select("-passoword");
+      // console.log("in middlware", req);
+      console.log("middlware success");
       next();
     } catch (error) {
       console.error(error);

@@ -35,6 +35,9 @@ const orderSchema = mongoose.Schema(
       status: { type: String },
       update_time: { type: String },
       email_address: { type: String },
+      razorpayPaymentId: { type: String },
+      razorpayOrderId: { type: String },
+      razorpaySignature: { type: String },
     },
     taxPrice: {
       type: Number,

@@ -4,7 +4,7 @@ const img =
   "https://images.unsplash.com/photo-1584949091598-c31daaaa4aa9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGRldmVsb3BlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60";
 // it will fetch all products
 // public
-// http://localhost:5000/api/products
+// http://localhost:8080/api/products
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find();
   res.json(products);
@@ -12,7 +12,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
 // get single proudcts
 // private route
-// http://localhost:5000/api/products/6326eb46a6a6e4ceca79c4a4
+// http://localhost:8080/api/products/6326eb46a6a6e4ceca79c4a4
 const getProductById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   // console.log(id);
@@ -32,7 +32,7 @@ const getProductById = asyncHandler(async (req, res) => {
 
 // delete single product
 // private route and only acceessible by admin
-// http://localhost:5000/api/products/:id
+// http://localhost:8080/api/products/:id
 const deleteProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
   // console.log(id);
@@ -53,7 +53,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 // create product
 // private route and only acceessible by admin
-// http://localhost:5000/api/products/create
+// http://localhost:8080/api/products/create
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "sample name",
@@ -73,7 +73,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
 // updated product
 // private route and only acceessible by admin
-// http://localhost:5000/api/products/:id
+// http://localhost:8080/api/products/:id
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
     req.body;

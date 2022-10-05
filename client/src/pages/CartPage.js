@@ -33,14 +33,14 @@ const CartPage = () => {
     }
   }, [dispatch, productId, +qty]);
 
-  console.log("cI", cartItems);
+  // console.log("cI", cartItems);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
   };
 
   const checkoutHanlder = () => {
-    console.log("in cart");
+    // console.log("in cart");
     // navigate(`/login?redirect=shipping`);
     navigate(`/shipping`);
   };

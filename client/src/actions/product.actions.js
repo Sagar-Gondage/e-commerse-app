@@ -20,7 +20,7 @@ import {
 export const listProductsAPI = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
-    const { data } = await axios.get("http://localhost:5000/api/products");
+    const { data } = await axios.get("http://localhost:8080/api/products");
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -38,7 +38,7 @@ export const getSingleProductAPI = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
     const { data } = await axios.get(
-      `http://localhost:5000/api/products/${id}`
+      `http://localhost:8080/api/products/${id}`
     );
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -67,7 +67,7 @@ export const deleteProductAPI = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+    await axios.delete(`http://localhost:8080/api/products/${id}`, config);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
@@ -97,7 +97,7 @@ export const createProductAPI = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:5000/api/products`,
+      `http://localhost:8080/api/products`,
       {},
       config
     );
@@ -131,7 +131,7 @@ export const updateProductAPI = (product) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:5000/api/products/${product._id}`,
+      `http://localhost:8080/api/products/${product._id}`,
       product,
       config
     );

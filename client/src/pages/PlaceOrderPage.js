@@ -32,6 +32,7 @@ const PlaceOrderPage = () => {
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
+  // console.log("created Order", orderCreate);
 
   const placeOrderHandler = () => {
     dispatch(
@@ -49,9 +50,10 @@ const PlaceOrderPage = () => {
 
   useEffect(() => {
     if (success) {
+      // console.log("you are navigated to order pay page");
       navigate(`/order/${order._id}`);
     }
-  }, [success, dispatch]);
+  }, [success, dispatch, navigate]);
 
   return (
     <>

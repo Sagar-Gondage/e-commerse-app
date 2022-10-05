@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -12,48 +12,116 @@ import Message from "../components/Message";
 import { ORDER_PAY_RESET } from "../constants/order.constants";
 
 const OrderPage = () => {
-  const [sdkReady, setSdkReady] = useState(false);
+  const [loadingRazorpay, setLoadingRazorPay] = useState(false);
+  const [orderAmount, setOrderAmount] = useState(false);
   const { orderId } = useParams();
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const orderPay = useSelector((state) => state.orderPay);
-  // console.log(orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get(
-        "http://localhost:5000/api/config/paypal"
-      );
-      console.log("clientId", clientId);
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
-
     if (!order || successPay || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetailsAPI(orderId));
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPayPalScript();
-      } else {
-        setSdkReady(true);
-      }
     }
   }, [dispatch, orderId, successPay, order]);
 
-  const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
-    dispatch(payOrderAPI(orderId, paymentResult));
+  const loadRazorpay = () => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onerror = () => {
+      alert("Razorpay SDK failed to load. Are you online?");
+    };
+    script.onload = async () => {
+      const postConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const getConfig = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      try {
+        setLoadingRazorPay(true);
+        // console.log("in try");
+        const result = await axios.post(
+          "http://localhost:8080/api/razorpay/create-order",
+          {
+            amount: order.totalPrice + "00",
+          },
+          postConfig
+        );
+        // console.log("orderCreated", result);
+        const { amount, id: order_id, currency } = result.data;
+        const {
+          data: { key: razorpayKey },
+        } = await axios.get(
+          "http://localhost:8080/api/razorpay/get-razorpay-key",
+          getConfig
+        );
+
+        // console.log("key", razorpayKey);
+        const options = {
+          key: razorpayKey,
+          amount: amount.toString(),
+          currency: currency,
+          name: "example name",
+          description: "example transaction",
+          order_id: order_id,
+          handler: async function (response) {
+            const result = await axios.post(
+              "http://localhost:8080/api/razorpay/pay-order",
+              {
+                amount: amount,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpaySignature: response.razorpay_signature,
+              },
+              postConfig
+            );
+            // alert(result.data.msg);
+            const paymentResult = {
+              amount: amount,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+            };
+            // console.log("result", result);
+            dispatch(payOrderAPI(orderId, paymentResult));
+            // fetchOrders();
+          },
+          prefill: {
+            name: "example name",
+            email: "email@example.com",
+            contact: "111111",
+          },
+          notes: {
+            address: "example address",
+          },
+          theme: {
+            color: "#80c0f0",
+          },
+        };
+
+        setLoadingRazorPay(false);
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      } catch (err) {
+        // console.log("Error", err);
+        setLoadingRazorPay(false);
+      }
+    };
+    document.body.appendChild(script);
   };
 
   return loading ? (
@@ -166,7 +234,7 @@ const OrderPage = () => {
               </ListGroup.Item>
               {!order.isPaid && (
                 <ListGroup.Item>
-                  {loadingPay && <Loader />}
+                  {/* {loadingPay && <Loader />}
                   {!sdkReady ? (
                     <Loader />
                   ) : (
@@ -174,7 +242,8 @@ const OrderPage = () => {
                       amount={order.totalPrice}
                       onSuccess={successPaymentHandler}
                     />
-                  )}
+                  )} */}
+                  <Button onClick={loadRazorpay}>Pay</Button>
                 </ListGroup.Item>
               )}
             </ListGroup>
