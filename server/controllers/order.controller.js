@@ -90,9 +90,18 @@ const getMyOrders = asyncHandler(async (req, res) => {
   res.json(orders);
 });
 
+// get all orders, accesible by admin only
+// private & get
+// http://localhost:8080/api/orders/myorders
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate("user", "id name");
+  res.json(orders);
+});
+
 module.exports = {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
   getMyOrders,
+  getOrders,
 };

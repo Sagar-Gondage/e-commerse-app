@@ -40,7 +40,7 @@ const CartPage = () => {
   };
 
   const checkoutHanlder = () => {
-    // console.log("in cart");
+    // console.log("in cart");r
     // navigate(`/login?redirect=shipping`);
     navigate(`/shipping`);
   };

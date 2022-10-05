@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { PayPalButton } from "react-paypal-button-v2";
 import { getOrderDetailsAPI, payOrderAPI } from "../actions/order.actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";

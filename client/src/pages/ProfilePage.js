@@ -49,7 +49,7 @@ const ProfilePage = () => {
         setEmail(user.email);
       }
     }
-  }, [dispatch, userInfo, user]);
+  }, [dispatch, userInfo, user, navigate]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
