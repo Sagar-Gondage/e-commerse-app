@@ -6,7 +6,13 @@ const img =
 // public
 // http://localhost:8080/api/products
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const keyword = req.query.keyword
+    ? {
+        name: { $regex: req.query.keyword, $options: "i" },
+      }
+    : {};
+  console.log({ ...keyword });
+  const products = await Product.find({ ...keyword });
   res.json(products);
 });
 

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { USER_LIST_RESET, USER_LOGOUT } from "../constants/user.constants";
 import { logout } from "../actions/user.actions";
 import { useNavigate } from "react-router-dom";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -20,13 +21,14 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
-        <Container>
+      <Navbar bg="dark" variant="dark" expand="sm" collapseOnSelect>
+        <Container style={{ border: "1px solid black", width: "100%" }}>
           <LinkContainer to="/">
             <Navbar.Brand>E-Commerse-App</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            <SearchBox />
             <Nav className="ml-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>

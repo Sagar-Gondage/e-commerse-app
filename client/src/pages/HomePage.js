@@ -6,21 +6,22 @@ import { listProductsAPI } from "../actions/product.actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import PlacementExample from "../components/Message";
+import { useParams } from "react-router-dom";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-
+  const { keyword } = useParams();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProductsAPI());
-  }, [dispatch]);
+    dispatch(listProductsAPI(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
       <h1>Latest Products</h1>
-
+      {!products.length && <h2>No Product Found</h2>}
       {loading ? (
         <Loader />
       ) : error ? (
