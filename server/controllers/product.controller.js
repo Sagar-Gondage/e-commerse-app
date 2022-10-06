@@ -153,6 +153,15 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// get top rated products
+// public
+// http://localhost:8080/api/products/top
+// this below login can be done in getall product as well but for simplicity its here
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  res.json(products);
+});
+
 module.exports = {
   getProducts,
   getProductById,
@@ -160,4 +169,5 @@ module.exports = {
   createProduct,
   updateProduct,
   createProductReview,
+  getTopProducts,
 };
