@@ -21,12 +21,12 @@ import {
 } from "../constants/product.constants";
 
 export const listProductsAPI =
-  (keyword = "") =>
+  (keyword = "", pageNumber = "") =>
   async (dispatch) => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
       const { data } = await axios.get(
-        `http://localhost:8080/api/products?keyword=${keyword}`
+        `http://localhost:8080/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {

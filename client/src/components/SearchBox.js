@@ -8,7 +8,7 @@ const SearchBox = () => {
   const searchFormSubmitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      navigate(`/search/${keyword}`);
+      navigate(`/search/${keyword}/page/1`);
     } else {
       navigate("/");
     }
