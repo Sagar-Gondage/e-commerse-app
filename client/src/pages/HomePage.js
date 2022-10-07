@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import Product from "../components/Product";
 import { listProductsAPI } from "../actions/product.actions";
 import Loader from "../components/Loader";
@@ -23,8 +23,15 @@ const HomePage = () => {
     dispatch(listProductsAPI(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
 
+  const getProduct = (value) => {
+    console.log(value);
+    dispatch(listProductsAPI(value));
+  };
+
   return (
     <>
+      <Button onClick={() => getProduct("shirt")}>Shirt</Button>
+      <Button onClick={() => getProduct("")}>All</Button>
       <Meta />
       {!keyword ? (
         <ProductCarousel />
