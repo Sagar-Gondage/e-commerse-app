@@ -28,11 +28,13 @@ import { instance } from "../utils/defaultURL";
 export const listProductsAPI =
   (keyword = "", pageNumber = "") =>
   async (dispatch) => {
+    console.log("in d", keyword, pageNumber);
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
       const { data } = await instance.get(
         `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
+      console.log("data", data);
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
       console.log("in error", error);

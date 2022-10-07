@@ -1,50 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Button, Card, Container } from "react-bootstrap";
-import Product from "../components/Product";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { listProductsAPI } from "../actions/product.actions";
+import HomePageCategories from "../components/HomePageCategories";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import PlacementExample from "../components/Message";
-import { useParams } from "react-router-dom";
 import Paginate from "../components/Paginate";
-import ProductCarousel from "../components/ProductCarousel";
-import Meta from "../components/Meta";
-import { Link } from "react-router-dom";
-import HomePageCategories from "../components/HomePageCategories";
-import { Application, ApplicationDrawer } from "../components/Drawer";
+import Product from "../components/Product";
 
-const HomePage = () => {
+const AllProductsPage = () => {
   const dispatch = useDispatch();
-  const { keyword, pageNumber = 1 } = useParams();
-
+  const { keyword = "", pageNumber = 1 } = useParams();
+  console.log(useParams());
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, pages, page } = productList;
-
   useEffect(() => {
-    dispatch(listProductsAPI(keyword, pageNumber));
+    dispatch(listProductsAPI("su", pageNumber));
   }, [dispatch, keyword, pageNumber]);
-
-  const getProduct = (value) => {
-    console.log(value);
-    dispatch(listProductsAPI(value));
-  };
-
   return (
-    <>
-      <Meta />
-      {!keyword ? (
-        <>
-          <ProductCarousel />
-          <HomePageCategories />
-          {/* <ApplicationDrawer /> */}
-          <Application />
-        </>
-      ) : (
-        <Link to="/" className="btn btn-light">
-          Go Back
-        </Link>
-      )}
+    <div>
+      <Link to="/" className="btn btn-light">
+        Go Back
+      </Link>
+      <HomePageCategories />
       <h1>Latest Products</h1>
       {!products?.length && <h2>No Product Found</h2>}
       {loading ? (
@@ -67,11 +48,12 @@ const HomePage = () => {
             pages={pages}
             page={page}
             keyword={keyword ? keyword : ""}
+            currentPage={"allproducts"}
           />
         </>
       )}
-    </>
+    </div>
   );
 };
 
-export default HomePage;
+export default AllProductsPage;
