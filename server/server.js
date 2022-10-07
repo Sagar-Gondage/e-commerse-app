@@ -50,8 +50,20 @@ app.use("/api/razorpay", razorpayRoutes);
 
 // our uploads foler is not accesible by default so to access it we have to make it a static folder
 // const __dirname = path.resolve();
-console.log(__dirname);
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+// let pathName = path.join(__dirname, "../client");
+// console.log(pathName);
+
+// app.use(
+//   "/uploads",
+//   express.static(path.join(__dirname, "../client/public/uploads"))
+// );
+
+app.use(express.static(path.join(__dirname, "../client/public/uploads")));
+app.get("*", (req, res) => {
+  return res.sendFile(
+    path.resolve(__dirname, "..", "client", "build", "index.html")
+  );
+});
 
 app.use(notFound);
 

@@ -33,7 +33,6 @@ export const listProductsAPI =
       const { data } = await instance.get(
         `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
-      console.log(data);
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
       console.log("in error", error);

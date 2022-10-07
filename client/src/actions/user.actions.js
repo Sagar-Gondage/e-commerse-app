@@ -145,14 +145,17 @@ export const updateUserProfileAPI = (user) => async (dispatch, getState) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.data.token}`,
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
     const { data } = await instance.put(`/api/users/profile`, user, config);
-
+    console.log(data);
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
+    console.log(error);
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
       payload:

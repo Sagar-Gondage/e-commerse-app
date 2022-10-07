@@ -14,6 +14,7 @@ import {
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/user.constants";
 
 const ProfilePage = () => {
   const [name, setName] = useState("");
@@ -32,7 +33,11 @@ const ProfilePage = () => {
   const { userInfo } = userLogin;
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  const { success } = userUpdateProfile;
+  const {
+    loading: loadingUserProfileUpdate,
+    success: successUserProfileUpdate,
+    error: errorUserProfileUpdate,
+  } = userUpdateProfile;
 
   const orderListMy = useSelector((state) => state.orderListMy);
   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
@@ -41,7 +46,8 @@ const ProfilePage = () => {
     if (!userInfo) {
       navigate("/login");
     } else {
-      if (!user.name) {
+      if (!user.name || successUserProfileUpdate) {
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetailsAPI("profile"));
         dispatch(listMyOrdersAPI());
       } else {
@@ -49,7 +55,7 @@ const ProfilePage = () => {
         setEmail(user.email);
       }
     }
-  }, [dispatch, userInfo, user, navigate]);
+  }, [dispatch, userInfo, user, navigate, successUserProfileUpdate]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -60,6 +66,7 @@ const ProfilePage = () => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not Match");
     } else {
+      console.log("send details");
       dispatch(updateUserProfileAPI({ id: user._id, name, email, password }));
     }
   };
@@ -69,55 +76,62 @@ const ProfilePage = () => {
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        {success && (
+        {successUserProfileUpdate && (
           <Message variant="success">Profile Updated Successfully</Message>
         )}
-        {loading && <Loader />}
-        <Form onSubmit={submitHandler}>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="name"
-              placeholder="Enter Email"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+        {loadingUserProfileUpdate || loading ? (
+          <Loader />
+        ) : errorUserProfileUpdate ? (
+          <Message variant="danger">{error}</Message>
+        ) : (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="name"
+                placeholder="Enter Email"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId="email">
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group controlId="email">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              ></Form.Control>
+            </Form.Group>
 
-          <Button type="submit" variant="primary">
-            Update
-          </Button>
-        </Form>
+            <Button type="submit" variant="primary">
+              Update
+            </Button>
+          </Form>
+        )}
       </Col>
       <Col md={9}>
         <h2>My Orders</h2>

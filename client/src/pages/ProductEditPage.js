@@ -91,8 +91,12 @@ const ProductEditPage = () => {
           "Content-Type": "*/*",
         },
       };
-      const { data } = await instance.post("/api/uploads", formData, config);
-      // console.log("image Data", data);
+      const { data } = await axios.post(
+        "http://localhost:8080/api/uploads",
+        formData,
+        config
+      );
+      console.log("image Data", data);
       setImage(`uploads/${data.filename}`);
       setUploading(false);
     } catch (error) {
