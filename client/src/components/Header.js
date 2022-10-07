@@ -21,13 +21,23 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="sm" collapseOnSelect>
-        <Container style={{ border: "1px solid black", width: "100%" }}>
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+        <Container
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <LinkContainer to="/">
             <Navbar.Brand>E-Commerse-App</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Collapse
+            id="basic-navbar-nav"
+            style={{
+              justifyContent: "space-between",
+            }}
+          >
             <SearchBox />
             <Nav className="ml-auto">
               <LinkContainer to="/cart">

@@ -68,6 +68,8 @@ const ProfilePage = () => {
     } else {
       console.log("send details");
       dispatch(updateUserProfileAPI({ id: user._id, name, email, password }));
+      setPassword("");
+      setConfirmPassword("");
     }
   };
   return (
