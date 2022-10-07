@@ -22,17 +22,21 @@ import {
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
 } from "../constants/product.constants";
+import { instance } from "../utils/defaultURL";
+// const instance = axios.create();
 
 export const listProductsAPI =
   (keyword = "", pageNumber = "") =>
   async (dispatch) => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
-      const { data } = await axios.get(
-        `http://localhost:8080/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      const { data } = await instance.get(
+        `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
+      console.log(data);
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
+      console.log("in error", error);
       dispatch({
         type: PRODUCT_LIST_FAIL,
         payload:
@@ -47,9 +51,7 @@ export const listProductsAPI =
 export const getSingleProductAPI = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
-    const { data } = await axios.get(
-      `http://localhost:8080/api/products/${id}`
-    );
+    const { data } = await instance.get(`/api/products/${id}`);
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -77,7 +79,7 @@ export const deleteProductAPI = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:8080/api/products/${id}`, config);
+    await instance.delete(`/api/products/${id}`, config);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
@@ -106,11 +108,7 @@ export const createProductAPI = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `http://localhost:8080/api/products`,
-      {},
-      config
-    );
+    const { data } = await instance.post(`/api/products`, {}, config);
 
     dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
   } catch (error) {
@@ -140,8 +138,8 @@ export const updateProductAPI = (product) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `http://localhost:8080/api/products/${product._id}`,
+    const { data } = await instance.put(
+      `/api/products/${product._id}`,
       product,
       config
     );
@@ -176,11 +174,7 @@ export const createProductReviewAPI =
         },
       };
 
-      await axios.post(
-        `http://localhost:8080/api/products/${productId}/reviews`,
-        review,
-        config
-      );
+      await instance.post(`/api/products/${productId}/reviews`, review, config);
 
       dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
     } catch (error) {
@@ -198,7 +192,7 @@ export const createProductReviewAPI =
 export const listTopProductsAPI = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_PRODUCT_TOP_REQUEST });
-    const { data } = await axios.get(`http://localhost:8080/api/products/top`);
+    const { data } = await instance.get(`/api/products/top`);
     dispatch({ type: PRODUCT_PRODUCT_TOP_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

@@ -4,7 +4,7 @@ const img =
   "https://images.unsplash.com/photo-1584949091598-c31daaaa4aa9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGRldmVsb3BlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60";
 // it will fetch all products
 // public
-// http://localhost:8080/api/products
+// /api/products
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
@@ -26,7 +26,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
 // get single proudcts
 // private route
-// http://localhost:8080/api/products/6326eb46a6a6e4ceca79c4a4
+// /api/products/6326eb46a6a6e4ceca79c4a4
 const getProductById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   // console.log(id);
@@ -46,7 +46,7 @@ const getProductById = asyncHandler(async (req, res) => {
 
 // delete single product
 // private route and only acceessible by admin
-// http://localhost:8080/api/products/:id
+// /api/products/:id
 const deleteProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
   // console.log(id);
@@ -67,7 +67,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 // create product
 // private route and only acceessible by admin
-// http://localhost:8080/api/products/create
+// /api/products/create
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "sample name",
@@ -87,7 +87,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
 // updated product
 // private route and only acceessible by admin
-// http://localhost:8080/api/products/:id
+// /api/products/:id
 const updateProduct = asyncHandler(async (req, res) => {
   const { name, price, description, image, brand, category, countInStock } =
     req.body;
@@ -113,7 +113,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 // updated product review
 // private && admin and user can access
-// http://localhost:8080/api/products/:id/reviews
+// /api/products/:id/reviews
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
 
@@ -155,7 +155,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
 // get top rated products
 // public
-// http://localhost:8080/api/products/top
+// /api/products/top
 // this below login can be done in getall product as well but for simplicity its here
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);

@@ -5,7 +5,7 @@ const generateToken = require("../utils/generateToken");
 
 // user authentication
 // public
-// http://localhost:8080/api/users/login
+// /api/users/login
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -28,7 +28,7 @@ const authUser = asyncHandler(async (req, res) => {
 
 // new user registration
 // public
-// http://localhost:8080/api/users/register
+// /api/users/register
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   const userExists = await User.findOne({ email });
@@ -57,7 +57,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // user user profile
 // private route
-// http://localhost:8080/api/users/profile
+// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
   console.log("in get uer Progile");
   const user = await User.findById(req.user._id);
@@ -77,7 +77,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 // update user profile
 // private route
-// http://localhost:8080/api/users/profile
+// /api/users/profile
 // we are calling decrypt in the model so password will automatically get decrypted
 const updateUserProfile = asyncHandler(async (req, res) => {
   console.log("in update user Profile");
@@ -107,7 +107,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 // to get all the users from admin side
 // private route and accesible by only admin
-// http://localhost:8080/api/users
+// /api/users
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
 
@@ -116,7 +116,7 @@ const getUsers = asyncHandler(async (req, res) => {
 
 // to delete a user
 // private route and accesible by only admin
-// http://localhost:8080/api/users/{id}
+// /api/users/{id}
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -131,7 +131,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 // to get user by id
 // private route and accesible by only admin
-// http://localhost:8080/api/users
+// /api/users
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
 
@@ -145,7 +145,7 @@ const getUserById = asyncHandler(async (req, res) => {
 
 // update user by admin
 // private route only admin can update the user
-// http://localhost:8080/api/users/:id
+// /api/users/:id
 const updateUser = asyncHandler(async (req, res) => {
   console.log("in update user");
   console.log(req.params.id);

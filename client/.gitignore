@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+/utils
+./utils
+src/utils
+
+
 # testing
 /coverage
 

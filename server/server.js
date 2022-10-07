@@ -48,8 +48,9 @@ app.get("/api/config/paypal", (req, res) =>
 
 app.use("/api/razorpay", razorpayRoutes);
 
-// out uploads foler is not accesible by default so to access it we have to make it a static folder
+// our uploads foler is not accesible by default so to access it we have to make it a static folder
 // const __dirname = path.resolve();
+console.log(__dirname);
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use(notFound);

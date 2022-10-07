@@ -17,6 +17,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { PRODUCT_UPDATE_RESET } from "../constants/product.constants";
 import { USER_UPDATE_RESET } from "../constants/user.constants";
+import { instance } from "../utils/defaultURL";
 
 const ProductEditPage = () => {
   const { id: productId } = useParams();
@@ -90,11 +91,7 @@ const ProductEditPage = () => {
           "Content-Type": "*/*",
         },
       };
-      const { data } = await axios.post(
-        "http://localhost:8080/api/uploads",
-        formData,
-        config
-      );
+      const { data } = await instance.post("/api/uploads", formData, config);
       // console.log("image Data", data);
       setImage(`uploads/${data.filename}`);
       setUploading(false);

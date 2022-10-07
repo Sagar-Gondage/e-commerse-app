@@ -34,7 +34,7 @@ const HomePage = () => {
         </Link>
       )}
       <h1>Latest Products</h1>
-      {!products.length && <h2>No Product Found</h2>}
+      {!products?.length && <h2>No Product Found</h2>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -42,13 +42,14 @@ const HomePage = () => {
       ) : (
         <>
           <Row>
-            {products.map((product) => {
-              return (
-                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                  <Product product={product} />
-                </Col>
-              );
-            })}
+            {products.length &&
+              products.map((product) => {
+                return (
+                  <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                    <Product product={product} />
+                  </Col>
+                );
+              })}
           </Row>
           <Paginate
             pages={pages}

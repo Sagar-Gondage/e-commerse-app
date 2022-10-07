@@ -17,6 +17,7 @@ import {
   ORDER_DELIVER_RESET,
   ORDER_PAY_RESET,
 } from "../constants/order.constants";
+import { instance } from "../utils/defaultURL";
 
 const OrderPage = () => {
   const [loadingRazorpay, setLoadingRazorPay] = useState(false);
@@ -70,8 +71,8 @@ const OrderPage = () => {
       try {
         setLoadingRazorPay(true);
         // console.log("in try");
-        const result = await axios.post(
-          "http://localhost:8080/api/razorpay/create-order",
+        const result = await instance.post(
+          "/api/razorpay/create-order",
           {
             amount: order.totalPrice + "00",
           },
@@ -81,10 +82,7 @@ const OrderPage = () => {
         const { amount, id: order_id, currency } = result.data;
         const {
           data: { key: razorpayKey },
-        } = await axios.get(
-          "http://localhost:8080/api/razorpay/get-razorpay-key",
-          getConfig
-        );
+        } = await instance.get("/api/razorpay/get-razorpay-key", getConfig);
 
         // console.log("key", razorpayKey);
         const options = {
@@ -95,8 +93,8 @@ const OrderPage = () => {
           description: "example transaction",
           order_id: order_id,
           handler: async function (response) {
-            const result = await axios.post(
-              "http://localhost:8080/api/razorpay/pay-order",
+            const result = await instance.post(
+              "/api/razorpay/pay-order",
               {
                 amount: amount,
                 razorpayPaymentId: response.razorpay_payment_id,

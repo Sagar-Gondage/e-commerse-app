@@ -21,6 +21,7 @@ import Message from "../components/Message";
 import PlacementExample from "../components/Message";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/product.constants";
 import Meta from "../components/Meta";
+import { instance } from "../utils/defaultURL";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);

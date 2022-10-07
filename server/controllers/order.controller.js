@@ -3,7 +3,7 @@ const Order = require("../models/order.model");
 
 // it will create new order
 // private & Post
-// http://localhost:8080/api/orders
+// /api/orders
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -42,7 +42,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
 // it will get order by id
 // private & get
-// http://localhost:8080/api/orders/6333188b163c0b2001d503ee
+// /api/orders/6333188b163c0b2001d503ee
 const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
@@ -59,7 +59,7 @@ const getOrderById = asyncHandler(async (req, res) => {
 
 // it will update order to paid
 // private & get
-// http://localhost:8080/api/orders/6333188b163c0b2001d503ee
+// /api/orders/6333188b163c0b2001d503ee
 const updateOrderToPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (order) {
@@ -84,7 +84,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 
 // it will update order to our for delivery. Only Admin can Access
 // private & get
-// http://localhost:8080/api/orders/6333188b163c0b2001d503ee
+// /api/orders/6333188b163c0b2001d503ee
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (order) {
@@ -101,7 +101,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 
 // it will get logged in user orders
 // private & get
-// http://localhost:8080/api/orders/myorders
+// /api/orders/myorders
 const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);
@@ -109,7 +109,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
 // get all orders, accesible by admin only
 // private & get
-// http://localhost:8080/api/orders/myorders
+// /api/orders/myorders
 const getOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({}).populate("user", "id name");
   res.json(orders);

@@ -19,6 +19,7 @@ import {
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
 } from "../constants/order.constants";
+import { instance } from "../utils/defaultURL";
 
 export const createOrderAPI = (order) => async (dispatch, getState) => {
   try {
@@ -35,13 +36,9 @@ export const createOrderAPI = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      "http://localhost:8080/api/orders",
-      order,
-      config
-    );
-    // const { data } = await axios.post(
-    //   "http://localhost:8080/api/create-order",
+    const { data } = await instance.post("/api/orders", order, config);
+    // const { data } = await instance.post(
+    //   "/api/create-order",
     //   order,
     //   config
     // );
@@ -75,10 +72,7 @@ export const getOrderDetailsAPI = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `http://localhost:8080/api/orders/${id}`,
-      config
-    );
+    const { data } = await instance.get(`/api/orders/${id}`, config);
 
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -110,8 +104,8 @@ export const payOrderAPI =
         },
       };
 
-      const { data } = await axios.put(
-        `http://localhost:8080/api/orders/${orderId}/pay`,
+      const { data } = await instance.put(
+        `/api/orders/${orderId}/pay`,
         JSON.stringify(paymentResult),
         config
       );
@@ -144,8 +138,8 @@ export const deliverOrderAPI = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `http://localhost:8080/api/orders/${order._id}/deliver`,
+    const { data } = await instance.put(
+      `/api/orders/${order._id}/deliver`,
       {},
       config
     );
@@ -177,10 +171,7 @@ export const listMyOrdersAPI = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `http://localhost:8080/api/orders/myorders`,
-      config
-    );
+    const { data } = await instance.get(`/api/orders/myorders`, config);
 
     dispatch({ type: ORDER_LIST_MY_SUCCESS, payload: data });
   } catch (error) {
@@ -209,10 +200,7 @@ export const listOrdersAPI = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `http://localhost:8080/api/orders`,
-      config
-    );
+    const { data } = await instance.get(`/api/orders`, config);
 
     dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
   } catch (error) {
