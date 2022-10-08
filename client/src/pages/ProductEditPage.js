@@ -17,7 +17,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { PRODUCT_UPDATE_RESET } from "../constants/product.constants";
 import { USER_UPDATE_RESET } from "../constants/user.constants";
-import { instance } from "../utils/defaultURL";
+import { instance } from "../defaultURL";
 
 const ProductEditPage = () => {
   const { id: productId } = useParams();

@@ -2,16 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const RoterLink = ({ name, onClick }) => {
-  return (
-    <div className="routerlink" onClick={() => onClick(name)}>
-      {name}
-    </div>
-  );
-};
-
-let LinkText = ["All Products", "Mens", "Womens", "Children"];
-
 const HomePageCategories = () => {
   const navigate = useNavigate();
   const handleOnClick = (value) => {
@@ -23,7 +13,7 @@ const HomePageCategories = () => {
         //   pathname: `/product/${value}`,
         // pathname: `/product/${value}`,
 
-        pathname: `/product/${value}`,
+        pathname: `/productcategory/${value}`,
         //   search: "?category=date&order=newest",
         //   search: `?category=${value}`,
       });

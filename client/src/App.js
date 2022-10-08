@@ -28,7 +28,10 @@ const App = () => {
         <Container fluid>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
-            <Route path="/product/:keyword" element={<ProductCategoryPage />} />
+            <Route
+              path="/productcategory/:keyword"
+              element={<ProductCategoryPage />}
+            />
             <Route
               path="/product/:keyword/page/:pageNumber"
               element={<ProductCategoryPage />}

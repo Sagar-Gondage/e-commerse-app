@@ -19,7 +19,7 @@ import {
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
 } from "../constants/order.constants";
-import { instance } from "../utils/defaultURL";
+import { instance } from "../defaultURL";
 
 export const createOrderAPI = (order) => async (dispatch, getState) => {
   try {

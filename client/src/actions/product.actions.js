@@ -25,22 +25,22 @@ import {
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
 } from "../constants/product.constants";
-import { instance } from "../utils/defaultURL";
+import { instance } from "../defaultURL";
 // const instance = axios.create();
 
 export const listProductsAPI =
   (keyword = "", pageNumber = "") =>
   async (dispatch) => {
-    console.log("in d", keyword, pageNumber);
+    // console.log("in d", keyword, pageNumber);
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
       const { data } = await instance.get(
         `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
-      console.log("data", data);
+      // console.log("data", data);
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
-      console.log("in error", error);
+      // console.log("in error", error);
       dispatch({
         type: PRODUCT_LIST_FAIL,
         payload:
@@ -55,16 +55,16 @@ export const listProductsAPI =
 export const getProductByCategoryAPI =
   (keyword = "", pageNumber = 1) =>
   async (dispatch) => {
-    console.log("in Action keyword", keyword, pageNumber);
+    // console.log("in Action keyword", keyword, pageNumber);
     try {
       dispatch({ type: PRODUCT_CATEGORY_LIST_REQUEST });
       const { data } = await instance.get(
         `/api/products/product?productcategory=${keyword}&pageNumber=${pageNumber}`
       );
-      console.log("data", data);
+      // console.log("data", data);
       dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
     } catch (error) {
-      console.log("in error", error);
+      // console.log("in error", error);
       dispatch({
         type: PRODUCT_CATEGORY_LIST_FAIL,
         payload:
@@ -187,7 +187,7 @@ export const updateProductAPI = (product) => async (dispatch, getState) => {
 // review create product
 export const createProductReviewAPI =
   (productId, review) => async (dispatch, getState) => {
-    console.log("review", review);
+    // console.log("review", review);
     try {
       dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
 

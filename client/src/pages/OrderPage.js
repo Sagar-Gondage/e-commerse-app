@@ -17,7 +17,7 @@ import {
   ORDER_DELIVER_RESET,
   ORDER_PAY_RESET,
 } from "../constants/order.constants";
-import { instance } from "../utils/defaultURL";
+import { instance } from "../defaultURL";
 
 const OrderPage = () => {
   const [loadingRazorpay, setLoadingRazorPay] = useState(false);

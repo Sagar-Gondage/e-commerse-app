@@ -75,7 +75,14 @@ h2 {
   }
 }
 
-.product-category {
+.card-image {
+  height: 300px;
+}
+
+.routerlink {
+  color: inherit;
+  text-decoration: inherit;
+  font-size: 1.2rem;
 }
 
 .category-row {
@@ -99,7 +106,14 @@ h2 {
   background-color: aquamarine;
 }
 
-.btn-light {
-  background-color: rgb(173, 168, 168);
+.button {
+  background-color: rgb(197, 224, 181);
   border-radius: 20px;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: black;
+  font-weight: 700;
 }

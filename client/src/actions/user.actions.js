@@ -25,7 +25,7 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
 } from "../constants/user.constants";
-import { instance } from "../utils/defaultURL";
+import { instance } from "../defaultURL";
 
 export const loginAPI = (email, password) => async (dispatch) => {
   try {

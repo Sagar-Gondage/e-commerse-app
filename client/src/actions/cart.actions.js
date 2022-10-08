@@ -5,7 +5,7 @@ import {
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
 } from "../constants/cart.constants";
-import { instance } from "../utils/defaultURL";
+import { instance } from "../defaultURL";
 
 export const addToCartAPI = (id, qty) => async (dispatch, getState) => {
   //   console.log("id", id, typeof qty);
