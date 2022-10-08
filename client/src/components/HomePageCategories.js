@@ -10,31 +10,42 @@ const RoterLink = ({ name, onClick }) => {
   );
 };
 
-let LinkText = ["HOME", "ALL PRODUCTS", "mens", "womens", "CHILDREN"];
+let LinkText = ["All Products", "Mens", "Womens", "Children"];
 
 const HomePageCategories = () => {
   const navigate = useNavigate();
   const handleOnClick = (value) => {
     console.log(value);
-    navigate("/mens");
-    navigate({
-      //   pathname: `/product/${value}`,
-      pathname: `/product/${value}`,
-      //   search: "?category=date&order=newest",
-      //   search: `?category=${value}`,
-    });
+    if (value === "") {
+      navigate("/");
+    } else {
+      navigate({
+        //   pathname: `/product/${value}`,
+        // pathname: `/product/${value}`,
+
+        pathname: `/product/${value}`,
+        //   search: "?category=date&order=newest",
+        //   search: `?category=${value}`,
+      });
+    }
   };
 
   return (
     <Wrapper>
       <ul>
-        {LinkText.map((el, index) => {
-          return (
-            <li key={index}>
-              <RoterLink name={el} onClick={handleOnClick} />
-            </li>
-          );
-        })}
+        <li onClick={() => handleOnClick("")}>Home</li>
+      </ul>
+      <ul>
+        <li onClick={() => handleOnClick("allproducts")}>All Products</li>
+      </ul>
+      <ul>
+        <li onClick={() => handleOnClick("mens")}>Mens</li>
+      </ul>
+      <ul>
+        <li onClick={() => handleOnClick("womens")}>Womens</li>
+      </ul>
+      <ul>
+        <li onClick={() => handleOnClick("children")}>Children</li>
       </ul>
     </Wrapper>
   );
@@ -51,7 +62,7 @@ const Wrapper = styled.div`
 
   ul {
     /* margin: 50px auto 0; */
-    padding: 0;
+    padding: 10px 0;
     list-style: none;
     display: table;
     width: 600px;
@@ -61,8 +72,8 @@ const Wrapper = styled.div`
   li {
     display: table-cell;
     position: relative;
-    border: 1px solid white;
-    /* padding: 15px 0; */
+    /* border: 1px solid white; */
+    padding: 0 0 5px 0;
   }
   a {
     color: black;
@@ -71,22 +82,22 @@ const Wrapper = styled.div`
     letter-spacing: 0.15em;
 
     display: inline-block;
-    padding: 5px 10px;
+    /* padding: 5px 10px; */
     position: relative;
   }
-  a:after {
+  li:after {
     background: none repeat scroll 0 0 transparent;
     bottom: 0;
     content: "";
-    /* display: block; */
-    height: 2px;
+    display: block;
+    height: 3px;
     left: 50%;
     position: absolute;
     background: black;
     transition: width 0.3s ease 0s, left 0.3s ease 0s;
     width: 0;
   }
-  a:hover:after {
+  li:hover:after {
     width: 100%;
     left: 0;
   }

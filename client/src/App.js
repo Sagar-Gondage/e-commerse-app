@@ -18,6 +18,7 @@ import ProductListPage from "./pages/ProductListPage";
 import ProductEditPage from "./pages/ProductEditPage";
 import OrderListPage from "./pages/OrderListPage";
 import AllProductsPage from "./pages/AllProductsPage";
+import ProductCategoryPage from "./pages/ProductCategoryPage";
 
 const App = () => {
   return (
@@ -27,7 +28,11 @@ const App = () => {
         <Container fluid>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
-            <Route path="/product/:keyword" element={<AllProductsPage />} />
+            <Route path="/product/:keyword" element={<ProductCategoryPage />} />
+            <Route
+              path="/product/:keyword/page/:pageNumber"
+              element={<ProductCategoryPage />}
+            />
             {/* <Route
               path="/product?category=mens"
               element={<AllProductsPage />}

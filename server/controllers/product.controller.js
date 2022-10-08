@@ -25,6 +25,30 @@ const getProducts = asyncHandler(async (req, res) => {
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
+// get category products
+// public
+// /api/products/product/productcategory?mens
+// this below login can be done in getall product as well but for simplicity its here
+const getCategoryProducts = asyncHandler(async (req, res) => {
+  const { productcategory } = req.query;
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await Product.countDocuments({
+    category: req.query.productcategory,
+  });
+  if (productcategory === "allproducts") {
+    const products = await Product.find({})
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  }
+  const products = await Product.find({ category: productcategory })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  // const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
+
 // get single proudcts
 // private route
 // /api/products/6326eb46a6a6e4ceca79c4a4
@@ -165,6 +189,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
 
 module.exports = {
   getProducts,
+  getCategoryProducts,
   getProductById,
   deleteProduct,
   createProduct,

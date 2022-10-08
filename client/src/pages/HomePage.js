@@ -15,6 +15,7 @@ import HomePageCategories from "../components/HomePageCategories";
 import { Application, ApplicationDrawer } from "../components/Drawer";
 
 const HomePage = () => {
+  console.log("in homepage");
   const dispatch = useDispatch();
   const { keyword, pageNumber = 1 } = useParams();
 
@@ -22,6 +23,7 @@ const HomePage = () => {
   const { loading, error, products, pages, page } = productList;
 
   useEffect(() => {
+    console.log("in home dispatch");
     dispatch(listProductsAPI(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
 
@@ -30,6 +32,7 @@ const HomePage = () => {
     dispatch(listProductsAPI(value));
   };
 
+  console.log("Home", products);
   return (
     <>
       <Meta />
@@ -54,7 +57,8 @@ const HomePage = () => {
       ) : (
         <>
           <Row>
-            {products.length &&
+            {products &&
+              products.length &&
               products.map((product) => {
                 return (
                   <Col key={product._id} sm={12} md={6} lg={4} xl={3}>

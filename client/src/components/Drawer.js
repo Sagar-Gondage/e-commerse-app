@@ -27,14 +27,26 @@ export const ApplicationDrawer = (props) => {
   return (
     <Wrapper>
       <Drawer {...props}>
-        <Drawer.Toggle onClick={handleToggle} onToggle />
+        <Drawer.Toggle onClick={handleToggle} />
 
         <Collapse in={open}>
           <Drawer.Overflow>
-            <Drawer.ToC className="TOC">
-              {LinkText.map((el) => {
-                return <RoterLink name={el} onClick={handleToggle} />;
-              })}
+            <Drawer.ToC className="TOC" onClick={handleToggle}>
+              <Link to={"/"} className="routerlink">
+                Home
+              </Link>
+              <Link to={"/product/allproducts"} className="routerlink">
+                All Products
+              </Link>
+              <Link to={"/product/mens"} className="routerlink">
+                Mens
+              </Link>
+              <Link to={"/product/womens"} className="routerlink">
+                Womens
+              </Link>
+              <Link to={"/product/children"} className="routerlink">
+                Children
+              </Link>
             </Drawer.ToC>
           </Drawer.Overflow>
         </Collapse>
@@ -87,5 +99,9 @@ const Wrapper = styled.div`
     align-items: center;
     padding: 5px 0;
     margin: 2px;
+  }
+
+  .TOC > *:hover {
+    background-color: #aac4ff;
   }
 `;

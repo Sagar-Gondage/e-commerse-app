@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  PRODUCT_CATEGORY_LIST_FAIL,
+  PRODUCT_CATEGORY_LIST_REQUEST,
+  PRODUCT_CATEGORY_LIST_SUCCESS,
   PRODUCT_CREATE_FAIL,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_REVIEW_FAIL,
@@ -40,6 +43,30 @@ export const listProductsAPI =
       console.log("in error", error);
       dispatch({
         type: PRODUCT_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+// listProductsAPI
+export const getProductByCategoryAPI =
+  (keyword = "", pageNumber = 1) =>
+  async (dispatch) => {
+    console.log("in Action keyword", keyword, pageNumber);
+    try {
+      dispatch({ type: PRODUCT_CATEGORY_LIST_REQUEST });
+      const { data } = await instance.get(
+        `/api/products/product?productcategory=${keyword}&pageNumber=${pageNumber}`
+      );
+      console.log("data", data);
+      dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
+    } catch (error) {
+      console.log("in error", error);
+      dispatch({
+        type: PRODUCT_CATEGORY_LIST_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

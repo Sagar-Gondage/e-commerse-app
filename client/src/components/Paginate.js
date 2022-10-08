@@ -18,7 +18,7 @@ const Paginate = ({
             to={
               !isAdmin
                 ? keyword
-                  ? `/search/${keyword}/page/${page + 1}`
+                  ? `/product/${keyword}/page/${page + 1}`
                   : `/page/${page + 1}`
                 : `/admin/productlist/${page + 1}`
             }
