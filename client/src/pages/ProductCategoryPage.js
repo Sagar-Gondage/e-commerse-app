@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Accordion, Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getProductByCategoryAPI } from "../actions/product.actions";
 import { Application } from "../components/Drawer";
@@ -17,21 +16,24 @@ import Filters from "../components/ProductFilter/Filters";
 const ProductCategoryPage = () => {
   let { keyword, pageNumber } = useParams();
   const dispatch = useDispatch();
-  //   console.log("keyword", keyword);
+  const [currentPage, setCurrentPage] = useState(false);
+  // console.log("keyword", keyword);
   const productCategoryList = useSelector((state) => state.productCategoryList);
   const { loading, error, products, pages, page } = productCategoryList;
 
   useEffect(() => {
     dispatch(getProductByCategoryAPI(keyword, pageNumber));
+    if (keyword === "allproducts") {
+      setCurrentPage(true);
+    } else {
+      setCurrentPage(false);
+    }
   }, [dispatch, keyword, pageNumber]);
 
   //   console.log("ProductCategoryPageData", products);
-
+  console.log("curr", currentPage);
   return (
     <>
-      {/* <Link to="/" className="btn btn-light">
-        Go Back
-      </Link> */}
       <HomePageCategories />
       <Application />
       {loading ? (
@@ -42,7 +44,7 @@ const ProductCategoryPage = () => {
         <>
           <Row>
             <Col sm={12} md={3}>
-              <Filters />
+              <Filters currentPage={currentPage} />
             </Col>
             <Col>
               <Row>

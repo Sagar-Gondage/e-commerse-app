@@ -8,7 +8,7 @@ const {
   createProductReview,
   getTopProducts,
   getCategoryProducts,
-  complecatedProducts,
+  getFilteredProducts,
 } = require("../controllers/product.controller");
 const { protect, isAdmin } = require("../middleware/auth.middleware");
 
@@ -23,6 +23,6 @@ router
   .get(getProductById)
   .delete(protect, isAdmin, deleteProduct)
   .put(protect, isAdmin, updateProduct);
-router.route("/getproducts/api").post(complecatedProducts);
+router.route("/getproducts/api").post(getFilteredProducts);
 
 module.exports = router;

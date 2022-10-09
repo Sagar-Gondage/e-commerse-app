@@ -235,7 +235,7 @@ export const listTopProductsAPI = () => async (dispatch) => {
 
 export const getFilteredProductsAPI = (body) => async (dispatch) => {
   // console.log("in Action keyword", keyword, pageNumber);
-  console.log("body", body);
+  // console.log("body", body);
   const config = {
     headers: {
       Accept: "*/*",
@@ -243,14 +243,14 @@ export const getFilteredProductsAPI = (body) => async (dispatch) => {
     },
   };
   try {
-    const { data } = await axios.post(
-      "http://localhost:8080/api/products/getproducts/api",
+    const { data } = await instance.post(
+      "api/products/getproducts/api",
       body,
       config
     );
     dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
-    console.log("reqMade");
-    console.log(data);
+    // console.log("reqMade");
+    // console.log(data);
   } catch (error) {
     console.log(error);
   }

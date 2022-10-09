@@ -189,7 +189,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
-const complecatedProducts = asyncHandler(async (req, res) => {
+const getFilteredProducts = asyncHandler(async (req, res) => {
   console.log("filteredProducts", req.body);
   const {
     description = "",
@@ -223,5 +223,5 @@ module.exports = {
   updateProduct,
   createProductReview,
   getTopProducts,
-  complecatedProducts,
+  getFilteredProducts,
 };

@@ -5,20 +5,6 @@ import { Drawer } from "react-bootstrap-drawer";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const RoterLink = ({ name, onClick }) => {
-  return (
-    <Link
-      to={name === "ALL PRODUCTS" ? `/allprouducts` : `/${name}`}
-      className="routerlink"
-      onClick={onClick}
-    >
-      {name}
-    </Link>
-  );
-};
-
-let LinkText = ["HOME", "ALL PRODUCTS", "MENS", "WOMENS", "CHILDREN"];
-
 export const ApplicationDrawer = (props) => {
   const [open, setOpen] = useState(false);
 
@@ -35,16 +21,16 @@ export const ApplicationDrawer = (props) => {
               <Link to={"/"} className="routerlink">
                 Home
               </Link>
-              <Link to={"/product/allproducts"} className="routerlink">
+              <Link to="/productcategory/allproducts" className="routerlink">
                 All Products
               </Link>
-              <Link to={"/product/mens"} className="routerlink">
+              <Link to={"/productcategory/mens"} className="routerlink">
                 Mens
               </Link>
-              <Link to={"/product/womens"} className="routerlink">
+              <Link to={"/productcategory/womens"} className="routerlink">
                 Womens
               </Link>
-              <Link to={"/product/children"} className="routerlink">
+              <Link to={"/productcategory/children"} className="routerlink">
                 Children
               </Link>
             </Drawer.ToC>
@@ -70,7 +56,6 @@ export const Application = (props) => {
 
 const Wrapper = styled.div`
   margin-top: 20px;
-  /* background-color: black; */
   color: red;
   @media screen and (min-width: 601px) {
     display: none;

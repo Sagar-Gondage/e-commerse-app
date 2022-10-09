@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { Accordion, Form, InputGroup, Row, Button, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getFilteredProductsAPI } from "../../actions/product.actions";
-import LaptopViewFilters from "./LaptopViewFilters";
-import MobileViewFilters from "./MobileViewFilters";
 
-const Filters = ({ currentPage }) => {
+import styled from "styled-components";
+
+const MobileViewFilters = ({ currentPage }) => {
   const [filterPrice, setFilterPrice] = useState({});
   const [filterGender, setFilterGender] = useState([]);
   const [filterCategory, setFilterCategory] = useState([]);
@@ -14,21 +14,17 @@ const Filters = ({ currentPage }) => {
   const [filterColor, setFilterColor] = useState([]);
   const [priceState, setPriceState] = useState(false);
 
-  // const [allState, setAllState] = useState({
-  //   gender: false,
-  //   size: false,
-  //   category: false,
-  //   color: false,
-  // });
+  const [allState, setAllState] = useState({
+    price: false,
+    gender: false,
+    size: false,
+    category: false,
+    color: false,
+  });
 
-  // const [prevState, setPrevState] = useState("");
+  const [prevState, setPrevState] = useState("");
 
-  // const { gender, size, category, color } = allState;
-
-  const [gender, setGender] = useState(false);
-  const [size, setSize] = useState(false);
-  const [category, setCategory] = useState(false);
-  const [color, setColor] = useState(false);
+  const { price, gender, size, category, color } = allState;
 
   const dispatch = useDispatch();
 
@@ -98,64 +94,66 @@ const Filters = ({ currentPage }) => {
   };
 
   const ToggleChange = (value) => {
-    // setPrevState(value);
-    // setAllState({ ...allState, [value]: true, [prevState]: false });
-    setGender(false);
-    setSize(false);
-    setCategory(false);
-    setColor(false);
-    if (value === "gender") {
-      setGender(true);
-    } else if (value === "size") {
-      setSize(true);
-    } else if (value === "category") {
-      setCategory(true);
-    } else if (value === "color") {
-      setColor(true);
+    setPrevState(value);
+    if (prevState !== value) {
+      setAllState({ ...allState, [value]: true, [prevState]: false });
+    } else {
+      setAllState({
+        price: false,
+        gender: false,
+        size: false,
+        category: false,
+        color: false,
+      });
+      setPrevState("");
     }
   };
-
   return (
-    <>
-      {/* <Row className="mt-3">
+    <Wrapper>
+      <Row className="mt-3">
         <h5>Product Count {products.length}</h5>
-      </Row> */}
-      {/* <Row className="m-1 p-2" style={{ border: "2px solid black" }}>
-        <Col onClick={() => ToggleChange("gender")}>Gender</Col>
+      </Row>
+      <Row className="m-1 p-2">
+        <Col onClick={() => ToggleChange("price")}>Price</Col>
         <Col onClick={() => ToggleChange("size")}>Size</Col>
         <Col onClick={() => ToggleChange("category")}>Category</Col>
+        {currentPage && (
+          <Col onClick={() => ToggleChange("gender")}>Gender</Col>
+        )}
         <Col onClick={() => ToggleChange("color")}>Color</Col>
-      </Row> */}
-      {/* <Row>
-        <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>Price</Accordion.Header>
-            <Accordion.Body>
-              <InputGroup className="mb-3" size="md">
-                <Form.Control
-                  placeholder="Min Price"
-                  name="minprice"
-                  value={filterPrice.minprice}
-                  onChange={(e) => onChangeFilterPriceHandler(e)}
-                />
-              </InputGroup>
-              <InputGroup className="mb-3" size="md">
-                <Form.Control
-                  placeholder="Max Price"
-                  name="maxprice"
-                  value={filterPrice.maxprice}
-                  onChange={(e) => onChangeFilterPriceHandler(e)}
-                />
-              </InputGroup>
-              <Button className="button" onClick={submitPriceFilterHandler}>
-                Apply
-              </Button>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </Row> */}
+      </Row>
+      {price && (
+        <Row>
+          <Accordion defaultActiveKey="1">
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Price</Accordion.Header>
+              <Accordion.Body>
+                <InputGroup className="mb-3" size="md">
+                  <Form.Control
+                    placeholder="Min Price"
+                    name="minprice"
+                    value={filterPrice.minprice}
+                    onChange={(e) => onChangeFilterPriceHandler(e)}
+                  />
+                </InputGroup>
+                <InputGroup className="mb-3" size="md">
+                  <Form.Control
+                    placeholder="Max Price"
+                    name="maxprice"
+                    value={filterPrice.maxprice}
+                    onChange={(e) => onChangeFilterPriceHandler(e)}
+                  />
+                </InputGroup>
+                <Button className="button" onClick={submitPriceFilterHandler}>
+                  Apply
+                </Button>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </Row>
+      )}
 
-      {/* {gender && (
+      {currentPage && gender && (
         <Row>
           <Accordion defaultActiveKey="1">
             <Accordion.Item eventKey="0">
@@ -260,11 +258,15 @@ const Filters = ({ currentPage }) => {
             </Accordion.Item>
           </Accordion>
         </Row>
-      )} */}
-      <MobileViewFilters currentPage={currentPage} />
-      <LaptopViewFilters currentPage={currentPage} />
-    </>
+      )}
+    </Wrapper>
   );
 };
 
-export default Filters;
+export default MobileViewFilters;
+
+const Wrapper = styled.div`
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`;
