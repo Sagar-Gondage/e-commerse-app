@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Accordion, Form, InputGroup, Row, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { getFilteredProductsAPI } from "../../actions/product.actions";
 
 const Filters = () => {
   const [filterPrice, setFilterPrice] = useState({});
@@ -7,6 +10,19 @@ const Filters = () => {
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterSize, setFilterSize] = useState([]);
   const [filterColor, setFilterColor] = useState([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let obj = {};
+    if (filterGender) {
+      obj["category"] = filterGender.join("|");
+    }
+    if (filterSize) {
+      obj["filterSize"] = filterSize.join("|");
+    }
+    dispatch(getFilteredProductsAPI(obj));
+  }, [dispatch, filterGender, filterSize]);
 
   const onChangeFilterPriceHandler = (e) => {
     const { name, value } = e.target;

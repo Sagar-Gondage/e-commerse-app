@@ -134,6 +134,7 @@ const productSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    size: [{ type: String, required: true }],
     reviews: [reviewsSchema],
 
     rating: {

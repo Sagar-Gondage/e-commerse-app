@@ -36,17 +36,19 @@ const getCategoryProducts = asyncHandler(async (req, res) => {
   const count = await Product.countDocuments({
     category: req.query.productcategory,
   });
+  console.log(productcategory);
   if (productcategory === "allproducts") {
     const products = await Product.find({})
       .limit(pageSize)
       .skip(pageSize * (page - 1));
     res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  } else {
+    const products = await Product.find({ category: productcategory })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+    // const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
   }
-  const products = await Product.find({ category: productcategory })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
-  // const products = await Product.find({}).sort({ rating: -1 }).limit(3);
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // get single proudcts
@@ -187,6 +189,24 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
+const complecatedProducts = asyncHandler(async (req, res) => {
+  console.log("filteredProducts", req.body);
+  const {
+    description = "",
+    category = "",
+    lowPrice = 0,
+    highPrice = 1000,
+  } = req.body;
+  // db.users.find({ full_name: { "$regex": "y|d" },gender: "Male" })
+  console.log(description, category);
+  const products = await Product.find({
+    description: { $regex: description },
+    category: { $regex: category },
+    price: { $gt: lowPrice, $lt: highPrice },
+  });
+  res.json({ count: products.length, products: products });
+});
+
 module.exports = {
   getProducts,
   getCategoryProducts,
@@ -196,4 +216,5 @@ module.exports = {
   updateProduct,
   createProductReview,
   getTopProducts,
+  complecatedProducts,
 };
