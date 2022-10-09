@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { Accordion, Form, InputGroup, Row, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getFilteredProductsAPI } from "../../actions/product.actions";
 
 const Filters = () => {
@@ -10,19 +10,28 @@ const Filters = () => {
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterSize, setFilterSize] = useState([]);
   const [filterColor, setFilterColor] = useState([]);
+  const [priceState, setPriceState] = useState(false);
 
   const dispatch = useDispatch();
+
+  const productCategoryList = useSelector((state) => state.productCategoryList);
+
+  const { products } = productCategoryList;
 
   useEffect(() => {
     let obj = {};
     if (filterGender) {
-      obj["category"] = filterGender.join("|");
+      obj["gender"] = filterGender.join("|");
     }
     if (filterSize) {
-      obj["filterSize"] = filterSize.join("|");
+      obj["size"] = filterSize.join("|");
+    }
+    if (filterPrice) {
+      obj["lowPrice"] = filterPrice.minprice;
+      obj["highPrice"] = filterPrice.maxprice;
     }
     dispatch(getFilteredProductsAPI(obj));
-  }, [dispatch, filterGender, filterSize]);
+  }, [dispatch, filterGender, filterSize, priceState]);
 
   const onChangeFilterPriceHandler = (e) => {
     const { name, value } = e.target;
@@ -61,17 +70,20 @@ const Filters = () => {
       setFilterColor(filterColor.filter((e) => e !== value));
     }
   };
-  console.log(filterGender, filterCategory, filterSize, filterColor);
+  // console.log(filterGender, filterCategory, filterSize, filterColor);
   const submitPriceFilterHandler = () => {
     if (Number(filterPrice.minprice) >= Number(filterPrice.maxprice)) {
       alert("small price");
     } else {
-      console.log(filterPrice);
+      setPriceState(!priceState);
     }
   };
 
   return (
     <>
+      <Row className="mt-3">
+        <h5>Product Count {products.length}</h5>
+      </Row>
       <Row>
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="0">
@@ -106,7 +118,7 @@ const Filters = () => {
             <Accordion.Header>Gender</Accordion.Header>
             <Accordion.Body>
               <Form>
-                {["Male", "Female"].map((value) => (
+                {["Mens", "Womens"].map((value) => (
                   <div key={value} className="mb-3">
                     <Form.Check type="checkbox">
                       <Form.Check.Input
@@ -130,7 +142,7 @@ const Filters = () => {
             <Accordion.Header>Size</Accordion.Header>
             <Accordion.Body>
               <Form>
-                {["Small", "medium", "lagre"].map((value) => (
+                {["Small", "Medium", "Large"].map((value) => (
                   <div key={value} className="mb-3">
                     <Form.Check type="checkbox">
                       <Form.Check.Input

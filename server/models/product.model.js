@@ -124,7 +124,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {
+    gender: {
       type: String,
       required: true,
       default: false,

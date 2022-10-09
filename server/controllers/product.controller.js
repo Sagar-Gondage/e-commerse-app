@@ -193,18 +193,25 @@ const complecatedProducts = asyncHandler(async (req, res) => {
   console.log("filteredProducts", req.body);
   const {
     description = "",
-    category = "",
+    gender = "",
     lowPrice = 0,
     highPrice = 1000,
+    size = "",
   } = req.body;
-  // db.users.find({ full_name: { "$regex": "y|d" },gender: "Male" })
-  console.log(description, category);
-  const products = await Product.find({
-    description: { $regex: description },
-    category: { $regex: category },
-    price: { $gt: lowPrice, $lt: highPrice },
-  });
-  res.json({ count: products.length, products: products });
+
+  try {
+    console.log(description, gender);
+    const products = await Product.find({
+      description: { $regex: description },
+      gender: { $regex: gender },
+      price: { $gt: lowPrice, $lt: highPrice },
+      size: { $regex: size },
+    });
+    // console.log("products", products);
+    res.json({ products: products });
+  } catch (error) {
+    res.json({ message: error });
+  }
 });
 
 module.exports = {

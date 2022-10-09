@@ -23,6 +23,6 @@ router
   .get(getProductById)
   .delete(protect, isAdmin, deleteProduct)
   .put(protect, isAdmin, updateProduct);
-router.route("/getproducts/api").get(complecatedProducts);
+router.route("/getproducts/api").post(complecatedProducts);
 
 module.exports = router;
