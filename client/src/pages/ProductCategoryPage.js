@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,26 +11,18 @@ import Product from "../components/Product";
 
 const ProductCategoryPage = () => {
   let { keyword: gender, pageNumber = 1 } = useParams();
-  const [filteredState, setFilteredState] = useState({});
   const dispatch = useDispatch();
-  console.log("gender", gender);
-  const productCategoryList = useSelector((state) => state.productCategoryList);
 
   const productFilteredList = useSelector((state) => state.productFilteredList);
   const { loading, error, products, pages, page } = productFilteredList;
-
-  console.log("filteredProducts", products);
 
   useEffect(() => {
     console.log(gender, pageNumber);
     dispatch(getFilteredProductsAPI({ gender, pageNumber }));
   }, [dispatch, gender, pageNumber]);
-  console.log("filteredState", filteredState);
 
   return (
     <>
-      {/* <HomePageCategories /> */}
-      {/* <Application /> */}
       {loading ? (
         <Loader />
       ) : error ? (

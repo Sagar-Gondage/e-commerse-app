@@ -17,8 +17,6 @@ import UserEditPage from "./pages/userEditPage";
 import ProductListPage from "./pages/ProductListPage";
 import ProductEditPage from "./pages/ProductEditPage";
 import OrderListPage from "./pages/OrderListPage";
-import AllProductsPage from "./pages/AllProductsPage";
-import ProductCategoryPage from "./pages/ProductCategoryPage";
 import GenderPage from "./pages/GenderPage";
 
 const App = () => {

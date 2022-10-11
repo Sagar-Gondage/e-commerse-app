@@ -17,7 +17,6 @@ const HomePageCategories = () => {
     }
   }, [currentPage]);
   const handleOnClick = (value) => {
-    // console.log(value);
     if (value === "") {
       navigate("/");
     } else {

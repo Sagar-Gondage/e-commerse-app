@@ -86,7 +86,6 @@ const LaptopViewFilters = ({ setFilteredState }) => {
       setFilterColor(filterColor.filter((e) => e !== value));
     }
   };
-  // console.log(filterGender, filterCategory, filterSize, filterColor);
   const submitPriceFilterHandler = () => {
     if (Number(filterPrice.minprice) >= Number(filterPrice.maxprice)) {
       alert("small price");

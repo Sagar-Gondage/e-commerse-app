@@ -16,7 +16,7 @@ const MobileViewFilters = () => {
   const [priceState, setPriceState] = useState(false);
 
   const { keyword: currentPage } = useParams();
-  console.log("current page", currentPage);
+  // console.log("current page", currentPage);
 
   const [allState, setAllState] = useState({
     price: false,
