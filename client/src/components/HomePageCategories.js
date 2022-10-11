@@ -1,9 +1,21 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const HomePageCategories = () => {
   const navigate = useNavigate();
+  const { keywords } = useParams();
+  const [currentPage, setCurrentPage] = useState(false);
+  console.log(useParams());
+
+  useEffect(() => {
+    if (currentPage === "allproducts") {
+      setCurrentPage(true);
+    }
+  }, [currentPage]);
   const handleOnClick = (value) => {
     // console.log(value);
     if (value === "") {

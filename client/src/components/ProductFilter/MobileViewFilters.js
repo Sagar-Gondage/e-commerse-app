@@ -121,7 +121,7 @@ const MobileViewFilters = () => {
         <Col onClick={() => ToggleChange("price")}>Price</Col>
         <Col onClick={() => ToggleChange("size")}>Size</Col>
         <Col onClick={() => ToggleChange("category")}>Category</Col>
-        {currentPage !== "allproducts" && (
+        {currentPage === "allproducts" && (
           <Col onClick={() => ToggleChange("gender")}>Gender</Col>
         )}
         <Col onClick={() => ToggleChange("color")}>Color</Col>
@@ -157,7 +157,7 @@ const MobileViewFilters = () => {
         </Row>
       )}
 
-      {currentPage == "allproducts" && (
+      {gender && (
         <Row>
           <Accordion defaultActiveKey="1">
             <Accordion.Item eventKey="0">
