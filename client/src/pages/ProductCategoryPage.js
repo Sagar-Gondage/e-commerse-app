@@ -18,48 +18,24 @@ import Filters from "../components/ProductFilter/Filters";
 
 const ProductCategoryPage = () => {
   let { keyword: gender, pageNumber = 1 } = useParams();
+  const [filteredState, setFilteredState] = useState({});
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(false);
   console.log("gender", gender);
   const productCategoryList = useSelector((state) => state.productCategoryList);
-  const {
-    loading: loadingCategory,
-    error: errorCategory,
-    products: productsCategory,
-    pages: pagesCategory,
-    page: pageCategory,
-  } = productCategoryList;
 
   const productFilteredList = useSelector((state) => state.productFilteredList);
-  const {
-    loading: loadingFilter,
-    error: errorFilter,
-    products,
-    pages: pagesFilter,
-    page: pageFilter,
-  } = productFilteredList;
+  const { loading, error, products, pages, page } = productFilteredList;
 
-  let loading = loadingCategory || loadingFilter;
-  let error = errorCategory || errorFilter;
-  // let products = productsCategory || productsFilter;
-  let pages = pagesCategory || pagesFilter;
-  let page = pageCategory || pageFilter;
-
-  console.log("cagegoryProducts", productsCategory);
   console.log("filteredProducts", products);
 
   useEffect(() => {
     console.log(gender, pageNumber);
-    // dispatch(getFilteredProductsAPI({ gender, pageNumber }));
-    if (gender === "allproducts") {
-      setCurrentPage(true);
-    } else {
-      setCurrentPage(false);
-    }
+    dispatch(getFilteredProductsAPI({ gender, pageNumber }));
   }, [dispatch, gender, pageNumber]);
-
+  console.log("filteredState", filteredState);
   //   console.log("ProductCategoryPageData", products);
   // console.log("curr", currentPage);
+
   return (
     <>
       <HomePageCategories />
@@ -72,7 +48,7 @@ const ProductCategoryPage = () => {
         <>
           <Row>
             <Col sm={12} md={3}>
-              <Filters currentPage={currentPage} />
+              {/* <Filters setFilteredState={setFilteredState} /> */}
             </Col>
             <Col>
               <Row>

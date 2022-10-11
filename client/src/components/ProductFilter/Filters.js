@@ -6,7 +6,7 @@ import { getFilteredProductsAPI } from "../../actions/product.actions";
 import LaptopViewFilters from "./LaptopViewFilters";
 import MobileViewFilters from "./MobileViewFilters";
 
-const Filters = ({ currentPage }) => {
+const Filters = ({ setFilteredState }) => {
   const [filterPrice, setFilterPrice] = useState({});
   const [filterGender, setFilterGender] = useState([]);
   const [filterCategory, setFilterCategory] = useState([]);
@@ -36,85 +36,84 @@ const Filters = ({ currentPage }) => {
 
   const { products } = productCategoryList;
 
-  useEffect(() => {
-    let obj = {};
-    if (filterGender) {
-      obj["gender"] = filterGender.join("|");
-    }
-    if (filterSize) {
-      obj["size"] = filterSize.join("|");
-    }
-    if (filterPrice) {
-      obj["lowPrice"] = filterPrice.minprice;
-      obj["highPrice"] = filterPrice.maxprice;
-    }
-    // console.log("obj in filter", obj);
-    // dispatch(getFilteredProductsAPI(obj));
-  }, [dispatch, filterGender, filterSize, priceState]);
+  // useEffect(() => {
+  //   let obj = {};
+  //   if (filterGender) {
+  //     obj["gender"] = filterGender.join("|");
+  //   }
+  //   if (filterSize) {
+  //     obj["size"] = filterSize.join("|");
+  //   }
+  //   if (filterPrice) {
+  //     obj["lowPrice"] = filterPrice.minprice;
+  //     obj["highPrice"] = filterPrice.maxprice;
+  //   }
+  //   setFilteredState(obj);
+  // }, [dispatch, filterGender, filterSize, priceState]);
 
-  const onChangeFilterPriceHandler = (e) => {
-    const { name, value } = e.target;
-    setFilterPrice({ ...filterPrice, [name]: value });
-  };
+  // const onChangeFilterPriceHandler = (e) => {
+  //   const { name, value } = e.target;
+  //   setFilterPrice({ ...filterPrice, [name]: value });
+  // };
 
-  const onChangeFilterGenderHandler = (e) => {
-    const { checked, value } = e.target;
-    if (checked) {
-      setFilterGender([...filterGender, value]);
-    } else {
-      setFilterGender(filterGender.filter((e) => e !== value));
-    }
-  };
-  const onChangeFilterCategoryHandler = (e) => {
-    const { checked, value } = e.target;
-    if (checked) {
-      setFilterCategory([...filterCategory, value]);
-    } else {
-      setFilterCategory(filterCategory.filter((e) => e !== value));
-    }
-  };
-  const onChangeFilterSizeHandler = (e) => {
-    const { checked, value } = e.target;
-    if (checked) {
-      setFilterSize([...filterSize, value]);
-    } else {
-      setFilterSize(filterSize.filter((e) => e !== value));
-    }
-  };
-  const onChangeFilterColorHandler = (e) => {
-    const { checked, value } = e.target;
-    if (checked) {
-      setFilterColor([...filterColor, value]);
-    } else {
-      setFilterColor(filterColor.filter((e) => e !== value));
-    }
-  };
-  // console.log(filterGender, filterCategory, filterSize, filterColor);
-  const submitPriceFilterHandler = () => {
-    if (Number(filterPrice.minprice) >= Number(filterPrice.maxprice)) {
-      alert("small price");
-    } else {
-      setPriceState(!priceState);
-    }
-  };
+  // const onChangeFilterGenderHandler = (e) => {
+  //   const { checked, value } = e.target;
+  //   if (checked) {
+  //     setFilterGender([...filterGender, value]);
+  //   } else {
+  //     setFilterGender(filterGender.filter((e) => e !== value));
+  //   }
+  // };
+  // const onChangeFilterCategoryHandler = (e) => {
+  //   const { checked, value } = e.target;
+  //   if (checked) {
+  //     setFilterCategory([...filterCategory, value]);
+  //   } else {
+  //     setFilterCategory(filterCategory.filter((e) => e !== value));
+  //   }
+  // };
+  // const onChangeFilterSizeHandler = (e) => {
+  //   const { checked, value } = e.target;
+  //   if (checked) {
+  //     setFilterSize([...filterSize, value]);
+  //   } else {
+  //     setFilterSize(filterSize.filter((e) => e !== value));
+  //   }
+  // };
+  // const onChangeFilterColorHandler = (e) => {
+  //   const { checked, value } = e.target;
+  //   if (checked) {
+  //     setFilterColor([...filterColor, value]);
+  //   } else {
+  //     setFilterColor(filterColor.filter((e) => e !== value));
+  //   }
+  // };
+  // // console.log(filterGender, filterCategory, filterSize, filterColor);
+  // const submitPriceFilterHandler = () => {
+  //   if (Number(filterPrice.minprice) >= Number(filterPrice.maxprice)) {
+  //     alert("small price");
+  //   } else {
+  //     setPriceState(!priceState);
+  //   }
+  // };
 
-  const ToggleChange = (value) => {
-    // setPrevState(value);
-    // setAllState({ ...allState, [value]: true, [prevState]: false });
-    setGender(false);
-    setSize(false);
-    setCategory(false);
-    setColor(false);
-    if (value === "gender") {
-      setGender(true);
-    } else if (value === "size") {
-      setSize(true);
-    } else if (value === "category") {
-      setCategory(true);
-    } else if (value === "color") {
-      setColor(true);
-    }
-  };
+  // const ToggleChange = (value) => {
+  //   // setPrevState(value);
+  //   // setAllState({ ...allState, [value]: true, [prevState]: false });
+  //   setGender(false);
+  //   setSize(false);
+  //   setCategory(false);
+  //   setColor(false);
+  //   if (value === "gender") {
+  //     setGender(true);
+  //   } else if (value === "size") {
+  //     setSize(true);
+  //   } else if (value === "category") {
+  //     setCategory(true);
+  //   } else if (value === "color") {
+  //     setColor(true);
+  //   }
+  // };
 
   return (
     <>
@@ -262,8 +261,8 @@ const Filters = ({ currentPage }) => {
           </Accordion>
         </Row>
       )} */}
-      <MobileViewFilters currentPage={currentPage} />
-      <LaptopViewFilters currentPage={currentPage} />
+      <MobileViewFilters />
+      <LaptopViewFilters />
     </>
   );
 };

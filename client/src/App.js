@@ -19,6 +19,7 @@ import ProductEditPage from "./pages/ProductEditPage";
 import OrderListPage from "./pages/OrderListPage";
 import AllProductsPage from "./pages/AllProductsPage";
 import ProductCategoryPage from "./pages/ProductCategoryPage";
+import GenderPage from "./pages/GenderPage";
 
 const App = () => {
   return (
@@ -28,18 +29,19 @@ const App = () => {
         <Container fluid>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
-            <Route
+            {/* <Route
               path="/productcategory/:keyword"
               element={<ProductCategoryPage />}
-            />
-            <Route
+            /> */}
+            <Route path="/productcategory/:keyword" element={<GenderPage />} />
+            {/* <Route
               path="/productcategory/:keyword/page/pageNumber"
               element={<ProductCategoryPage />}
             />
             <Route
               path="/product/:keyword/page/:pageNumber"
               element={<ProductCategoryPage />}
-            />
+            /> */}
             {/* <Route
               path="/product?category=mens"
               element={<AllProductsPage />}

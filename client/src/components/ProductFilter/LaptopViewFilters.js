@@ -4,14 +4,17 @@ import { Accordion, Form, InputGroup, Row, Button, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getFilteredProductsAPI } from "../../actions/product.actions";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
-const LaptopViewFilters = ({ currentPage }) => {
+const LaptopViewFilters = ({ setFilteredState }) => {
   const [filterPrice, setFilterPrice] = useState({});
   const [filterGender, setFilterGender] = useState([]);
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterSize, setFilterSize] = useState([]);
   const [filterColor, setFilterColor] = useState([]);
   const [priceState, setPriceState] = useState(false);
+
+  const { keyword: currentPage } = useParams();
 
   // const [allState, setAllState] = useState({
   //   gender: false,
@@ -31,6 +34,7 @@ const LaptopViewFilters = ({ currentPage }) => {
   const { products } = productCategoryList;
 
   useEffect(() => {
+    console.log("Hi");
     let obj = {};
     if (filterGender) {
       obj["gender"] = filterGender.join("|");
@@ -42,8 +46,8 @@ const LaptopViewFilters = ({ currentPage }) => {
       obj["lowPrice"] = filterPrice.minprice;
       obj["highPrice"] = filterPrice.maxprice;
     }
-    // dispatch(getFilteredProductsAPI(obj));
-  }, [dispatch, filterGender, filterSize, priceState]);
+    dispatch(getFilteredProductsAPI(obj));
+  }, [dispatch, filterGender, filterSize, priceState, setFilteredState]);
 
   const onChangeFilterPriceHandler = (e) => {
     const { name, value } = e.target;
@@ -97,61 +101,61 @@ const LaptopViewFilters = ({ currentPage }) => {
         <h5>Product Count {products.length}</h5>
       </Row>
 
-      {currentPage && (
+      <Row>
+        <Accordion defaultActiveKey="1">
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Price</Accordion.Header>
+            <Accordion.Body>
+              <InputGroup className="mb-3" size="md">
+                <Form.Control
+                  placeholder="Min Price"
+                  name="minprice"
+                  value={filterPrice.minprice}
+                  onChange={(e) => onChangeFilterPriceHandler(e)}
+                />
+              </InputGroup>
+              <InputGroup className="mb-3" size="md">
+                <Form.Control
+                  placeholder="Max Price"
+                  name="maxprice"
+                  value={filterPrice.maxprice}
+                  onChange={(e) => onChangeFilterPriceHandler(e)}
+                />
+              </InputGroup>
+              <Button className="button" onClick={submitPriceFilterHandler}>
+                Apply
+              </Button>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+      </Row>
+
+      {currentPage === "allproducts" && (
         <Row>
           <Accordion defaultActiveKey="1">
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Price</Accordion.Header>
+              <Accordion.Header>Gender</Accordion.Header>
               <Accordion.Body>
-                <InputGroup className="mb-3" size="md">
-                  <Form.Control
-                    placeholder="Min Price"
-                    name="minprice"
-                    value={filterPrice.minprice}
-                    onChange={(e) => onChangeFilterPriceHandler(e)}
-                  />
-                </InputGroup>
-                <InputGroup className="mb-3" size="md">
-                  <Form.Control
-                    placeholder="Max Price"
-                    name="maxprice"
-                    value={filterPrice.maxprice}
-                    onChange={(e) => onChangeFilterPriceHandler(e)}
-                  />
-                </InputGroup>
-                <Button className="button" onClick={submitPriceFilterHandler}>
-                  Apply
-                </Button>
+                <Form>
+                  {["Mens", "Womens"].map((value) => (
+                    <div key={value} className="mb-3">
+                      <Form.Check type="checkbox">
+                        <Form.Check.Input
+                          type="checkbox"
+                          isValid
+                          value={value}
+                          onChange={(e) => onChangeFilterGenderHandler(e)}
+                        />
+                        <Form.Check.Label>{value}</Form.Check.Label>
+                      </Form.Check>
+                    </div>
+                  ))}
+                </Form>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
         </Row>
       )}
-
-      <Row>
-        <Accordion defaultActiveKey="1">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>Gender</Accordion.Header>
-            <Accordion.Body>
-              <Form>
-                {["Mens", "Womens"].map((value) => (
-                  <div key={value} className="mb-3">
-                    <Form.Check type="checkbox">
-                      <Form.Check.Input
-                        type="checkbox"
-                        isValid
-                        value={value}
-                        onChange={(e) => onChangeFilterGenderHandler(e)}
-                      />
-                      <Form.Check.Label>{value}</Form.Check.Label>
-                    </Form.Check>
-                  </div>
-                ))}
-              </Form>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </Row>
 
       <Row>
         <Accordion defaultActiveKey="1">

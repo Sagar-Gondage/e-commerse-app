@@ -5,14 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFilteredProductsAPI } from "../../actions/product.actions";
 
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
-const MobileViewFilters = ({ currentPage }) => {
+const MobileViewFilters = () => {
   const [filterPrice, setFilterPrice] = useState({});
   const [filterGender, setFilterGender] = useState([]);
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterSize, setFilterSize] = useState([]);
   const [filterColor, setFilterColor] = useState([]);
   const [priceState, setPriceState] = useState(false);
+
+  const { keyword: currentPage } = useParams();
 
   const [allState, setAllState] = useState({
     price: false,
@@ -117,7 +120,7 @@ const MobileViewFilters = ({ currentPage }) => {
         <Col onClick={() => ToggleChange("price")}>Price</Col>
         <Col onClick={() => ToggleChange("size")}>Size</Col>
         <Col onClick={() => ToggleChange("category")}>Category</Col>
-        {currentPage && (
+        {currentPage !== "allproducts" && (
           <Col onClick={() => ToggleChange("gender")}>Gender</Col>
         )}
         <Col onClick={() => ToggleChange("color")}>Color</Col>

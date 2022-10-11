@@ -5,7 +5,7 @@ import styled from "styled-components";
 const HomePageCategories = () => {
   const navigate = useNavigate();
   const handleOnClick = (value) => {
-    console.log(value);
+    // console.log(value);
     if (value === "") {
       navigate("/");
     } else {
