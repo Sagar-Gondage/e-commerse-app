@@ -48,7 +48,8 @@ const Filters = ({ currentPage }) => {
       obj["lowPrice"] = filterPrice.minprice;
       obj["highPrice"] = filterPrice.maxprice;
     }
-    dispatch(getFilteredProductsAPI(obj));
+    // console.log("obj in filter", obj);
+    // dispatch(getFilteredProductsAPI(obj));
   }, [dispatch, filterGender, filterSize, priceState]);
 
   const onChangeFilterPriceHandler = (e) => {

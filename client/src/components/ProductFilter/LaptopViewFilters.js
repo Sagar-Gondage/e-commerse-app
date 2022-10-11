@@ -42,7 +42,7 @@ const LaptopViewFilters = ({ currentPage }) => {
       obj["lowPrice"] = filterPrice.minprice;
       obj["highPrice"] = filterPrice.maxprice;
     }
-    dispatch(getFilteredProductsAPI(obj));
+    // dispatch(getFilteredProductsAPI(obj));
   }, [dispatch, filterGender, filterSize, priceState]);
 
   const onChangeFilterPriceHandler = (e) => {

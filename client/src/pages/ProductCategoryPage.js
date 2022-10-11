@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProductByCategoryAPI } from "../actions/product.actions";
+import {
+  getFilteredProductsAPI,
+  getProductByCategoryAPI,
+} from "../actions/product.actions";
 import { Application } from "../components/Drawer";
 import HomePageCategories from "../components/HomePageCategories";
 import Loader from "../components/Loader";
@@ -14,24 +17,49 @@ import Product from "../components/Product";
 import Filters from "../components/ProductFilter/Filters";
 
 const ProductCategoryPage = () => {
-  let { keyword, pageNumber } = useParams();
+  let { keyword: gender, pageNumber = 1 } = useParams();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(false);
-  // console.log("keyword", keyword);
+  console.log("gender", gender);
   const productCategoryList = useSelector((state) => state.productCategoryList);
-  const { loading, error, products, pages, page } = productCategoryList;
+  const {
+    loading: loadingCategory,
+    error: errorCategory,
+    products: productsCategory,
+    pages: pagesCategory,
+    page: pageCategory,
+  } = productCategoryList;
+
+  const productFilteredList = useSelector((state) => state.productFilteredList);
+  const {
+    loading: loadingFilter,
+    error: errorFilter,
+    products,
+    pages: pagesFilter,
+    page: pageFilter,
+  } = productFilteredList;
+
+  let loading = loadingCategory || loadingFilter;
+  let error = errorCategory || errorFilter;
+  // let products = productsCategory || productsFilter;
+  let pages = pagesCategory || pagesFilter;
+  let page = pageCategory || pageFilter;
+
+  console.log("cagegoryProducts", productsCategory);
+  console.log("filteredProducts", products);
 
   useEffect(() => {
-    dispatch(getProductByCategoryAPI(keyword, pageNumber));
-    if (keyword === "allproducts") {
+    console.log(gender, pageNumber);
+    // dispatch(getFilteredProductsAPI({ gender, pageNumber }));
+    if (gender === "allproducts") {
       setCurrentPage(true);
     } else {
       setCurrentPage(false);
     }
-  }, [dispatch, keyword, pageNumber]);
+  }, [dispatch, gender, pageNumber]);
 
   //   console.log("ProductCategoryPageData", products);
-  console.log("curr", currentPage);
+  // console.log("curr", currentPage);
   return (
     <>
       <HomePageCategories />
@@ -60,11 +88,7 @@ const ProductCategoryPage = () => {
               </Row>
             </Col>
           </Row>
-          <Paginate
-            pages={pages}
-            page={page}
-            keyword={keyword ? keyword : ""}
-          />
+          <Paginate pages={pages} page={page} keyword={gender ? gender : ""} />
         </>
       )}
     </>

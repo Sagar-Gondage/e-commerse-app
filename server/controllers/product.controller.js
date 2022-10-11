@@ -6,6 +6,8 @@ const img =
 // public
 // /api/products
 const getProducts = asyncHandler(async (req, res) => {
+  console.log("in getProducts");
+
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
 
@@ -30,6 +32,8 @@ const getProducts = asyncHandler(async (req, res) => {
 // /api/products/product/productcategory?mens
 // this below login can be done in getall product as well but for simplicity its here
 const getCategoryProducts = asyncHandler(async (req, res) => {
+  console.log("in getCategoryProducts");
+
   const { productcategory } = req.query;
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
@@ -51,10 +55,47 @@ const getCategoryProducts = asyncHandler(async (req, res) => {
   }
 });
 
+const getFilteredProducts = asyncHandler(async (req, res) => {
+  console.log("in get filteredProducts");
+  console.log("filteredProducts", req.body.gender);
+  if (req.body.gender === "Mens" || req.body.gender === "mens") {
+    req.body.gender = "Male";
+  }
+  if (req.body.gender === "Womens" || req.body.gender === "womens") {
+    req.body.gender = "Womens";
+  }
+  if (req.body.gender === "allproducts") {
+    req.body.gender = "";
+  }
+  const {
+    description = "",
+    gender = "",
+    lowPrice = 0,
+    highPrice = 1000,
+    size = "",
+  } = req.body;
+
+  try {
+    console.log(description, gender);
+    const products = await Product.find({
+      description: { $regex: description },
+      gender: { $regex: gender },
+      price: { $gt: lowPrice, $lt: highPrice },
+      size: { $regex: size },
+    });
+    console.log("products", products.length);
+    res.json({ products: products });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+
 // get single proudcts
 // private route
 // /api/products/6326eb46a6a6e4ceca79c4a4
 const getProductById = asyncHandler(async (req, res) => {
+  console.log("in getProductById");
+
   const { id } = req.params;
   // console.log(id);
   const product = await Product.findById(id);
@@ -75,6 +116,8 @@ const getProductById = asyncHandler(async (req, res) => {
 // private route and only acceessible by admin
 // /api/products/:id
 const deleteProduct = asyncHandler(async (req, res) => {
+  console.log("in deleteProduct");
+
   const { id } = req.params;
   // console.log(id);
   const product = await Product.findById(id);
@@ -96,6 +139,8 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // private route and only acceessible by admin
 // /api/products/create
 const createProduct = asyncHandler(async (req, res) => {
+  console.log("in createProduct");
+
   const product = new Product({
     name: "sample name",
     price: 0,
@@ -116,6 +161,8 @@ const createProduct = asyncHandler(async (req, res) => {
 // private route and only acceessible by admin
 // /api/products/:id
 const updateProduct = asyncHandler(async (req, res) => {
+  console.log("in updateProduct");
+
   const { name, price, description, image, brand, category, countInStock } =
     req.body;
 
@@ -142,6 +189,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 // private && admin and user can access
 // /api/products/:id/reviews
 const createProductReview = asyncHandler(async (req, res) => {
+  console.log("in createProductReview");
   const { rating, comment } = req.body;
 
   const product = await Product.findById(req.params.id);
@@ -187,31 +235,6 @@ const createProductReview = asyncHandler(async (req, res) => {
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
   res.json(products);
-});
-
-const getFilteredProducts = asyncHandler(async (req, res) => {
-  console.log("filteredProducts", req.body);
-  const {
-    description = "",
-    gender = "",
-    lowPrice = 0,
-    highPrice = 1000,
-    size = "",
-  } = req.body;
-
-  try {
-    console.log(description, gender);
-    const products = await Product.find({
-      description: { $regex: description },
-      gender: { $regex: gender },
-      price: { $gt: lowPrice, $lt: highPrice },
-      size: { $regex: size },
-    });
-    // console.log("products", products);
-    res.json({ products: products });
-  } catch (error) {
-    res.json({ message: error });
-  }
 });
 
 module.exports = {

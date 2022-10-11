@@ -35,7 +35,6 @@ const HomePage = () => {
         <>
           <ProductCarousel />
           <HomePageCategories />
-          {/* <ApplicationDrawer /> */}
           <Application />
         </>
       ) : (

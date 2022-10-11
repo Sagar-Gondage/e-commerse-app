@@ -15,6 +15,9 @@ import {
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
+  PRODUCT_FILTERED_LIST_FAIL,
+  PRODUCT_FILTERED_LIST_REQUEST,
+  PRODUCT_FILTERED_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -233,25 +236,52 @@ export const listTopProductsAPI = () => async (dispatch) => {
   }
 };
 
-export const getFilteredProductsAPI = (body) => async (dispatch) => {
-  // console.log("in Action keyword", keyword, pageNumber);
-  // console.log("body", body);
-  const config = {
-    headers: {
-      Accept: "*/*",
-      "Content-Type": "application/json",
-    },
+export const getFilteredProductsAPI =
+  (body = {}) =>
+  async (dispatch) => {
+    // const config = {
+    //   headers: {
+    //     Accept: "*/*",
+    //     "Content-Type": "application/json",
+    //   },
+    // };
+    // try {
+    //   const { data } = await instance.post(
+    //     "api/products/getproducts/api",
+    //     body,
+    //     config
+    //   );
+    //   dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
+    //   // console.log("reqMade");
+    //   // console.log(data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    console.log("bodyin filteredProudcts api", body);
+    try {
+      dispatch({ type: PRODUCT_FILTERED_LIST_REQUEST });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await instance.post(
+        "/api/products/getproducts/api",
+        body,
+        config
+      );
+
+      dispatch({ type: PRODUCT_FILTERED_LIST_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_FILTERED_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
   };
-  try {
-    const { data } = await instance.post(
-      "api/products/getproducts/api",
-      body,
-      config
-    );
-    dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
-    // console.log("reqMade");
-    // console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
-};

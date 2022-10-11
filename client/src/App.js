@@ -33,6 +33,10 @@ const App = () => {
               element={<ProductCategoryPage />}
             />
             <Route
+              path="/productcategory/:keyword/page/pageNumber"
+              element={<ProductCategoryPage />}
+            />
+            <Route
               path="/product/:keyword/page/:pageNumber"
               element={<ProductCategoryPage />}
             />
