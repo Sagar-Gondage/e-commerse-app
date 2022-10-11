@@ -101,7 +101,7 @@ const LaptopViewFilters = ({ setFilteredState }) => {
         <h5>Product Count {products.length}</h5>
       </Row>
 
-      <Row>
+      <Row md={1}>
         <Accordion defaultActiveKey="1">
           <Accordion.Item eventKey="0">
             <Accordion.Header>Price</Accordion.Header>

@@ -4,17 +4,11 @@ import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  getFilteredProductsAPI,
-  getProductByCategoryAPI,
-} from "../actions/product.actions";
-import { Application } from "../components/Drawer";
-import HomePageCategories from "../components/HomePageCategories";
+import { getFilteredProductsAPI } from "../actions/product.actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import Product from "../components/Product";
-import Filters from "../components/ProductFilter/Filters";
 
 const ProductCategoryPage = () => {
   let { keyword: gender, pageNumber = 1 } = useParams();
@@ -33,13 +27,11 @@ const ProductCategoryPage = () => {
     dispatch(getFilteredProductsAPI({ gender, pageNumber }));
   }, [dispatch, gender, pageNumber]);
   console.log("filteredState", filteredState);
-  //   console.log("ProductCategoryPageData", products);
-  // console.log("curr", currentPage);
 
   return (
     <>
-      <HomePageCategories />
-      <Application />
+      {/* <HomePageCategories /> */}
+      {/* <Application /> */}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -47,9 +39,6 @@ const ProductCategoryPage = () => {
       ) : (
         <>
           <Row>
-            <Col sm={12} md={3}>
-              {/* <Filters setFilteredState={setFilteredState} /> */}
-            </Col>
             <Col>
               <Row>
                 {products &&

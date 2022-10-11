@@ -118,3 +118,15 @@ h2 {
   color: black;
   font-weight: 700;
 }
+
+.gender-page {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .gender-page {
+    flex-direction: column;
+  }
+}

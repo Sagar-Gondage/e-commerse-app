@@ -16,6 +16,7 @@ const MobileViewFilters = () => {
   const [priceState, setPriceState] = useState(false);
 
   const { keyword: currentPage } = useParams();
+  console.log("current page", currentPage);
 
   const [allState, setAllState] = useState({
     price: false,
@@ -156,7 +157,7 @@ const MobileViewFilters = () => {
         </Row>
       )}
 
-      {currentPage && gender && (
+      {currentPage == "allproducts" && (
         <Row>
           <Accordion defaultActiveKey="1">
             <Accordion.Item eventKey="0">
@@ -269,6 +270,7 @@ const MobileViewFilters = () => {
 export default MobileViewFilters;
 
 const Wrapper = styled.div`
+  width: 100%;
   @media screen and (min-width: 768px) {
     display: none;
   }
