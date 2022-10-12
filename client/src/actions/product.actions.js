@@ -34,16 +34,13 @@ import { instance } from "../defaultURL";
 export const listProductsAPI =
   (keyword = "", pageNumber = "") =>
   async (dispatch) => {
-    // console.log("in d", keyword, pageNumber);
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
       const { data } = await instance.get(
         `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
-      // console.log("data", data);
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
-      // console.log("in error", error);
       dispatch({
         type: PRODUCT_LIST_FAIL,
         payload:
@@ -58,16 +55,13 @@ export const listProductsAPI =
 export const getProductByCategoryAPI =
   (keyword = "", pageNumber = 1) =>
   async (dispatch) => {
-    // console.log("in Action keyword", keyword, pageNumber);
     try {
       dispatch({ type: PRODUCT_CATEGORY_LIST_REQUEST });
       const { data } = await instance.get(
         `/api/products/product?productcategory=${keyword}&pageNumber=${pageNumber}`
       );
-      // console.log("data", data);
       dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
     } catch (error) {
-      // console.log("in error", error);
       dispatch({
         type: PRODUCT_CATEGORY_LIST_FAIL,
         payload:
@@ -190,7 +184,6 @@ export const updateProductAPI = (product) => async (dispatch, getState) => {
 // review create product
 export const createProductReviewAPI =
   (productId, review) => async (dispatch, getState) => {
-    // console.log("review", review);
     try {
       dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
 
@@ -252,13 +245,9 @@ export const getFilteredProductsAPI =
     //     config
     //   );
     //   dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
-    //   // console.log("reqMade");
-    //   // console.log(data);
     // } catch (error) {
-    //   console.log(error);
     // }
 
-    console.log("bodyin filteredProudcts api", body);
     try {
       dispatch({ type: PRODUCT_FILTERED_LIST_REQUEST });
 
@@ -273,7 +262,6 @@ export const getFilteredProductsAPI =
         body,
         config
       );
-      console.log("data", data);
       dispatch({ type: PRODUCT_FILTERED_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({

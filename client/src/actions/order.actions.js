@@ -37,12 +37,7 @@ export const createOrderAPI = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await instance.post("/api/orders", order, config);
-    // const { data } = await instance.post(
-    //   "/api/create-order",
-    //   order,
-    //   config
-    // );
-    // console.log("order-details", data);
+
     dispatch({ type: ORDER_CREATE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -63,8 +58,6 @@ export const getOrderDetailsAPI = (id) => async (dispatch, getState) => {
     const {
       userLogin: { userInfo },
     } = getState();
-
-    // console.log(userInfo.token);
 
     const config = {
       headers: {

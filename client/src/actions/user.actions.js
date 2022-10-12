@@ -44,7 +44,6 @@ export const loginAPI = (email, password) => async (dispatch) => {
       },
       config
     );
-    // console.log("data", data);
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
@@ -98,16 +97,12 @@ export const registerAPI = (name, email, password) => async (dispatch) => {
 };
 
 export const getUserDetailsAPI = (id) => async (dispatch, getState) => {
-  // console.log("in get user route");
-  // console.log("in dispatch", id);
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
 
     const {
       userLogin: { userInfo },
     } = getState();
-
-    // console.log(userInfo.data);
 
     const config = {
       headers: {
@@ -132,15 +127,12 @@ export const getUserDetailsAPI = (id) => async (dispatch, getState) => {
 
 // update user profile
 export const updateUserProfileAPI = (user) => async (dispatch, getState) => {
-  // console.log("in get user route");
   try {
     dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
 
     const {
       userLogin: { userInfo },
     } = getState();
-
-    // console.log(userInfo.data);
 
     const config = {
       headers: {
@@ -150,12 +142,10 @@ export const updateUserProfileAPI = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await instance.put(`/api/users/profile`, user, config);
-    console.log(data);
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
-    console.log(error);
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
       payload:
@@ -168,15 +158,12 @@ export const updateUserProfileAPI = (user) => async (dispatch, getState) => {
 
 // user list
 export const listUsersAPI = () => async (dispatch, getState) => {
-  // console.log("in get user route");
   try {
     dispatch({ type: USER_LIST_REQUEST });
 
     const {
       userLogin: { userInfo },
     } = getState();
-
-    // console.log(userInfo.data);
 
     const config = {
       headers: {
@@ -200,7 +187,6 @@ export const listUsersAPI = () => async (dispatch, getState) => {
 
 // delete user api
 export const deleteUserAPI = (id) => async (dispatch, getState) => {
-  console.log("in delete user route");
   try {
     dispatch({ type: USER_DELETE_REQUEST });
 
