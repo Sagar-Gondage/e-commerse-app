@@ -24,5 +24,6 @@ router
   .delete(protect, isAdmin, deleteProduct)
   .put(protect, isAdmin, updateProduct);
 router.route("/getproducts/api").post(getFilteredProducts);
+// router.route("/productcategory/:category/page/:pageNumber").post(getFilteredProducts)
 
 module.exports = router;

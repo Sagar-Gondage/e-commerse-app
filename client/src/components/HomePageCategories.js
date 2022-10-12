@@ -1,13 +1,17 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const HomePageCategories = () => {
   const navigate = useNavigate();
   const { keywords } = useParams();
+  const queryParams = new URLSearchParams(window.location.search);
+  const term = queryParams.get("term");
+  const location = queryParams.get("location");
+  console.log("xxx", queryParams.get("category"));
   const [currentPage, setCurrentPage] = useState(false);
   console.log(useParams());
 
@@ -25,7 +29,7 @@ const HomePageCategories = () => {
         // pathname: `/product/${value}`,
 
         pathname: `/productcategory/${value}`,
-        //   search: "?category=date&order=newest",
+        search: "?category=date&order=newest",
         //   search: `?category=${value}`,
       });
     }

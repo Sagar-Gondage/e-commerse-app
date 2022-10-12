@@ -273,7 +273,7 @@ export const getFilteredProductsAPI =
         body,
         config
       );
-
+      console.log("data", data);
       dispatch({ type: PRODUCT_FILTERED_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({

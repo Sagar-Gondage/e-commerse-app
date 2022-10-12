@@ -58,6 +58,11 @@ const getCategoryProducts = asyncHandler(async (req, res) => {
 const getFilteredProducts = asyncHandler(async (req, res) => {
   console.log("in get filteredProducts");
   console.log("filteredProducts", req.body.gender);
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+  // const count = await Product.countDocuments({
+  //   category: req.query.productcategory,
+  // });
   if (req.body.gender === "Mens" || req.body.gender === "mens") {
     req.body.gender = "Male";
   }
@@ -76,15 +81,19 @@ const getFilteredProducts = asyncHandler(async (req, res) => {
   } = req.body;
 
   try {
+    console.log("intry");
     console.log(description, gender);
     const products = await Product.find({
       description: { $regex: description },
       gender: { $regex: gender },
       price: { $gt: lowPrice, $lt: highPrice },
       size: { $regex: size },
-    });
+    })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
     console.log("products", products.length);
-    res.json({ products: products });
+    let count = products.length;
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
   } catch (error) {
     res.json({ message: error });
   }

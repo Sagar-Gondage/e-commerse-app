@@ -13,8 +13,12 @@ const ProductCategoryPage = () => {
   let { keyword: gender, pageNumber = 1 } = useParams();
   const dispatch = useDispatch();
 
+  console.log("aaaaaaaa", useParams());
+
   const productFilteredList = useSelector((state) => state.productFilteredList);
   const { loading, error, products, pages, page } = productFilteredList;
+
+  console.log("productFilteredList", productFilteredList);
 
   useEffect(() => {
     console.log(gender, pageNumber);

@@ -32,11 +32,11 @@ const App = () => {
               element={<ProductCategoryPage />}
             /> */}
             <Route path="/productcategory/:keyword" element={<GenderPage />} />
-            {/* <Route
-              path="/productcategory/:keyword/page/pageNumber"
-              element={<ProductCategoryPage />}
-            />
             <Route
+              path="/productcategory/:keyword/page/:pageNumber"
+              element={<GenderPage />}
+            />
+            {/* <Route
               path="/product/:keyword/page/:pageNumber"
               element={<ProductCategoryPage />}
             /> */}
