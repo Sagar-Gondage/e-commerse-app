@@ -7,13 +7,14 @@ const connectDB = require("./config/db");
 const colrs = require("colors");
 const morgan = require("morgan");
 
-const allProducts = require("./routes/allProducts.route");
+const allProducts = require("./routes/allProducts.routes");
 const userRoutes = require("./routes/user.route");
-const orderRoutes = require("./routes/order.route");
+const orderRoutes = require("./routes/order.routes");
 const uploadRoutes = require("./routes/upload.routes");
-const razorpayRoutes = require("./routes/razorpay.route");
+const cartRoutes = require("./routes/cart.routes");
+const razorpayRoutes = require("./routes/razorpay.routes");
 
-const singleProduct = require("./routes/singleProduct.route");
+const singleProduct = require("./routes/singleProduct.routes");
 const { notFound, errorHandler } = require("./middleware/error.middleware");
 
 dotenv.config();
@@ -40,6 +41,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 
 app.use("/api/uploads", uploadRoutes);
+
+app.use("/api/cart", cartRoutes);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)

@@ -11,8 +11,8 @@ import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 import { Link } from "react-router-dom";
-import HomePageCategories from "../components/HomePageCategories";
-import { Application, ApplicationDrawer } from "../components/Drawer";
+import HomePageCategories from "../components/Categories/HomePageCategories";
+import { Application } from "../components/Categories/Drawer";
 
 const HomePage = () => {
   // console.log("in homepage");
