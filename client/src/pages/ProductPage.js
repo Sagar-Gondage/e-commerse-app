@@ -65,15 +65,14 @@ const ProductPage = () => {
   }, [dispatch, successProductReview, productId]);
 
   const addToCartHandler = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDgyNTRkZTI2NjkxMGQzYzk5OGY5NyIsImlhdCI6MTY2NTY3MzM4NiwiZXhwIjoxNjY4MjY1Mzg2fQ.K3LPud1b2mmX0_HH37kmzXfhjHb6EOAF-nP9VDmn-6A`,
-      },
-    };
-    const { data } = await instance.get("/api/cart", config);
-
-    console.log(data);
-    // navigate(`/cart/${productId}-${qty}`);
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDgyNTRkZTI2NjkxMGQzYzk5OGY5NyIsImlhdCI6MTY2NTY3MzM4NiwiZXhwIjoxNjY4MjY1Mzg2fQ.K3LPud1b2mmX0_HH37kmzXfhjHb6EOAF-nP9VDmn-6A`,
+    //   },
+    // };
+    // const { data } = await instance.get("/api/cart", config);
+    // console.log(data);
+    navigate(`/cart/${productId}-${qty}`);
   };
 
   const submitHandler = (e) => {
