@@ -24,20 +24,17 @@ const addCartProducts = async (req, res) => {
   //       product: "6345790c55680d1146d2d92d",
   //     },
   //   ];
-  let newCartItems = req.body.newCartItem;
-  console.log(newCartItems);
+  let newCartItems = req.body.newCartItems;
   let { cartItems } = await Cart.findOne({ user: "6348254de266910d3c998f97" });
   cartItems.push(newCartItems);
-  //   cartItems.push(newCartItem);
-  //   let userCart = console.log(cartItems);
-  //   const cart = new Cart({
-  //     user,
-  //     cartItems,
-  //   });
+  const cart = new Cart({
+    user,
+    cartItems,
+  });
 
-  //   const createCart = await cart.save();
-  //   console.log("cart");
-  res.json({ prev: cartItems });
+  const createCart = await cart.save();
+  console.log("cart");
+  res.json({ prev: createCart });
 };
 
 module.exports = {
