@@ -172,7 +172,7 @@ const OrderPage = () => {
                 {order.shippingAddress.country}
               </p>
               {order.isDelivered ? (
-                <Message variant="success">Paid On {order.deliveredAt}</Message>
+                <Message variant="success">Delivered On {order.deliveredAt}</Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
               )}

@@ -44,7 +44,9 @@ export const loginAPI = (email, password) => async (dispatch) => {
       },
       config
     );
+    console.log("UInfo",data)
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
@@ -73,7 +75,7 @@ export const registerAPI = (name, email, password) => async (dispatch) => {
       },
     };
 
-    const data = await instance.post(
+    const {data} = await instance.post(
       "/api/users",
       {
         name,
@@ -82,8 +84,8 @@ export const registerAPI = (name, email, password) => async (dispatch) => {
       },
       config
     );
-    dispatch({ type: USER_REGISTER_SUCCESS, payload: data.data });
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: data.data });
+    dispatch({ type: USER_REGISTER_SUCCESS, payload: data});
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
