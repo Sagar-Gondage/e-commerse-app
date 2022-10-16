@@ -9,20 +9,9 @@ const getCartProducts = async (req, res) => {
 };
 
 const addCartProducts = async (req, res) => {
-  const user = req.user._id;
   let newCartItem = req.body;
   const { product } = newCartItem;
 
-  //   let cartItems = [
-  //     {
-  //       name: "Chappals & Shoe Ladies Metallic",
-  //       qty: "5",
-  //       image: "https://dummyjson.com/image/i/products/49/thumbnail.jpg",
-  //       price: "500",
-  //       product: "6345790c55680d1146d2d92d",
-  //     },
-  //   ];
-  // console.log(newCartItem);
   const { _id: userId } = req.user;
   // console.log(newCartItem)
   const isUserinCart = await Cart.findOne({ user: userId });
@@ -32,7 +21,28 @@ const addCartProducts = async (req, res) => {
     const createdCart = await cart.save();
     res.json({ message: "Product added to cart", product: createdCart });
   } else {
-    const { cartItems } = isUserinCart;
+    let { cartItems } = isUserinCart;
+
+    const isProductPresentInCart = cartItems.find(
+      (item) => item.product == product
+    );
+    // console.log("cartItems", cartItems);
+    // console.log("isProductPresentInCart", isProductPresentInCart);
+
+    if (!isProductPresentInCart) {
+      console.log("in new product");
+      console.log("cart Items", cartItems);
+      console.log("newCartItem", newCartItem);
+      const updatedCart = [...cartItems, newCartItem];
+      console.log("updated cart", updatedCart);
+      const updated = await Cart.findOneAndUpdate(
+        { user: userId },
+        { cartItems: updatedCart }
+      );
+      res.json({ message: "new Product Added", newCartAdded: updated });
+      return;
+    }
+
     const updatedCart = cartItems.map((item) => {
       if (item.product == product) {
         console.log("prev", item.qty);

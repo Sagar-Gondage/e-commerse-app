@@ -30,6 +30,7 @@ export const addToCartAPI = (newCartItem) => async (dispatch, getState) => {
   } catch (error) {}
 
   // //   console.log("id", id, typeof qty);
+
   // const { data } = await instance.get(`/api/products/${id}`);
 
   // dispatch({
@@ -45,6 +46,31 @@ export const addToCartAPI = (newCartItem) => async (dispatch, getState) => {
   // });
 
   // localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+export const getCartItemsAPI = () => async (dispatch, getState) => {
+  dispatch({ type: CART_ADD_ITEM_REQUEST });
+
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    console.log("in try");
+
+    const { data } = await instance.get("/api/cart", config);
+    console.log("userCartdata", data);
+    // dispatch({ type: CART_ADD_ITEM_SUCCESS });
+  } catch (error) {
+    console.log("in catch");
+    console.log("error", error);
+  }
 };
 
 export const removeFromCart = (id) => (dispatch, getState) => {

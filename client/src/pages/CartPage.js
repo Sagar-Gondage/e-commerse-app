@@ -10,7 +10,11 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { addToCartAPI, removeFromCart } from "../actions/cart.actions";
+import {
+  addToCartAPI,
+  getCartItemsAPI,
+  removeFromCart,
+} from "../actions/cart.actions";
 import Message from "../components/Message";
 
 const CartPage = () => {
@@ -28,8 +32,10 @@ const CartPage = () => {
   const { cartItems } = cart;
 
   useEffect(() => {
+    console.log("in use");
+    dispatch(getCartItemsAPI());
     if (productId && id) {
-      dispatch(addToCartAPI(productId, +qty));
+      // dispatch(addToCartAPI(productId, +qty));
     }
   }, [dispatch, productId, +qty]);
 
@@ -65,7 +71,7 @@ const CartPage = () => {
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
                   <Col md={2}>${item.price}</Col>
-                  <Col md={2}>
+                  <Col md={3}>
                     <Form.Select
                       value={item.qty}
                       onChange={(e) =>
