@@ -22,6 +22,7 @@ import PlacementExample from "../components/Message";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/product.constants";
 import Meta from "../components/Meta";
 import { instance } from "../defaultURL";
+import { addToCartAPI } from "../actions/cart.actions";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
@@ -50,6 +51,8 @@ const ProductPage = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  // console.log(userInfo)
+
   const proudctReviewCreate = useSelector((state) => state.proudctReviewCreate);
   const { error: errorProductReview, success: successProductReview } =
     proudctReviewCreate;
@@ -65,14 +68,15 @@ const ProductPage = () => {
   }, [dispatch, successProductReview, productId]);
 
   const addToCartHandler = async () => {
-    // const config = {
-    //   headers: {
-    //     Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDgyNTRkZTI2NjkxMGQzYzk5OGY5NyIsImlhdCI6MTY2NTY3MzM4NiwiZXhwIjoxNjY4MjY1Mzg2fQ.K3LPud1b2mmX0_HH37kmzXfhjHb6EOAF-nP9VDmn-6A`,
-    //   },
-    // };
-    // const { data } = await instance.get("/api/cart", config);
-    // console.log(data);
-    navigate(`/cart/${productId}-${qty}`);
+    const newCartItem = {
+      name,
+      qty,
+      image,
+      price,
+      product: productId,
+    };
+    dispatch(addToCartAPI(newCartItem));
+    // navigate(`/cart/${productId}-${qty}`);
   };
 
   const submitHandler = (e) => {
