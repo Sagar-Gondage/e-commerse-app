@@ -29,7 +29,7 @@ const CartPage = () => {
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+  const { cartItems = [] } = cart;
 
   useEffect(() => {
     console.log("in use");
@@ -55,13 +55,13 @@ const CartPage = () => {
     <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
-        {cartItems.length === 0 ? (
+        {cartItems?.length === 0 ? (
           <Message>
             Your Cart is empty <Link to="/">Go Back</Link>
           </Message>
         ) : (
           <ListGroup variant="flush">
-            {cartItems.map((item) => (
+            {cartItems?.map((item) => (
               <ListGroup.Item key={item.product}>
                 <Row>
                   <Col md={2}>
@@ -105,7 +105,7 @@ const CartPage = () => {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>
-                Subtotal ({cartItems.reduce((sum, el) => (sum += el.qty), 0)})
+                Subtotal ({cartItems?.reduce((sum, el) => (sum += el.qty), 0)})
                 items
               </h2>
               $

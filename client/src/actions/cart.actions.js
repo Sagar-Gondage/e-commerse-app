@@ -3,6 +3,9 @@ import {
   CART_ADD_ITEM,
   CART_ADD_ITEM_REQUEST,
   CART_ADD_ITEM_SUCCESS,
+  CART_GET_ITEM_FAIL,
+  CART_GET_ITEM_REQUEST,
+  CART_GET_ITEM_SUCCESS,
   CART_REMOVE_ITEM,
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
@@ -49,7 +52,7 @@ export const addToCartAPI = (newCartItem) => async (dispatch, getState) => {
 };
 
 export const getCartItemsAPI = () => async (dispatch, getState) => {
-  dispatch({ type: CART_ADD_ITEM_REQUEST });
+  dispatch({ type: CART_GET_ITEM_REQUEST });
 
   try {
     const {
@@ -66,10 +69,15 @@ export const getCartItemsAPI = () => async (dispatch, getState) => {
 
     const { data } = await instance.get("/api/cart", config);
     console.log("userCartdata", data);
-    // dispatch({ type: CART_ADD_ITEM_SUCCESS });
+    dispatch({ type: CART_GET_ITEM_SUCCESS });
   } catch (error) {
-    console.log("in catch");
-    console.log("error", error);
+    dispatch({
+      type: CART_GET_ITEM_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 
