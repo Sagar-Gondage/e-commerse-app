@@ -9,6 +9,9 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
+  CART_UPDATE_ITEM_FAIL,
+  CART_UPDATE_ITEM_REQUEST,
+  CART_UPDATE_ITEM_SUCCESS,
 } from "../constants/cart.constants";
 import { instance } from "../defaultURL";
 
@@ -61,15 +64,16 @@ export const getCartItemsAPI = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
-    console.log("in try");
+    console.log("in get Items api");
 
     const { data } = await instance.get("/api/cart", config);
     console.log("userCartdata", data);
-    dispatch({ type: CART_GET_ITEM_SUCCESS });
+    dispatch({ type: CART_GET_ITEM_SUCCESS, payload: data.products });
   } catch (error) {
     dispatch({
       type: CART_GET_ITEM_FAIL,
@@ -80,6 +84,45 @@ export const getCartItemsAPI = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const updateCartItemsAPI =
+  (newCount, productId) => async (dispatch, getState) => {
+    dispatch({ type: CART_UPDATE_ITEM_REQUEST });
+
+    try {
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      console.log("in try");
+
+      const { data } = await instance.put(
+        "/api/cart",
+        { newCount, productId },
+        config
+      );
+      console.log("putReqCartdata", data);
+
+      getCartItemsAPI();
+      console.log("get cart items called");
+      dispatch({ type: CART_UPDATE_ITEM_SUCCESS });
+    } catch (error) {
+      console.log("error", error);
+      dispatch({
+        type: CART_UPDATE_ITEM_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const removeFromCart = (id) => (dispatch, getState) => {
   // console.log(id);

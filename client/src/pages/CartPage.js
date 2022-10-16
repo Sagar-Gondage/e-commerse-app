@@ -14,6 +14,7 @@ import {
   addToCartAPI,
   getCartItemsAPI,
   removeFromCart,
+  updateCartItemsAPI,
 } from "../actions/cart.actions";
 import Message from "../components/Message";
 
@@ -29,15 +30,20 @@ const CartPage = () => {
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const { cartItems = [] } = cart;
+  console.log("cart", cart);
+  const { cartItems = [], updateSuccess } = cart;
 
   useEffect(() => {
     console.log("in use");
+    console.log(updateSuccess);
     dispatch(getCartItemsAPI());
-    if (productId && id) {
-      // dispatch(addToCartAPI(productId, +qty));
+  }, [dispatch, productId]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      dispatch(getCartItemsAPI());
     }
-  }, [dispatch, productId, +qty]);
+  }, [updateSuccess]);
 
   // console.log("cI", cartItems);
 
@@ -49,6 +55,11 @@ const CartPage = () => {
     // console.log("in cart");r
     // navigate(`/login?redirect=shipping`);
     navigate(`/shipping`);
+  };
+
+  const handleOnCountChange = (value, item) => {
+    console.log(value, item.product);
+    dispatch(updateCartItemsAPI(value, item.product));
   };
 
   return (
@@ -75,10 +86,10 @@ const CartPage = () => {
                     <Form.Select
                       value={item.qty}
                       onChange={(e) =>
-                        dispatch(addToCartAPI(item.product, +e.target.value))
+                        handleOnCountChange(e.target.value, item)
                       }
                     >
-                      {[...Array(item.countInStock).keys()].map((x) => (
+                      {[...Array(5).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>

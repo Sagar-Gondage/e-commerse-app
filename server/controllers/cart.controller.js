@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 const getCartProducts = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   let cartProducts = await Cart.findOne({ user: _id });
-  console.log("cart", cartProducts);
+  // console.log("cart", cartProducts);
   res.json({ products: cartProducts.cartItems });
 });
 
@@ -53,7 +53,33 @@ const addCartProducts = asyncHandler(async (req, res) => {
   }
 });
 
+const updateCartProduct = asyncHandler(async (req, res) => {
+  let { newCount, productId } = req.body;
+  // console.log("in put", newCartItem);
+  // const { product } = newCartItem;
+
+  const { _id: userId } = req.user;
+
+  const { cartItems } = await Cart.findOne({ user: userId });
+
+  const updatedCart = cartItems.map((item) => {
+    if (item.product == productId) {
+      item.qty = newCount;
+      return item;
+    } else {
+      return item;
+    }
+  });
+
+  const updated = await Cart.findOneAndUpdate(
+    { user: userId },
+    { cartItems: updatedCart }
+  );
+  res.json({ message: "Product added to cart", updated: updated });
+});
+
 module.exports = {
   getCartProducts,
   addCartProducts,
+  updateCartProduct,
 };

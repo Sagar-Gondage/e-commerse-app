@@ -9,10 +9,12 @@ import {
   CART_REMOVE_ITEM,
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
+  CART_UPDATE_ITEM_REQUEST,
+  CART_UPDATE_ITEM_SUCCESS,
 } from "../constants/cart.constants";
 
 export const cartReducer = (
-  state = { cartItems: [], shippingAddress: {} },
+  state = { cartItems: [], shippingAddress: {}, updateSuccess: true },
   action
 ) => {
   switch (action.type) {
@@ -33,11 +35,19 @@ export const cartReducer = (
     }
 
     case CART_GET_ITEM_SUCCESS: {
-      return { ...state, loading: false, product: action.payload };
+      return { ...state, loading: false, cartItems: action.payload };
     }
 
     case CART_GET_ITEM_FAIL: {
       return { loading: false, error: true };
+    }
+
+    case CART_UPDATE_ITEM_REQUEST: {
+      return { ...state, updateSuccess: false };
+    }
+
+    case CART_UPDATE_ITEM_SUCCESS: {
+      return { ...state, updateSuccess: true };
     }
 
     case CART_ADD_ITEM: {
