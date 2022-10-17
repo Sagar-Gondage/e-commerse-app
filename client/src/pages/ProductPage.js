@@ -22,7 +22,7 @@ import PlacementExample from "../components/Message";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/product.constants";
 import Meta from "../components/Meta";
 import { instance } from "../defaultURL";
-import { addToCartAPI } from "../actions/cart.actions";
+import { addCartToLocalStorage, addToCartAPI } from "../actions/cart.actions";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
@@ -75,7 +75,11 @@ const ProductPage = () => {
       price,
       product: productId,
     };
-    dispatch(addToCartAPI(newCartItem));
+    if (!userInfo) {
+      dispatch(addCartToLocalStorage(productId, qty));
+    } else {
+      dispatch(addToCartAPI(newCartItem));
+    }
     // navigate(`/cart/${productId}-${qty}`);
   };
 

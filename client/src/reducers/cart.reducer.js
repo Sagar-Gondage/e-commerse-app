@@ -3,6 +3,7 @@ import {
   CART_ADD_ITEM_FAIL,
   CART_ADD_ITEM_REQUEST,
   CART_ADD_ITEM_SUCCESS,
+  CART_ADD_ITEM_T0_LOCAL_STORAGE,
   CART_GET_ITEM_FAIL,
   CART_GET_ITEM_REQUEST,
   CART_GET_ITEM_SUCCESS,
@@ -31,7 +32,7 @@ export const cartReducer = (
     }
 
     case CART_GET_ITEM_REQUEST: {
-      return { loading: true, error: false };
+      return { ...state, loading: true, error: false };
     }
 
     case CART_GET_ITEM_SUCCESS: {
@@ -39,7 +40,7 @@ export const cartReducer = (
     }
 
     case CART_GET_ITEM_FAIL: {
-      return { loading: false, error: true };
+      return { ...state, loading: false, error: true };
     }
 
     case CART_UPDATE_ITEM_REQUEST: {
@@ -50,7 +51,7 @@ export const cartReducer = (
       return { ...state, updateSuccess: true };
     }
 
-    case CART_ADD_ITEM: {
+    case CART_ADD_ITEM_T0_LOCAL_STORAGE: {
       const item = action.payload;
 
       const existItem = state.cartItems.find((x) => x.product === item.product);

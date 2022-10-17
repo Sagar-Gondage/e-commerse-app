@@ -3,6 +3,7 @@ import {
   CART_ADD_ITEM,
   CART_ADD_ITEM_REQUEST,
   CART_ADD_ITEM_SUCCESS,
+  CART_ADD_ITEM_T0_LOCAL_STORAGE,
   CART_GET_ITEM_FAIL,
   CART_GET_ITEM_REQUEST,
   CART_GET_ITEM_SUCCESS,
@@ -34,25 +35,31 @@ export const addToCartAPI = (newCartItem) => async (dispatch, getState) => {
     dispatch({ type: CART_ADD_ITEM_SUCCESS });
     console.log(data);
   } catch (error) {}
-
-  // //   console.log("id", id, typeof qty);
-
-  // const { data } = await instance.get(`/api/products/${id}`);
-
-  // dispatch({
-  //   type: CART_ADD_ITEM,
-  //   payload: {
-  //     product: data._id,
-  //     name: data.name,
-  //     image: data.image,
-  //     price: data.price,
-  //     countInStock: data.countInStock,
-  //     qty,
-  //   },
-  // });
-
-  // localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
+
+export const addCartToLocalStorage =
+  (id, qty) => async (dispatch, getState) => {
+    //   console.log("id", id, typeof qty);
+
+    const { data } = await instance.get(`/api/products/${id}`);
+
+    dispatch({
+      type: CART_ADD_ITEM_T0_LOCAL_STORAGE,
+      payload: {
+        product: data._id,
+        name: data.name,
+        image: data.image,
+        price: data.price,
+        countInStock: data.countInStock,
+        qty,
+      },
+    });
+
+    localStorage.setItem(
+      "cartItems",
+      JSON.stringify(getState().cart.cartItems)
+    );
+  };
 
 export const getCartItemsAPI = () => async (dispatch, getState) => {
   dispatch({ type: CART_GET_ITEM_REQUEST });
