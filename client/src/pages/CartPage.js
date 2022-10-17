@@ -17,6 +17,7 @@ import {
   clearCartFromLocalStorage,
   deleteCartItemFromLocalStorage,
   getCartItemsAPI,
+  getLocalStorageCartItems,
   removeFromCart,
   updateCartItemsAPI,
 } from "../actions/cart.actions";
@@ -43,28 +44,39 @@ const CartPage = () => {
     updateSuccess,
     localStorageCartItems,
     loading,
+    removeCartSuccess,
   } = cart;
 
-  const { userInfo } = useSelector((state) => state.userLogin);
-  console.log(userInfo);
+  const { userInfo, logoutSuceess } = useSelector((state) => state.userLogin);
+  console.log("userInfo", logoutSuceess);
+
+  // useEffect(() => {
+  //   console.log("in use");
+  //   console.log(updateSuccess);
+  //   // dispatch(getCartItemsAPI());
+  // }, [productId]);
 
   useEffect(() => {
-    console.log("in use");
-    console.log(updateSuccess);
-    dispatch(getCartItemsAPI());
-  }, [productId]);
-
-  useEffect(() => {
-    if (updateSuccess && userInfo) {
+    if (updateSuccess || userInfo) {
       dispatch(getCartItemsAPI());
       dispatch(clearCartFromLocalStorage());
+    } else {
+      console.log("in else of use Effect");
+      dispatch(getLocalStorageCartItems());
     }
-  }, [updateSuccess, userInfo]);
+
+    return () => {
+      console.log("in dispatch aaaaa");
+      if (!userInfo) {
+        dispatch(getLocalStorageCartItems());
+      }
+    };
+  }, [updateSuccess, userInfo, dispatch]);
 
   useEffect(() => {
     if (apiCartProducts) {
       setCartItems(apiCartProducts);
-    } else if (localStorageCartItems.length) {
+    } else if (localStorageCartItems && localStorageCartItems.length) {
       setCartItems(localStorageCartItems);
     }
   }, [apiCartProducts, localStorageCartItems]);

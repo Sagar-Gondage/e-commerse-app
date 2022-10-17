@@ -13,6 +13,8 @@ import {
   CART_UPDATE_ITEM_FAIL,
   CART_UPDATE_ITEM_REQUEST,
   CART_UPDATE_ITEM_SUCCESS,
+  CART_CLEAR_FROM_LOCAL_STORAGE,
+  CART_GET_LOCAL_STORAGE,
 } from "../constants/cart.constants";
 import { instance } from "../defaultURL";
 
@@ -61,6 +63,12 @@ export const addCartToLocalStorage =
     );
     console.log("productset");
   };
+
+export const getLocalStorageCartItems = () => (dispatch) => {
+  const localStorageCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  console.log("localStorageCart", localStorageCart);
+  dispatch({ type: CART_GET_LOCAL_STORAGE, payload: localStorageCart });
+};
 
 export const getCartItemsAPI = () => async (dispatch, getState) => {
   dispatch({ type: CART_GET_ITEM_REQUEST });
@@ -145,6 +153,7 @@ export const clearCartFromLocalStorage = () => (dispatch) => {
     console.log("in true");
     localStorage.removeItem("cartItems");
   }
+  dispatch({ type: CART_CLEAR_FROM_LOCAL_STORAGE });
 };
 
 export const saveShippingAddress = (data) => (dispatch) => {

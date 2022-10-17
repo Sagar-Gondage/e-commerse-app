@@ -12,12 +12,15 @@ import {
   CART_SAVE_SHIPPING_ADDRESS,
   CART_UPDATE_ITEM_REQUEST,
   CART_UPDATE_ITEM_SUCCESS,
+  CART_CLEAR_FROM_LOCAL_STORAGE,
+  CART_GET_LOCAL_STORAGE,
 } from "../constants/cart.constants";
 
 export const cartReducer = (
   state = { cartItems: [], shippingAddress: {}, updateSuccess: true },
   action
 ) => {
+  console.log("in reducer", state);
   switch (action.type) {
     case CART_ADD_ITEM_REQUEST: {
       return { ...state, loading: true, error: false };
@@ -51,8 +54,14 @@ export const cartReducer = (
       return { ...state, updateSuccess: true };
     }
 
+    case CART_GET_LOCAL_STORAGE: {
+      console.log("in action", action.payload);
+      return { localStorageCartItems: action.payload };
+    }
+
     case CART_ADD_ITEM_T0_LOCAL_STORAGE: {
       const item = action.payload;
+      state.localStorageCartItems = state.localStorageCartItems || [];
 
       const existItem = state.localStorageCartItems.find(
         (x) => x.product === item.product
@@ -80,6 +89,10 @@ export const cartReducer = (
           (x) => x.product !== action.payload
         ),
       };
+    }
+
+    case CART_CLEAR_FROM_LOCAL_STORAGE: {
+      return { localStorageCartItems: [], removeCartSuccess: true };
     }
 
     case CART_SAVE_SHIPPING_ADDRESS: {

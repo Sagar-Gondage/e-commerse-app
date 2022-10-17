@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CART_CLEAR_FROM_LOCAL_STORAGE } from "../constants/cart.constants";
 import { ORDER_LIST_MY_RESET } from "../constants/order.constants";
 import {
   USER_DELETE_FAIL,
@@ -44,7 +45,7 @@ export const loginAPI = (email, password) => async (dispatch) => {
       },
       config
     );
-    console.log("UInfo",data)
+    console.log("UInfo", data);
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -64,6 +65,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
+  dispatch({ type: CART_CLEAR_FROM_LOCAL_STORAGE });
 };
 
 export const registerAPI = (name, email, password) => async (dispatch) => {
@@ -75,7 +77,7 @@ export const registerAPI = (name, email, password) => async (dispatch) => {
       },
     };
 
-    const {data} = await instance.post(
+    const { data } = await instance.post(
       "/api/users",
       {
         name,
@@ -84,7 +86,7 @@ export const registerAPI = (name, email, password) => async (dispatch) => {
       },
       config
     );
-    dispatch({ type: USER_REGISTER_SUCCESS, payload: data});
+    dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
