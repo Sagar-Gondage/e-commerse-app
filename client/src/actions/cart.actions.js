@@ -7,7 +7,7 @@ import {
   CART_GET_ITEM_FAIL,
   CART_GET_ITEM_REQUEST,
   CART_GET_ITEM_SUCCESS,
-  CART_REMOVE_ITEM,
+  CART_DELETE_ITEM_FROM_LOCAL_STORAGE,
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
   CART_UPDATE_ITEM_FAIL,
@@ -57,8 +57,9 @@ export const addCartToLocalStorage =
 
     localStorage.setItem(
       "cartItems",
-      JSON.stringify(getState().cart.cartItems)
+      JSON.stringify(getState().cart.localStorageCartItems)
     );
+    console.log("productset");
   };
 
 export const getCartItemsAPI = () => async (dispatch, getState) => {
@@ -131,11 +132,19 @@ export const updateCartItemsAPI =
     }
   };
 
-export const removeFromCart = (id) => (dispatch, getState) => {
+export const deleteCartItemFromLocalStorage = (id) => (dispatch, getState) => {
   // console.log(id);
 
-  dispatch({ type: CART_REMOVE_ITEM, payload: id });
+  dispatch({ type: CART_DELETE_ITEM_FROM_LOCAL_STORAGE, payload: id });
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+export const clearCartFromLocalStorage = () => (dispatch) => {
+  console.log("in delete");
+  if (localStorage.getItem("cartItems")) {
+    console.log("in true");
+    localStorage.removeItem("cartItems");
+  }
 };
 
 export const saveShippingAddress = (data) => (dispatch) => {

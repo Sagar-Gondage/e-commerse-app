@@ -14,6 +14,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   addCartToLocalStorage,
   addToCartAPI,
+  clearCartFromLocalStorage,
+  deleteCartItemFromLocalStorage,
   getCartItemsAPI,
   removeFromCart,
   updateCartItemsAPI,
@@ -55,6 +57,7 @@ const CartPage = () => {
   useEffect(() => {
     if (updateSuccess && userInfo) {
       dispatch(getCartItemsAPI());
+      dispatch(clearCartFromLocalStorage());
     }
   }, [updateSuccess, userInfo]);
 
@@ -69,7 +72,7 @@ const CartPage = () => {
   // console.log("cI", cartItems);
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+    dispatch(deleteCartItemFromLocalStorage(id));
   };
 
   const checkoutHanlder = () => {

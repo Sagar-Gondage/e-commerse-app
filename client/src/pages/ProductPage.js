@@ -76,6 +76,7 @@ const ProductPage = () => {
       product: productId,
     };
     if (!userInfo) {
+      console.log("in not userInfo");
       dispatch(addCartToLocalStorage(productId, qty));
     } else {
       dispatch(addToCartAPI(newCartItem));
