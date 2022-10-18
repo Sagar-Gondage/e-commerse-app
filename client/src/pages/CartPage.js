@@ -42,6 +42,7 @@ const CartPage = () => {
   const {
     cartItems: apiCartProducts,
     updateSuccess,
+    addProductToBackendSuccess,
     localStorageCartItems,
     loading,
     removeCartSuccess,
@@ -58,7 +59,7 @@ const CartPage = () => {
   // }, [productId]);
 
   useEffect(() => {
-    if (userInfo || updateSuccess) {
+    if (userInfo) {
       if (localStorageCartItems?.length) {
         // console.log("added to backend");
         // for (let i = 0; i < localStorageCartItems.length; i++) {
@@ -79,9 +80,14 @@ const CartPage = () => {
       }
     } else if (userInfo) {
       dispatch(clearCartFromLocalStorage());
+    } else if (updateSuccess) {
+      dispatch(getCartItemsAPI());
     } else {
       // console.log("in else of use Effect");
       dispatch(getLocalStorageCartItems());
+    }
+    if (addProductToBackendSuccess) {
+      dispatch(getCartItemsAPI());
     }
 
     // return () => {
@@ -90,7 +96,7 @@ const CartPage = () => {
     //     dispatch(getLocalStorageCartItems());
     //   }
     // };
-  }, [updateSuccess, userInfo, dispatch]);
+  }, [updateSuccess, userInfo, dispatch, addProductToBackendSuccess]);
 
   useEffect(() => {
     // console.log("in set cart products to array");
@@ -115,9 +121,9 @@ const CartPage = () => {
 
   const handleOnCountChange = (value, item) => {
     // console.log(value, item.product);
-
+    console.log(item);
     if (!userInfo) {
-      addCartToLocalStorage(item._id, value);
+      dispatch(addCartToLocalStorage(item.product, value));
     } else {
       // console.log("in udc");
       item.qty = value;

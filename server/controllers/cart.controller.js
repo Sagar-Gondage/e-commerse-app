@@ -48,7 +48,8 @@ const addCartProducts = asyncHandler(async (req, res) => {
       } else {
         updatedCart = cartItems.map((item) => {
           if (item.product == product) {
-            item.qty = Number(item.qty) + Number(newCartItem[i].qty);
+            // item.qty = Number(item.qty) + Number(newCartItem[i].qty);
+            item.qty = Number(newCartItem[i].qty);
             return item;
           } else {
             return item;

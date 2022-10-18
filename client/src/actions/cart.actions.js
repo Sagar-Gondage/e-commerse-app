@@ -44,7 +44,7 @@ export const addToCartAPI = (newCartItem) => async (dispatch, getState) => {
 
 export const addCartToLocalStorage =
   (id, qty) => async (dispatch, getState) => {
-    //   console.log("id", id, typeof qty);
+    console.log("id", id, typeof qty);
 
     const { data } = await instance.get(`/api/products/${id}`);
 

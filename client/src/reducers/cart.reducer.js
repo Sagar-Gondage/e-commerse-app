@@ -26,11 +26,21 @@ export const cartReducer = (
   console.log("in reducer", state);
   switch (action.type) {
     case CART_ADD_ITEM_REQUEST: {
-      return { ...state, loading: true, error: false };
+      return {
+        ...state,
+        loading: true,
+        addProductToBackendSuccess: false,
+        error: false,
+      };
     }
 
     case CART_ADD_ITEM_SUCCESS: {
-      return { ...state, loading: false, error: false };
+      return {
+        ...state,
+        loading: false,
+        addProductToBackendSuccess: true,
+        error: false,
+      };
     }
 
     case CART_ADD_ITEM_FAIL: {
