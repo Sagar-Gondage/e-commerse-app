@@ -62,10 +62,11 @@ export const loginAPI = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
+  // localStorage.removeItem("cartItems");
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
-  dispatch({ type: CART_CLEAR_FROM_LOCAL_STORAGE });
+  // dispatch({ type: CART_CLEAR_FROM_LOCAL_STORAGE });
 };
 
 export const registerAPI = (name, email, password) => async (dispatch) => {

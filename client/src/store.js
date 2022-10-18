@@ -57,8 +57,8 @@ const reducer = combineReducers({
   orderList: orderListReducer,
 });
 
-// const cartItemsFromStorage =
-//   JSON.parse(localStorage.getItem("cartItems")) || [];
+const cartItemsFromStorage =
+  JSON.parse(localStorage.getItem("cartItems")) || [];
 
 // console.log("cartItemsInStore", cartItemsFromStorage);
 
@@ -72,9 +72,8 @@ const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
 
 const initialState = {
   cart: {
-    // localStorageCartItems: cartItemsFromStorage,
+    localStorageCartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
-    updateSuccess: true,
   },
   userLogin: { userInfo: userInfoFromStorage },
 };

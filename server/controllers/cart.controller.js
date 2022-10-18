@@ -11,7 +11,7 @@ const getCartProducts = asyncHandler(async (req, res) => {
 const addCartProducts = asyncHandler(async (req, res) => {
   let newCartItem = req.body;
   const { product } = newCartItem;
-
+  console.log("in add to cart products", product);
   const { _id: userId } = req.user;
   const isUserinCart = await Cart.findOne({ user: userId });
 
@@ -26,12 +26,15 @@ const addCartProducts = asyncHandler(async (req, res) => {
       (item) => item.product == product
     );
 
+    console.log("is product present in the cart", isProductPresentInCart);
+
     if (!isProductPresentInCart) {
       const updatedCart = [...cartItems, newCartItem];
       const updated = await Cart.findOneAndUpdate(
         { user: userId },
         { cartItems: updatedCart }
       );
+      console.log("added to cart", updatedCart);
       res.json({ message: "new Product Added", newCartAdded: updated });
       return;
     }
@@ -55,7 +58,9 @@ const addCartProducts = asyncHandler(async (req, res) => {
 
 const updateCartProduct = asyncHandler(async (req, res) => {
   let { newCount, productId } = req.body;
-  // console.log("in put", newCartItem);
+
+  console.log("in updateCartProducts");
+  console.log(req.body);
   // const { product } = newCartItem;
 
   const { _id: userId } = req.user;
@@ -70,7 +75,7 @@ const updateCartProduct = asyncHandler(async (req, res) => {
       return item;
     }
   });
-
+  console.log("updatedCart", updatedCart);
   const updated = await Cart.findOneAndUpdate(
     { user: userId },
     { cartItems: updatedCart }

@@ -20,6 +20,7 @@ import {
   getLocalStorageCartItems,
   removeFromCart,
   updateCartItemsAPI,
+  updateLocalStorageCartToBackend,
 } from "../actions/cart.actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -38,7 +39,6 @@ const CartPage = () => {
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  console.log("cart", cart);
   const {
     cartItems: apiCartProducts,
     updateSuccess,
@@ -47,8 +47,9 @@ const CartPage = () => {
     removeCartSuccess,
   } = cart;
 
-  const { userInfo, logoutSuceess } = useSelector((state) => state.userLogin);
-  console.log("userInfo", logoutSuceess);
+  // console.log("cart", cart);
+
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   // useEffect(() => {
   //   console.log("in use");
@@ -57,23 +58,39 @@ const CartPage = () => {
   // }, [productId]);
 
   useEffect(() => {
-    if (updateSuccess || userInfo) {
+    if (userInfo || updateSuccess) {
+      if (localStorageCartItems?.length) {
+        console.log("in send local to backed");
+        for (let i = 0; i < localStorageCartItems.length; i++) {
+          dispatch(addToCartAPI(localStorageCartItems[i]));
+        }
+        console.log("added to backednd");
+        for (let i = 0; i < localStorageCartItems.length; i++) {
+          const { qty, product } = localStorageCartItems[i];
+          dispatch(updateLocalStorageCartToBackend(qty, product));
+        }
+      }
+      console.log("get cart Items");
       dispatch(getCartItemsAPI());
+      console.log("cleat cart from local storage");
+      dispatch(clearCartFromLocalStorage());
+    } else if (userInfo) {
       dispatch(clearCartFromLocalStorage());
     } else {
       console.log("in else of use Effect");
       dispatch(getLocalStorageCartItems());
     }
 
-    return () => {
-      console.log("in dispatch aaaaa");
-      if (!userInfo) {
-        dispatch(getLocalStorageCartItems());
-      }
-    };
+    // return () => {
+    //   console.log("in dispatch aaaaa");
+    //   if (!userInfo) {
+    //     dispatch(getLocalStorageCartItems());
+    //   }
+    // };
   }, [updateSuccess, userInfo, dispatch]);
 
   useEffect(() => {
+    console.log("in set cart products to array");
     if (apiCartProducts) {
       setCartItems(apiCartProducts);
     } else if (localStorageCartItems && localStorageCartItems.length) {

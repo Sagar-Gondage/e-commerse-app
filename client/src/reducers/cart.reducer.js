@@ -14,13 +14,16 @@ import {
   CART_UPDATE_ITEM_SUCCESS,
   CART_CLEAR_FROM_LOCAL_STORAGE,
   CART_GET_LOCAL_STORAGE,
+  CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST,
+  CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
+  CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS,
 } from "../constants/cart.constants";
 
 export const cartReducer = (
-  state = { cartItems: [], shippingAddress: {}, updateSuccess: true },
+  state = { cartItems: [], shippingAddress: {}, updateSuccess: false },
   action
 ) => {
-  console.log("in reducer", state);
+  // console.log("in reducer", state);
   switch (action.type) {
     case CART_ADD_ITEM_REQUEST: {
       return { ...state, loading: true, error: false };
@@ -52,6 +55,18 @@ export const cartReducer = (
 
     case CART_UPDATE_ITEM_SUCCESS: {
       return { ...state, updateSuccess: true };
+    }
+
+    case CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST: {
+      return { ...state, loading: true, error: false };
+    }
+
+    case CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS: {
+      return { ...state, loading: false, error: false };
+    }
+
+    case CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL: {
+      return { ...state, loading: false, error: true };
     }
 
     case CART_GET_LOCAL_STORAGE: {

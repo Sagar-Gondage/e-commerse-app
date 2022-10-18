@@ -15,12 +15,15 @@ import {
   CART_UPDATE_ITEM_SUCCESS,
   CART_CLEAR_FROM_LOCAL_STORAGE,
   CART_GET_LOCAL_STORAGE,
+  CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST,
+  CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS,
+  CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
 } from "../constants/cart.constants";
 import { instance } from "../defaultURL";
 
 export const addToCartAPI = (newCartItem) => async (dispatch, getState) => {
   dispatch({ type: CART_ADD_ITEM_REQUEST });
-
+  console.log("in add to Cart");
   try {
     const {
       userLogin: { userInfo },
@@ -132,6 +135,44 @@ export const updateCartItemsAPI =
       console.log("error", error);
       dispatch({
         type: CART_UPDATE_ITEM_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const updateLocalStorageCartToBackend =
+  (newCount, productId) => async (dispatch, getState) => {
+    dispatch({ type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST });
+    console.log("in update local to backed");
+    try {
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      // console.log("in try");
+
+      const { data } = await instance.put(
+        "/api/cart",
+        { newCount, productId },
+        config
+      );
+      console.log("putReqCartdata", data);
+      // getCartItemsAPI();
+      console.log("get cart items called");
+      dispatch({ type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS });
+    } catch (error) {
+      console.log("error", error);
+      dispatch({
+        type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
