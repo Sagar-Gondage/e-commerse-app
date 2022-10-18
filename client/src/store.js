@@ -74,6 +74,7 @@ const initialState = {
   cart: {
     localStorageCartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
+    updateSuccess: false,
   },
   userLogin: { userInfo: userInfoFromStorage },
 };

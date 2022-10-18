@@ -23,7 +23,7 @@ export const cartReducer = (
   state = { cartItems: [], shippingAddress: {}, updateSuccess: false },
   action
 ) => {
-  // console.log("in reducer", state);
+  console.log("in reducer", state);
   switch (action.type) {
     case CART_ADD_ITEM_REQUEST: {
       return { ...state, loading: true, error: false };
@@ -50,11 +50,11 @@ export const cartReducer = (
     }
 
     case CART_UPDATE_ITEM_REQUEST: {
-      return { ...state, updateSuccess: false };
+      return { ...state, updateSuccess: true };
     }
 
     case CART_UPDATE_ITEM_SUCCESS: {
-      return { ...state, updateSuccess: true };
+      return { ...state, updateSuccess: false };
     }
 
     case CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST: {

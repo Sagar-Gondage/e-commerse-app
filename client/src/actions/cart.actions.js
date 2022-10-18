@@ -124,7 +124,7 @@ export const updateCartItemsAPI =
       const { data } = await instance.put("/api/cart", newProduct, config);
       // console.log("putReqCartdata", data);
 
-      getCartItemsAPI();
+      // getCartItemsAPI();
       // console.log("get cart items called");
       dispatch({ type: CART_UPDATE_ITEM_SUCCESS });
     } catch (error) {
@@ -140,7 +140,7 @@ export const updateCartItemsAPI =
   };
 
 export const updateLocalStorageCartToBackend =
-  (newCount, productId) => async (dispatch, getState) => {
+  (newProduct) => async (dispatch, getState) => {
     dispatch({ type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST });
     // console.log("in update local to backed");
     try {
@@ -156,11 +156,7 @@ export const updateLocalStorageCartToBackend =
 
       // console.log("in try");
 
-      const { data } = await instance.put(
-        "/api/cart",
-        { newCount, productId },
-        config
-      );
+      const { data } = await instance.put("/api/cart", newProduct, config);
       // console.log("putReqCartdata", data);
       // getCartItemsAPI();
       // console.log("get cart items called");

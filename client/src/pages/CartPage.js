@@ -68,7 +68,7 @@ const CartPage = () => {
 
         // for (let i = 0; i < localStorageCartItems.length; i++) {
         //   const { qty, product } = localStorageCartItems[i];
-        //   dispatch(updateLocalStorageCartToBackend(qty, product));
+        // dispatch(updateLocalStorageCartToBackend(localStorageCartItems));
         // }
       }
       // console.log("get cart Items");
@@ -137,6 +137,8 @@ const CartPage = () => {
         ) : (
           <ListGroup variant="flush">
             {loading ? (
+              <Loader />
+            ) : updateSuccess ? (
               <Loader />
             ) : (
               cartItems?.map((item) => (
