@@ -47,7 +47,7 @@ const CartPage = () => {
     removeCartSuccess,
   } = cart;
 
-  // console.log("cart", cart);
+  console.log("cart", cart);
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
@@ -60,24 +60,27 @@ const CartPage = () => {
   useEffect(() => {
     if (userInfo || updateSuccess) {
       if (localStorageCartItems?.length) {
-        console.log("in send local to backed");
-        for (let i = 0; i < localStorageCartItems.length; i++) {
-          dispatch(addToCartAPI(localStorageCartItems[i]));
-        }
-        console.log("added to backednd");
-        for (let i = 0; i < localStorageCartItems.length; i++) {
-          const { qty, product } = localStorageCartItems[i];
-          dispatch(updateLocalStorageCartToBackend(qty, product));
-        }
+        // console.log("added to backend");
+        // for (let i = 0; i < localStorageCartItems.length; i++) {
+        dispatch(addToCartAPI(localStorageCartItems));
+        // }
+        // console.log("update to backend");
+
+        // for (let i = 0; i < localStorageCartItems.length; i++) {
+        //   const { qty, product } = localStorageCartItems[i];
+        //   dispatch(updateLocalStorageCartToBackend(qty, product));
+        // }
       }
-      console.log("get cart Items");
+      // console.log("get cart Items");
       dispatch(getCartItemsAPI());
-      console.log("cleat cart from local storage");
-      dispatch(clearCartFromLocalStorage());
+      // console.log("cleat cart from local storage");
+      if (localStorageCartItems?.length) {
+        dispatch(clearCartFromLocalStorage());
+      }
     } else if (userInfo) {
       dispatch(clearCartFromLocalStorage());
     } else {
-      console.log("in else of use Effect");
+      // console.log("in else of use Effect");
       dispatch(getLocalStorageCartItems());
     }
 
@@ -90,7 +93,7 @@ const CartPage = () => {
   }, [updateSuccess, userInfo, dispatch]);
 
   useEffect(() => {
-    console.log("in set cart products to array");
+    // console.log("in set cart products to array");
     if (apiCartProducts) {
       setCartItems(apiCartProducts);
     } else if (localStorageCartItems && localStorageCartItems.length) {
@@ -111,12 +114,15 @@ const CartPage = () => {
   };
 
   const handleOnCountChange = (value, item) => {
-    console.log(value, item.product);
+    // console.log(value, item.product);
 
     if (!userInfo) {
-      addCartToLocalStorage(item._id, qty);
+      addCartToLocalStorage(item._id, value);
     } else {
-      dispatch(updateCartItemsAPI(value, item.product));
+      // console.log("in udc");
+      item.qty = value;
+      // console.log(item);
+      dispatch(updateCartItemsAPI([item]));
     }
   };
 
