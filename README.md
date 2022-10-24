@@ -1,4 +1,4 @@
-<h1 align="center">Mini Store</h1> 
+<h1 align="center">E Commerce</h1> 
 
 <h2 align="center">It's a MERN Stack E-commerce web application with all the major functionalities</h2>
 
