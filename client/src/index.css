@@ -49,20 +49,37 @@ h2 {
 .carousel img {
   height: 300px;
   padding: 30px;
-  margin: 15% 40px 10%;
+  width: 300px;
+  /* margin: 5% 5% 38%; */
   border-radius: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 39.5%;
+  margin-top: 5%;
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  /* border: 2px solid red; */
 }
 
-@media (max-width: 320px) {
+@media (max-width: 768px) {
   .carousel img {
-    height: 200px;
+    height: 300px;
     padding: 30px;
-    margin: 15% 40px 10%;
+    width: 300px;
+    margin-top: 8%;
     border-radius: 50%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 30%;
+  }
+}
+
+@media (max-width: 425px) {
+  .carousel img {
+    height: 300px;
+    padding: 30px;
+    /* margin: 15% 40px 10%; */
+    border-radius: 50%;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    margin-top: 10%;
+    margin-left: 11%;
   }
 }
 
