@@ -9,7 +9,8 @@ import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { RESET_ERROR } from "../constants/user.constants";
-import toastError from "../utils/Toast";
+import checkPassword from "../utils/CheckPassword";
+import { toastError, toastSuccess } from "../utils/Toast";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -23,7 +24,7 @@ const RegisterPage = () => {
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
-  // console.log(error);
+  console.log("userInfo", userInfo);
 
   // eslint-disable-next-line no-restricted-globals
   const redirect = location.search ? location.search.split("=")[1] : "/";
@@ -48,7 +49,17 @@ const RegisterPage = () => {
       // setMessage("Passwords do not Match");
       toastError(toast, "Passwords do not Match");
     } else {
-      disptach(registerAPI(name, email, password));
+      const isInValidPassword = checkPassword(password);
+
+      if (name.length < 5) {
+        toastError(toast, "name should be aleast 5 characters long");
+      } else if (isInValidPassword) {
+        toastError(toast, isInValidPassword);
+      } else {
+        // toastError(toast, "correct");
+        // toastSuccess(toast, "Register Success");
+        disptach(registerAPI(name, email, password));
+      }
     }
   };
   return (

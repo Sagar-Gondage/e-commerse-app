@@ -8,4 +8,11 @@ function toastError(toast, error) {
   });
 }
 
-export default toastError;
+function toastSuccess(toast, successMessage) {
+  toast.success(successMessage, {
+    position: "top-center",
+    autoClose: 2000,
+  });
+}
+
+module.exports = { toastError, toastSuccess };
