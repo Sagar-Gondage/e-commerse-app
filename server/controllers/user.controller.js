@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/product.model");
 const User = require("../models/user.model");
+const checkPassword = require("../utils/checkPassword");
 const generateToken = require("../utils/generateToken");
 
 // user authentication
@@ -30,7 +31,21 @@ const authUser = asyncHandler(async (req, res) => {
 // public
 // /api/users/register
 const registerUser = asyncHandler(async (req, res) => {
+  // console.log("in resgiter");
   const { name, email, password } = req.body;
+
+  if (name.length < 5) {
+    return res
+      .status(401)
+      .json({ message: "name should be aleast 5 characters long" });
+  }
+
+  const isValidPassword = checkPassword(password);
+  console.log("validPassword", isValidPassword);
+  if (isValidPassword) {
+    return res.status(401).json({ message: isValidPassword });
+  }
+
   const userExists = await User.findOne({ email });
 
   if (userExists) {

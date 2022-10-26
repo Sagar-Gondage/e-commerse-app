@@ -91,6 +91,7 @@ export const registerAPI = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
+    console.log("eror", error);
     dispatch({
       type: USER_REGISTER_FAIL,
       payload:
