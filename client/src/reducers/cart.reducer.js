@@ -23,7 +23,7 @@ export const cartReducer = (
   state = { cartItems: [], shippingAddress: {}, updateSuccess: false },
   action
 ) => {
-  console.log("in reducer", state);
+  // console.log("in reducer", state);
   switch (action.type) {
     case CART_ADD_ITEM_REQUEST: {
       return {

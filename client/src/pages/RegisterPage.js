@@ -20,6 +20,8 @@ const RegisterPage = () => {
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
+  console.log(error);
+
   // eslint-disable-next-line no-restricted-globals
   const redirect = location.search ? location.search.split("=")[1] : "/";
 

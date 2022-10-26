@@ -1,4 +1,5 @@
 import {
+  RESET_ERROR,
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
@@ -28,6 +29,7 @@ import {
 } from "../constants/user.constants";
 
 export const userLoginReducer = (state = {}, action) => {
+  console.log(action.type);
   switch (action.type) {
     case USER_LOGIN_REQUEST: {
       return { ...state, loading: true };
@@ -45,6 +47,9 @@ export const userLoginReducer = (state = {}, action) => {
     }
     case USER_LOGOUT: {
       return { logoutSuceess: true };
+    }
+    case RESET_ERROR: {
+      return { ...state, error: "" };
     }
     default:
       return state;
