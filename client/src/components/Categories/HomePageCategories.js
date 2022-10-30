@@ -11,9 +11,9 @@ const HomePageCategories = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const term = queryParams.get("term");
   const location = queryParams.get("location");
-  console.log("", queryParams.get("category"));
+  // console.log("", queryParams.get("category"));
   const [currentPage, setCurrentPage] = useState(false);
-  console.log(useParams());
+  // console.log(useParams());
 
   useEffect(() => {
     if (currentPage === "allproducts") {

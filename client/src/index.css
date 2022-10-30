@@ -18,6 +18,11 @@ h2 {
   padding: 0.5rem 0;
 }
 
+.router-link {
+  color: black;
+  text-decoration: none;
+}
+
 @media (max-width: 320px) {
   h1 {
     font-size: 1.4rem;

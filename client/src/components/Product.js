@@ -11,8 +11,8 @@ const Product = ({ product }) => {
         <Card.Img src={product.image} variant="top" className="card-image" />
       </Link>
       <Card.Body>
-        <Link to={`/product/${product._id}`} className="routerlink">
-          <Card.Title as="div">
+        <Link to={`/product/${product._id}`} className="router-link">
+          <Card.Title as="div" className="router-link">
             <h5>{shortTheTitle(product.name)}</h5>
           </Card.Title>
         </Link>

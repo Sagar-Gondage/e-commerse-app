@@ -29,7 +29,7 @@ import {
 } from "../constants/user.constants";
 
 export const userLoginReducer = (state = {}, action) => {
-  console.log(action.type);
+  // console.log(action.type);
   switch (action.type) {
     case USER_LOGIN_REQUEST: {
       return { ...state, loading: true };
