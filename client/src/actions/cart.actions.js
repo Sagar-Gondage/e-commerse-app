@@ -174,9 +174,40 @@ export const updateLocalStorageCartToBackend =
     }
   };
 
-export const deleteCartItemFromLocalStorage = (id) => (dispatch, getState) => {
-  // console.log(id);
+export const addSingleItemToCartAPI =
+  (newProductItems) => async (dispatch, getState) => {
+    console.log("in dispatch", newProductItems);
+    try {
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await instance.post(
+        "/api/cart/login",
+        newProductItems,
+        config
+      );
+
+      // dispatch({ type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS });
+    } catch (error) {
+      console.log("error", error);
+      // dispatch({
+      //   type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
+      //   payload:
+      //     error.response && error.response.data.message
+      //       ? error.response.data.message
+      //       : error.message,
+      // });
+    }
+  };
+
+export const deleteCartItemFromLocalStorage = (id) => (dispatch, getState) => {
   dispatch({ type: CART_DELETE_ITEM_FROM_LOCAL_STORAGE, payload: id });
   // console.log("deleteSuuccess");
   // console.log(getState().cart.localStorageCartItems);

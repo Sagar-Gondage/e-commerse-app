@@ -113,8 +113,6 @@ const CartPage = () => {
 
   const removeFromCartHandler = (id) => {
     if (!userInfo) {
-      // dispatch({ type: CART_DELETE_ITEM_FROM_LOCAL_STORAGE, payload: id });
-      // dispatch(deleteItemFromLocalStorage())
       dispatch(deleteCartItemFromLocalStorage(id));
     } else {
       // dispatch(addToCartAPI(newCartItem));

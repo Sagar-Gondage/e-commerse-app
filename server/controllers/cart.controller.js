@@ -11,10 +11,10 @@ const getCartProducts = asyncHandler(async (req, res) => {
 const addCartProducts = asyncHandler(async (req, res) => {
   let newCartItem = req.body;
   // const { product } = newCartItem;
-  console.log("in add to cart products", newCartItem);
+  console.log("newCartItem", newCartItem);
   const { _id: userId } = req.user;
   const isUserinCart = await Cart.findOne({ user: userId });
-  // console.log("is user in cart", isUserinCart);
+  console.log("is user in cart", isUserinCart);
 
   if (!isUserinCart) {
     const cart = new Cart({ user: userId, cartItems: newCartItem });
@@ -23,11 +23,11 @@ const addCartProducts = asyncHandler(async (req, res) => {
   } else {
     console.log("add to cart in else part");
     let { cartItems } = isUserinCart;
-
+    console.log("cartItems", cartItems);
     let updatedCart;
     let updated;
     for (let i = 0; i < newCartItem.length; i++) {
-      // console.log("in looooopppp ", newCartItem[]);
+      // console.log("in looooopppp ", newCartItem);
       const { product } = newCartItem[i];
       const isProductPresentInCart = cartItems.find(
         (item) => item.product == product
@@ -62,9 +62,71 @@ const addCartProducts = asyncHandler(async (req, res) => {
         { cartItems: updatedCart }
       );
     }
-    console.log(updated);
+    console.log("updated", updated);
     res.json({ message: "Product added to cart", data: updated });
   }
+});
+
+const addCartProductsUserLogin = asyncHandler(async (req, res) => {
+  let newCartItem = req.body;
+  // const { product } = newCartItem;
+  console.log("newCartItem", newCartItem);
+  const { _id: userId } = req.user;
+  const isUserinCart = await Cart.findOne({ user: userId });
+  // console.log("is user in cart", isUserinCart);
+
+  if (!isUserinCart) {
+    const cart = new Cart({ user: userId, cartItems: newCartItem });
+    const createdCart = await cart.save();
+    res.json({ message: "Product added to cart", product: createdCart });
+  } else {
+    console.log("add to cart in else part");
+    let { cartItems } = isUserinCart;
+    console.log("cartItems", cartItems);
+    let updatedCart;
+    let updated;
+
+    let check = cartItems.find((el) => el.product == newCartItem.product);
+    console.log("CHECK", check);
+    if (check === undefined) {
+      updatedCart = [...cartItems, newCartItem];
+    }
+    // for (let i = 0; i < cartItems.length; i++) {
+    //   const { product } = cartItems[i];
+    //   const isProductPresentInCart = cartItems.find(
+    //     (item) => item.product == product
+    //   );
+
+    //   console.log("is product present in the cart", isProductPresentInCart);
+
+    //   if (!isProductPresentInCart) {
+    //     console.log("cartItemsssss", cartItems);
+    //     updatedCart = [...cartItems, newCartItem[i]];
+    //   } else {
+    //     updatedCart = cartItems.map((item) => {
+    //       if (item.product == product) {
+    //         // item.qty = Number(item.qty) + Number(newCartItem[i].qty);
+    //         item.qty = Number(newCartItem[i].qty);
+    //         return item;
+    //       } else {
+    //         return item;
+    //       }
+    //     });
+    //   }
+    //}
+
+    updated = await Cart.findOneAndUpdate(
+      { user: userId },
+      { cartItems: updatedCart }
+    );
+    // console.log("updated", updatedCart);
+    res.json({ message: "Product added to cart", data: updated });
+  }
+});
+
+const deleteCartProduct = asyncHandler(async (req, res) => {
+  console.log(req.body);
+  res.json({ message: "deleted" });
 });
 
 const updateCartProduct = asyncHandler(async (req, res) => {
@@ -104,4 +166,5 @@ module.exports = {
   getCartProducts,
   addCartProducts,
   updateCartProduct,
+  addCartProductsUserLogin,
 };

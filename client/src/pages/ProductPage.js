@@ -22,7 +22,11 @@ import PlacementExample from "../components/Message";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/product.constants";
 import Meta from "../components/Meta";
 import { instance } from "../defaultURL";
-import { addCartToLocalStorage, addToCartAPI } from "../actions/cart.actions";
+import {
+  addCartToLocalStorage,
+  addSingleItemToCartAPI,
+  addToCartAPI,
+} from "../actions/cart.actions";
 import { toastError, toastSuccess } from "../utils/Toast";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -81,7 +85,9 @@ const ProductPage = () => {
       dispatch(addCartToLocalStorage(productId, qty));
       toastSuccess(toast, "Product Added to Cart");
     } else {
-      dispatch(addToCartAPI(newCartItem));
+      // dispatch(addToCartAPI(newCartItem));
+      // console.log(newCartItem.product);
+      dispatch(addSingleItemToCartAPI(newCartItem));
       toastSuccess(toast, "Product Added to Cart");
     }
     // navigate(`/cart/${productId}-${qty}`);
