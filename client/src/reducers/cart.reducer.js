@@ -114,6 +114,11 @@ export const cartReducer = (
           (x) => x.product !== action.payload
         ),
       };
+      // let updatedLocalStorage = state.localStorageCartItems.filter(
+      //   (x) => x.product !== action.payload
+      // );
+      // localStorage.setItem("cartItems", JSON.stringify(updatedLocalStorage));
+      // return state;
     }
 
     case CART_CLEAR_FROM_LOCAL_STORAGE: {

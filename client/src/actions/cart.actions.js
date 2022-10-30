@@ -178,7 +178,12 @@ export const deleteCartItemFromLocalStorage = (id) => (dispatch, getState) => {
   // console.log(id);
 
   dispatch({ type: CART_DELETE_ITEM_FROM_LOCAL_STORAGE, payload: id });
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+  // console.log("deleteSuuccess");
+  // console.log(getState().cart.localStorageCartItems);
+  localStorage.setItem(
+    "cartItems",
+    JSON.stringify(getState().cart.localStorageCartItems)
+  );
 };
 
 export const clearCartFromLocalStorage = () => (dispatch) => {

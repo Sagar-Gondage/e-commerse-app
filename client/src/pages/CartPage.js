@@ -25,6 +25,7 @@ import {
 } from "../actions/cart.actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { CART_DELETE_ITEM_FROM_LOCAL_STORAGE } from "../constants/cart.constants";
 
 const CartPage = () => {
   const { id } = useParams();
@@ -112,13 +113,13 @@ const CartPage = () => {
 
   const removeFromCartHandler = (id) => {
     if (!userInfo) {
-      // dispatch(addCartToLocalStorage(productId, qty));
-      alert("add to local");
+      // dispatch({ type: CART_DELETE_ITEM_FROM_LOCAL_STORAGE, payload: id });
+      // dispatch(deleteItemFromLocalStorage())
+      dispatch(deleteCartItemFromLocalStorage(id));
     } else {
       // dispatch(addToCartAPI(newCartItem));
-      alert("add to backend");
+      alert("delete from backend");
     }
-    // dispatch(deleteCartItemFromLocalStorage(id));
   };
 
   const checkoutHanlder = () => {
