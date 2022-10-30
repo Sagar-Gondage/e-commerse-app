@@ -29,7 +29,7 @@ const Header = () => {
           }}
         >
           <LinkContainer to="/">
-            <Navbar.Brand>E-Commerse-App</Navbar.Brand>
+            <Navbar.Brand>E-Commerce-App</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse

@@ -23,6 +23,8 @@ import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/product.constants";
 import Meta from "../components/Meta";
 import { instance } from "../defaultURL";
 import { addCartToLocalStorage, addToCartAPI } from "../actions/cart.actions";
+import { toastError, toastSuccess } from "../utils/Toast";
+import { toast, ToastContainer } from "react-toastify";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
@@ -76,10 +78,11 @@ const ProductPage = () => {
       product: productId,
     };
     if (!userInfo) {
-      console.log("in not userInfo");
       dispatch(addCartToLocalStorage(productId, qty));
+      toastSuccess(toast, "Product Added to Cart");
     } else {
       dispatch(addToCartAPI(newCartItem));
+      toastSuccess(toast, "Product Added to Cart");
     }
     // navigate(`/cart/${productId}-${qty}`);
   };
@@ -92,6 +95,8 @@ const ProductPage = () => {
   };
   return (
     <>
+      <ToastContainer />
+
       <Link className="btn btn-light my-3" to="/">
         Go Back
       </Link>

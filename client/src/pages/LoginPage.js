@@ -9,7 +9,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import toastError from "../utils/Toast";
+import { toastError } from "../utils/Toast";
 import { RESET_ERROR } from "../constants/user.constants";
 
 const LoginPage = () => {

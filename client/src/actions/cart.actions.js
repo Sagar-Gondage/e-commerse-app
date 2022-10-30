@@ -64,6 +64,7 @@ export const addCartToLocalStorage =
       "cartItems",
       JSON.stringify(getState().cart.localStorageCartItems)
     );
+    // alert("added");
     // console.log("productset");
   };
 
