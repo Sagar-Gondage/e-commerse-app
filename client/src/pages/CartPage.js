@@ -17,6 +17,7 @@ import {
   addToCartAPI,
   clearCartFromLocalStorage,
   deleteCartItemFromLocalStorage,
+  deleteProductFromCartAPI,
   getCartItemsAPI,
   getLocalStorageCartItems,
   removeFromCart,
@@ -61,29 +62,19 @@ const CartPage = () => {
   // }, [productId]);
 
   useEffect(() => {
-    if (userInfo) {
-      if (localStorageCartItems?.length) {
-        // console.log("added to backend");
-        // for (let i = 0; i < localStorageCartItems.length; i++) {
-        dispatch(addToCartAPI(localStorageCartItems));
-        // }
-        // console.log("update to backend");
-
-        // for (let i = 0; i < localStorageCartItems.length; i++) {
-        //   const { qty, product } = localStorageCartItems[i];
-        // dispatch(updateLocalStorageCartToBackend(localStorageCartItems));
-        // }
-      }
-      // console.log("get cart Items");
+    // console.log("in use effect");
+    if (updateSuccess) {
       dispatch(getCartItemsAPI());
-      // console.log("cleat cart from local storage");
+    } else if (userInfo) {
+      if (localStorageCartItems?.length) {
+        dispatch(addToCartAPI(localStorageCartItems));
+      }
+      dispatch(getCartItemsAPI());
       if (localStorageCartItems?.length) {
         dispatch(clearCartFromLocalStorage());
       }
     } else if (userInfo) {
       dispatch(clearCartFromLocalStorage());
-    } else if (updateSuccess) {
-      dispatch(getCartItemsAPI());
     } else {
       // console.log("in else of use Effect");
       dispatch(getLocalStorageCartItems());
@@ -98,13 +89,13 @@ const CartPage = () => {
     //     dispatch(getLocalStorageCartItems());
     //   }
     // };
-  }, [updateSuccess, userInfo, dispatch, addProductToBackendSuccess]);
+  }, [updateSuccess, dispatch, addProductToBackendSuccess]);
 
   useEffect(() => {
     // console.log("in set cart products to array");
     if (apiCartProducts) {
       setCartItems(apiCartProducts);
-    } else if (localStorageCartItems && localStorageCartItems.length) {
+    } else if (localStorageCartItems) {
       setCartItems(localStorageCartItems);
     }
   }, [apiCartProducts, localStorageCartItems]);
@@ -116,7 +107,9 @@ const CartPage = () => {
       dispatch(deleteCartItemFromLocalStorage(id));
     } else {
       // dispatch(addToCartAPI(newCartItem));
-      alert("delete from backend");
+      dispatch(deleteProductFromCartAPI(id));
+
+      // alert("delete from backend");
     }
   };
 
@@ -128,7 +121,7 @@ const CartPage = () => {
 
   const handleOnCountChange = (value, item) => {
     // console.log(value, item.product);
-    console.log(item);
+    // console.log(item);
     if (!userInfo) {
       dispatch(addCartToLocalStorage(item.product, value));
     } else {
@@ -151,8 +144,6 @@ const CartPage = () => {
         ) : (
           <ListGroup variant="flush">
             {loading ? (
-              <Loader />
-            ) : updateSuccess ? (
               <Loader />
             ) : (
               cartItems?.map((item) => (

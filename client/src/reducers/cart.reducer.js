@@ -17,6 +17,10 @@ import {
   CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST,
   CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
   CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS,
+  DELETE_PRODUCT_FROM_API_REQUEST,
+  DELETE_PRODUCT_FROM_API_SUCCESS,
+  DELETE_PRODUCT_FROM_API_FAIL,
+  CART_UPDATE_ITEM_FAIL,
 } from "../constants/cart.constants";
 
 export const cartReducer = (
@@ -59,12 +63,33 @@ export const cartReducer = (
       return { ...state, loading: false, error: true };
     }
 
-    case CART_UPDATE_ITEM_REQUEST: {
+    case DELETE_PRODUCT_FROM_API_REQUEST: {
+      return { ...state, loading: true, error: false, updateSuccess: false };
+    }
+
+    case DELETE_PRODUCT_FROM_API_SUCCESS: {
       return { ...state, updateSuccess: true };
     }
 
+    case DELETE_PRODUCT_FROM_API_FAIL: {
+      return { ...state, loading: false, error: true };
+    }
+
+    case CART_UPDATE_ITEM_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+        updateSuccess: false,
+        addProductToBackendSuccess: false,
+      };
+    }
+
     case CART_UPDATE_ITEM_SUCCESS: {
-      return { ...state, updateSuccess: false };
+      return { ...state, updateSuccess: true };
+    }
+
+    case CART_UPDATE_ITEM_FAIL: {
+      return { ...state, loading: false, error: true };
     }
 
     case CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST: {
@@ -80,7 +105,7 @@ export const cartReducer = (
     }
 
     case CART_GET_LOCAL_STORAGE: {
-      console.log("in action", action.payload);
+      // console.log("in action", action.payload);
       return { localStorageCartItems: action.payload };
     }
 
@@ -113,6 +138,7 @@ export const cartReducer = (
         localStorageCartItems: state.localStorageCartItems.filter(
           (x) => x.product !== action.payload
         ),
+        updateSuccess: false,
       };
       // let updatedLocalStorage = state.localStorageCartItems.filter(
       //   (x) => x.product !== action.payload

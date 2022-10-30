@@ -45,7 +45,7 @@ export const loginAPI = (email, password) => async (dispatch) => {
       },
       config
     );
-    console.log("UInfo", data);
+    // console.log("UInfo", data);
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
     localStorage.setItem("userInfo", JSON.stringify(data));

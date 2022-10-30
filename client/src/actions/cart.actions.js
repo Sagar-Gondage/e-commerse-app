@@ -18,6 +18,9 @@ import {
   CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_REQUEST,
   CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS,
   CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
+  DELETE_PRODUCT_FROM_API_REQUEST,
+  DELETE_PRODUCT_FROM_API_SUCCESS,
+  DELETE_PRODUCT_FROM_API_FAIL,
 } from "../constants/cart.constants";
 import { instance } from "../defaultURL";
 
@@ -176,7 +179,6 @@ export const updateLocalStorageCartToBackend =
 
 export const addSingleItemToCartAPI =
   (newProductItems) => async (dispatch, getState) => {
-    console.log("in dispatch", newProductItems);
     try {
       const {
         userLogin: { userInfo },
@@ -193,17 +195,15 @@ export const addSingleItemToCartAPI =
         newProductItems,
         config
       );
-
-      // dispatch({ type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS });
     } catch (error) {
       console.log("error", error);
-      // dispatch({
-      //   type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
-      //   payload:
-      //     error.response && error.response.data.message
-      //       ? error.response.data.message
-      //       : error.message,
-      // });
+      dispatch({
+        type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
     }
   };
 
@@ -215,6 +215,33 @@ export const deleteCartItemFromLocalStorage = (id) => (dispatch, getState) => {
     "cartItems",
     JSON.stringify(getState().cart.localStorageCartItems)
   );
+};
+
+export const deleteProductFromCartAPI = (id) => async (dispatch, getState) => {
+  dispatch({ type: DELETE_PRODUCT_FROM_API_REQUEST });
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await instance.delete(`/api/cart/${id}`, config);
+    dispatch({ type: DELETE_PRODUCT_FROM_API_SUCCESS });
+    // dispatch({ type: CART_UPDATE_LOCAL_STORAGE_ITEMS_T0_BACKEND_SUCCESS });
+  } catch (error) {
+    console.log("error", error);
+    dispatch({
+      type: DELETE_PRODUCT_FROM_API_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
 };
 
 export const clearCartFromLocalStorage = () => (dispatch) => {

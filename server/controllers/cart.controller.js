@@ -70,7 +70,7 @@ const addCartProducts = asyncHandler(async (req, res) => {
 const addCartProductsUserLogin = asyncHandler(async (req, res) => {
   let newCartItem = req.body;
   // const { product } = newCartItem;
-  console.log("newCartItem", newCartItem);
+  // console.log("newCartItem", newCartItem);
   const { _id: userId } = req.user;
   const isUserinCart = await Cart.findOne({ user: userId });
   // console.log("is user in cart", isUserinCart);
@@ -80,53 +80,41 @@ const addCartProductsUserLogin = asyncHandler(async (req, res) => {
     const createdCart = await cart.save();
     res.json({ message: "Product added to cart", product: createdCart });
   } else {
-    console.log("add to cart in else part");
+    // console.log("add to cart in else part");
     let { cartItems } = isUserinCart;
-    console.log("cartItems", cartItems);
+    // console.log("cartItems", cartItems);
     let updatedCart;
     let updated;
 
     let check = cartItems.find((el) => el.product == newCartItem.product);
-    console.log("CHECK", check);
+    // console.log("CHECK", check);
     if (check === undefined) {
       updatedCart = [...cartItems, newCartItem];
     }
-    // for (let i = 0; i < cartItems.length; i++) {
-    //   const { product } = cartItems[i];
-    //   const isProductPresentInCart = cartItems.find(
-    //     (item) => item.product == product
-    //   );
-
-    //   console.log("is product present in the cart", isProductPresentInCart);
-
-    //   if (!isProductPresentInCart) {
-    //     console.log("cartItemsssss", cartItems);
-    //     updatedCart = [...cartItems, newCartItem[i]];
-    //   } else {
-    //     updatedCart = cartItems.map((item) => {
-    //       if (item.product == product) {
-    //         // item.qty = Number(item.qty) + Number(newCartItem[i].qty);
-    //         item.qty = Number(newCartItem[i].qty);
-    //         return item;
-    //       } else {
-    //         return item;
-    //       }
-    //     });
-    //   }
-    //}
 
     updated = await Cart.findOneAndUpdate(
       { user: userId },
       { cartItems: updatedCart }
     );
-    // console.log("updated", updatedCart);
     res.json({ message: "Product added to cart", data: updated });
   }
 });
 
 const deleteCartProduct = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  res.json({ message: "deleted" });
+  const { id: productId } = req.params;
+  const { _id: userId } = req.user;
+  const { cartItems } = await Cart.findOne({ user: userId });
+  console.log("userinCart", cartItems);
+
+  let updatedCart = cartItems.filter((el) => el.product != productId);
+
+  console.log("updated", updatedCart);
+
+  updated = await Cart.findOneAndUpdate(
+    { user: userId },
+    { cartItems: updatedCart }
+  );
+  res.json({ message: "Product added to cart", data: updated });
 });
 
 const updateCartProduct = asyncHandler(async (req, res) => {
@@ -165,6 +153,7 @@ const updateCartProduct = asyncHandler(async (req, res) => {
 module.exports = {
   getCartProducts,
   addCartProducts,
+  deleteCartProduct,
   updateCartProduct,
   addCartProductsUserLogin,
 };
