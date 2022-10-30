@@ -178,7 +178,9 @@ const ProductPage = () => {
           <Row>
             <Col md={9}>
               <h2>Reviews</h2>
-              {reviews.length === 0 && <Message>No Review</Message>}
+              {reviews.length === 0 && (
+                <Message>No Reviews yet. Be the first to write it</Message>
+              )}
               <ListGroup variant="flush">
                 {reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
@@ -225,7 +227,7 @@ const ProductPage = () => {
                     </Form>
                   ) : (
                     <Message>
-                      Please <Link to="/login">Login In</Link>
+                      Please <Link to="/login">Login</Link>
                       <span> </span>to write a review
                     </Message>
                   )}

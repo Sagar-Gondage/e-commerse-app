@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import {
   addCartToLocalStorage,
   addToCartAPI,
@@ -48,7 +49,7 @@ const CartPage = () => {
     removeCartSuccess,
   } = cart;
 
-  console.log("cart", cart);
+  // console.log("cart", cart);
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
@@ -110,7 +111,14 @@ const CartPage = () => {
   // console.log("cI", cartItems);
 
   const removeFromCartHandler = (id) => {
-    dispatch(deleteCartItemFromLocalStorage(id));
+    if (!userInfo) {
+      // dispatch(addCartToLocalStorage(productId, qty));
+      alert("add to local");
+    } else {
+      // dispatch(addToCartAPI(newCartItem));
+      alert("add to backend");
+    }
+    // dispatch(deleteCartItemFromLocalStorage(id));
   };
 
   const checkoutHanlder = () => {
@@ -134,6 +142,7 @@ const CartPage = () => {
 
   return (
     <Row>
+      <ToastContainer />
       <Col md={8}>
         <h1>Shopping Cart</h1>
         {cartItems?.length === 0 ? (
@@ -154,7 +163,12 @@ const CartPage = () => {
                       <Image src={item.image} alt={item.name} fluid rounded />
                     </Col>
                     <Col md={3}>
-                      <Link to={`/product/${item.product}`}>{item.name}</Link>
+                      <Link
+                        to={`/product/${item.product}`}
+                        className="router-link"
+                      >
+                        {item.name}
+                      </Link>
                     </Col>
                     <Col md={2}>${item.price}</Col>
                     <Col md={3}>
