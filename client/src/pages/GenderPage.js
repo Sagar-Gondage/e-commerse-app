@@ -7,7 +7,18 @@ import ProductCategoryPage from "./ProductCategoryPage";
 
 const GenderPage = () => {
   return (
-    
+    <div>
+      <HomePageCategories />
+      <Application />
+      <div className="gender-page">
+        <Col md={3} lg={2}>
+          <Filters />
+        </Col>
+        <Col>
+          <ProductCategoryPage />
+        </Col>
+      </div>
+    </div>
   );
 };
 
