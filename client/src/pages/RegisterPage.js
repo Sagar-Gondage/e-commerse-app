@@ -24,8 +24,6 @@ const RegisterPage = () => {
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
 
-  // console.log("userInfo", userInfo);
-
   // eslint-disable-next-line no-restricted-globals
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -41,12 +39,10 @@ const RegisterPage = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // console.log(password != confirmPassword);
     if (password === confirmPassword) {
       setMessage(null);
     }
     if (password !== confirmPassword) {
-      // setMessage("Passwords do not Match");
       toastError(toast, "Passwords do not Match");
     } else {
       const isInValidPassword = checkPassword(password);
@@ -67,8 +63,6 @@ const RegisterPage = () => {
       <ToastContainer />
       <FormContainer>
         <h1>Sign Up</h1>
-        {/* {error && <Message variant="danger">{error}</Message>} */}
-        {/* {message && <Message variant="danger">{message}</Message>} */}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">

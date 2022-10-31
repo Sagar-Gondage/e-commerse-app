@@ -15,7 +15,6 @@ import HomePageCategories from "../components/Categories/HomePageCategories";
 import { Application } from "../components/Categories/Drawer";
 
 const HomePage = () => {
-  // console.log("in homepage");
   const dispatch = useDispatch();
   const { keyword, pageNumber = 1 } = useParams();
 
@@ -23,11 +22,9 @@ const HomePage = () => {
   const { loading, error, products, pages, page } = productList;
 
   useEffect(() => {
-    // console.log("in home dispatch");
     dispatch(listProductsAPI(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
 
-  // console.log("Home", products);
   return (
     <>
       <Meta />
