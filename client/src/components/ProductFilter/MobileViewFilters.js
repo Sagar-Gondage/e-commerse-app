@@ -16,7 +16,6 @@ const MobileViewFilters = () => {
   const [priceState, setPriceState] = useState(false);
 
   const { keyword: currentPage } = useParams();
-  // console.log("current page", currentPage);
 
   const [allState, setAllState] = useState({
     price: false,
@@ -48,7 +47,6 @@ const MobileViewFilters = () => {
       obj["lowPrice"] = filterPrice.minprice;
       obj["highPrice"] = filterPrice.maxprice;
     }
-    // dispatch(getFilteredProductsAPI(obj));
   }, [dispatch, filterGender, filterSize, priceState]);
 
   const onChangeFilterPriceHandler = (e) => {
@@ -88,7 +86,6 @@ const MobileViewFilters = () => {
       setFilterColor(filterColor.filter((e) => e !== value));
     }
   };
-  // console.log(filterGender, filterCategory, filterSize, filterColor);
   const submitPriceFilterHandler = () => {
     if (Number(filterPrice.minprice) >= Number(filterPrice.maxprice)) {
       alert("small price");

@@ -16,17 +16,6 @@ const LaptopViewFilters = ({ setFilteredState }) => {
 
   const { keyword: currentPage } = useParams();
 
-  // const [allState, setAllState] = useState({
-  //   gender: false,
-  //   size: false,
-  //   category: false,
-  //   color: false,
-  // });
-
-  // const [prevState, setPrevState] = useState("");
-
-  // const { gender, size, category, color } = allState;
-
   const dispatch = useDispatch();
 
   const productCategoryList = useSelector((state) => state.productCategoryList);
@@ -34,7 +23,6 @@ const LaptopViewFilters = ({ setFilteredState }) => {
   const { products } = productCategoryList;
 
   useEffect(() => {
-    console.log("Hi");
     let obj = {};
     if (filterGender) {
       obj["gender"] = filterGender.join("|");
