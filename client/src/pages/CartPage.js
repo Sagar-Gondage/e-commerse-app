@@ -51,18 +51,9 @@ const CartPage = () => {
     removeCartSuccess,
   } = cart;
 
-  // console.log("cart", cart);
-
   const { userInfo } = useSelector((state) => state.userLogin);
 
-  // useEffect(() => {
-  //   console.log("in use");
-  //   console.log(updateSuccess);
-  //   // dispatch(getCartItemsAPI());
-  // }, [productId]);
-
   useEffect(() => {
-    // console.log("in use effect");
     if (updateSuccess) {
       dispatch(getCartItemsAPI());
     } else if (userInfo) {
@@ -76,23 +67,14 @@ const CartPage = () => {
     } else if (userInfo) {
       dispatch(clearCartFromLocalStorage());
     } else {
-      // console.log("in else of use Effect");
       dispatch(getLocalStorageCartItems());
     }
     if (addProductToBackendSuccess) {
       dispatch(getCartItemsAPI());
     }
-
-    // return () => {
-    //   console.log("in dispatch aaaaa");
-    //   if (!userInfo) {
-    //     dispatch(getLocalStorageCartItems());
-    //   }
-    // };
   }, [updateSuccess, dispatch, addProductToBackendSuccess]);
 
   useEffect(() => {
-    // console.log("in set cart products to array");
     if (apiCartProducts) {
       setCartItems(apiCartProducts);
     } else if (localStorageCartItems) {
@@ -100,34 +82,23 @@ const CartPage = () => {
     }
   }, [apiCartProducts, localStorageCartItems]);
 
-  // console.log("cI", cartItems);
-
   const removeFromCartHandler = (id) => {
     if (!userInfo) {
       dispatch(deleteCartItemFromLocalStorage(id));
     } else {
-      // dispatch(addToCartAPI(newCartItem));
       dispatch(deleteProductFromCartAPI(id));
-
-      // alert("delete from backend");
     }
   };
 
   const checkoutHanlder = () => {
-    // console.log("in cart");r
-    // navigate(`/login?redirect=shipping`);
     navigate(`/shipping`);
   };
 
   const handleOnCountChange = (value, item) => {
-    // console.log(value, item.product);
-    // console.log(item);
     if (!userInfo) {
       dispatch(addCartToLocalStorage(item.product, value));
     } else {
-      // console.log("in udc");
       item.qty = value;
-      // console.log(item);
       dispatch(updateCartItemsAPI([item]));
     }
   };
